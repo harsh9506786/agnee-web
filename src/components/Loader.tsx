@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "../assets/agneelogo/Agnee Logo.png"; // apne path ke according change karo
 interface LoaderProps {
   onComplete: () => void;
 }
@@ -41,60 +42,18 @@ export function Loader({ onComplete }: LoaderProps) {
             background: "#080808",
           }}
         >
-          {/* Sphere */}
-          <div className="relative mb-10">
-            {/* Outer rings */}
-            <div
-              className="absolute inset-0 rounded-full border border-orange-500/20"
+          <div className=" flex justify-center items-center">
+            <motion.img
+              src={logo}
+              alt="Agnee Logo"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              className="w-[180px] h-[150px] object-contain"
               style={{
-                width: "140px",
-                height: "140px",
-                top: "-20px",
-                left: "-20px",
-                animation: "rotate-ring 3s linear infinite",
+                filter: "drop-shadow(0 0 20px rgba(255,107,0,0.6))",
               }}
             />
-            <div
-              className="absolute inset-0 rounded-full border border-orange-500/10"
-              style={{
-                width: "180px",
-                height: "180px",
-                top: "-40px",
-                left: "-40px",
-                animation: "rotate-ring 5s linear infinite reverse",
-              }}
-            />
-            {/* Core sphere */}
-            <div
-              className="animate-loader-pulse"
-              style={{
-                width: "100px",
-                height: "100px",
-                borderRadius: "50%",
-                background:
-                  "radial-gradient(circle at 35% 35%, #FF9500, #FF6B00, #cc4400)",
-                boxShadow:
-                  "0 0 40px rgba(255,107,0,0.6), 0 0 80px rgba(255,107,0,0.3), inset 0 0 30px rgba(255,150,0,0.4)",
-              }}
-            />
-            {/* Inner glow lines */}
-            {[0, 60, 120, 180, 240, 300].map((angle) => (
-              <div
-                key={angle}
-                className="absolute"
-                style={{
-                  width: "1px",
-                  height: "40px",
-                  background:
-                    "linear-gradient(to bottom, transparent, rgba(255,107,0,0.6), transparent)",
-                  top: "30px",
-                  left: "50px",
-                  transformOrigin: "0.5px 20px",
-                  transform: `rotate(${angle}deg)`,
-                  opacity: 0.6,
-                }}
-              />
-            ))}
           </div>
 
           {/* Agency name */}
@@ -111,16 +70,9 @@ export function Loader({ onComplete }: LoaderProps) {
               delay: 0.3,
               duration: 0.6,
             }}
-            className="mb-8 text-center"
+            className="mb-4 text-center"
           >
-            <h1
-              className="text-3xl font-bold tracking-[0.3em] text-white mb-1"
-              style={{
-                fontFamily: "Syne, sans-serif",
-              }}
-            >
-              AGNEE
-            </h1>
+          
             <p className="text-xs tracking-[0.2em] text-gray-500 uppercase">
               Intelligent Growth Platform
             </p>
@@ -150,7 +102,7 @@ export function Loader({ onComplete }: LoaderProps) {
               }}
             />
           </div>
-          <p className="mt-3 text-xs text-gray-600 tracking-widest">
+          <p className="mt-2 text-xs text-gray-300 tracking-widest">
             {progress}%
           </p>
         </motion.div>

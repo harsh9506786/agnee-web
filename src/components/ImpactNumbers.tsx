@@ -53,25 +53,28 @@ function Counter({
 
   return (
     <span
-      className={`font-syne font-extrabold transition-all duration-500 ${
-        done
-          ? "text-flame drop-shadow-[0_0_30px_rgba(255,90,0,0.7)]"
-          : "text-white"
-      }`}
+      className="font-syne font-extrabold transition-all duration-500 flex items-baseline justify-center gap-1"
       style={{
         fontSize: "clamp(2.2rem, 3.5vw, 3.5rem)",
         lineHeight: 1,
         letterSpacing: "-0.02em",
         fontVariantNumeric: "tabular-nums",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "baseline",
-        gap: "4px",
         whiteSpace: "nowrap",
       }}
     >
-      <span>{count}</span>
-      <span className="text-flame-500">{suffix}</span>
+      {/* number */}
+      <span
+        className={
+          done
+            ? "text-flame drop-shadow-[0_0_30px_rgba(255,90,0,0.7)]"
+            : "text-white"
+        }
+      >
+        {count}
+      </span>
+
+      {/* suffix */}
+      <span className="text-white">{suffix}</span>
     </span>
   );
 }

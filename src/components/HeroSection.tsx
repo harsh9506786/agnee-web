@@ -334,17 +334,19 @@ export function HeroSection() {
               AI-Powered Growth Agency
             </span>
           </motion.div>
-
           <motion.h1
             variants={itemVariants}
-            className="font-extrabold leading-none mb-6"
+            className="font-extrabold mb-6"
             style={{
-              fontSize: "clamp(52px, 7vw, 88px)",
+              fontSize: "clamp(32px, 4.5vw, 56px)", // 👈 aur chhota
               fontFamily: "Syne, sans-serif",
-              lineHeight: 1.05,
+              lineHeight: 1.15,
             }}
           >
+            {/* Line 1 */}
             <span className="text-white block">WE BUILD</span>
+
+            {/* Line 2 */}
             <span
               className="block"
               style={{
@@ -353,11 +355,11 @@ export function HeroSection() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
+                whiteSpace: "nowrap",
               }}
             >
-              THAT
+              THAT GROWS
             </span>
-            <span className="text-white block">GROWS</span>
           </motion.h1>
 
           <motion.p

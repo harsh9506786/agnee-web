@@ -75,17 +75,16 @@ export function FounderMessage() {
               />
 
               <div
-                className="relative w-72 h-72 sm:w-80 sm:h-80 rounded-2xl overflow-hidden"
+                className="relative w-72 h-72 sm:w-80 sm:h-80 overflow-hidden"
                 style={{
                   boxShadow:
-                    "0 0 50px rgba(255,90,0,0.2), 0 0 1px rgba(255,90,0,0.5)",
-                  border: "1px solid rgba(255,90,0,0.3)",
+                    "0 0 50px rgba(255,90,0,0.25), 0 20px 40px rgba(0,0,0,0.5)",
                 }}
               >
                 <img
                   src={shubhamimg2}
                   alt="Shubham Joshi"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
               </div>
               <div className="absolute -bottom-4 -right-4 px-4 py-2 rounded-xl bg-[rgba(255,90,0,0.12)] border border-[rgba(255,90,0,0.3)] backdrop-blur-sm">
