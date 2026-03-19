@@ -313,7 +313,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-24 pb-16 md:mt-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-24 pb-16 mt-16">
         {/* Left: Text */}
         <motion.div
           className="flex-1 max-w-2xl"
