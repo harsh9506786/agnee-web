@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const stats = [
   { value: 10, suffix: "+", label: "Years of Experience" },
@@ -35,7 +35,6 @@ function Counter({
       const progress = Math.min((time - startTime) / duration, 1);
       const current = Math.floor(progress * value);
 
-      // ✅ prevent unnecessary re-renders
       if (current !== last) {
         setCount(current);
         last = current;
@@ -60,45 +59,31 @@ function Counter({
           : "text-white"
       }`}
       style={{
-        fontSize: "clamp(3.5rem, 7vw, 6rem)",
+        fontSize: "clamp(2.2rem, 3.5vw, 3.5rem)",
         lineHeight: 1,
         letterSpacing: "-0.02em",
-        fontVariantNumeric: "tabular-nums", // ✅ equal digit width
-        display: "inline-flex",
-        alignItems: "center",
+        fontVariantNumeric: "tabular-nums",
+        display: "flex",
         justifyContent: "center",
-        minWidth: value >= 1000 ? "160px" : "120px", // ✅ prevent jump
+        alignItems: "baseline",
+        gap: "4px",
+        whiteSpace: "nowrap",
       }}
     >
-      {/* number */}
-      <span
-        style={{
-          display: "inline-block",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        {count}
-      </span>
-
-      {/* suffix */}
-      <span className="text-flame-500 ml-1">{suffix}</span>
+      <span>{count}</span>
+      <span className="text-flame-500">{suffix}</span>
     </span>
   );
 }
 
 /* ─── MAIN SECTION ─── */
 export function ImpactNumbers() {
-  const ref = useRef(null);
-
-  const inView = useInView(ref, {
-    once: true,
-    margin: "-80px",
-  });
+  const [startCount, setStartCount] = useState(false);
 
   return (
-    <section
-      ref={ref}
+    <motion.section
+      onViewportEnter={() => setStartCount(true)}
+      viewport={{ once: true, amount: 0.5 }} // 🔥 trigger when 50% visible
       className="relative py-24 lg:py-36 bg-dark-900 overflow-hidden"
     >
       {/* Background */}
@@ -115,7 +100,8 @@ export function ImpactNumbers() {
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.7 }}
           className="text-center mb-16 lg:mb-20"
         >
@@ -136,33 +122,34 @@ export function ImpactNumbers() {
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-2">
+        <div className="flex flex-wrap justify-center gap-10">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
               initial={{ opacity: 0, y: 40, scale: 0.85 }}
-              animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
               transition={{
                 duration: 0.65,
                 delay: i * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-center group"
+              className="text-center"
             >
-              <Counter value={s.value} suffix={s.suffix} active={inView} />
+              <Counter value={s.value} suffix={s.suffix} active={startCount} />
 
-              <div className="mt-3 relative inline-block">
+              <div className="mt-3">
                 <div className="text-xs font-syne font-700 text-[#666] uppercase tracking-widest">
                   {s.label}
                 </div>
 
                 <motion.div
                   initial={{ scaleX: 0 }}
-                  animate={inView ? { scaleX: 1 } : {}}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
                   transition={{
                     duration: 0.8,
                     delay: 0.5 + i * 0.1,
-                    ease: [0.22, 1, 0.36, 1],
                   }}
                   className="mt-1.5 h-px bg-gradient-to-r from-flame-500 to-flame-700 origin-left"
                 />
@@ -171,6 +158,6 @@ export function ImpactNumbers() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

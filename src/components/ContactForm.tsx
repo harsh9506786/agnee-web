@@ -94,7 +94,7 @@ export function ContactForm() {
           }}
           className="mb-12">
           
-          <span className="text-xs font-syne font-700 text-flame-500 tracking-widest uppercase block mb-4">
+          <span className="text-md font-syne font-700 text-flame-500 tracking-widest uppercase block mb-4">
             Contact Us
           </span>
           <h2
@@ -107,7 +107,7 @@ export function ContactForm() {
             
             Get In <span className="text-flame">Touch</span>
           </h2>
-          <p className="text-[#555] font-inter mt-4">
+          <p className="text-gray-400 font-inter mt-4">
             Tell us about your project and we'll get back to you within 24
             hours.
           </p>
@@ -150,7 +150,7 @@ export function ContactForm() {
               <h3 className="font-syne font-800 text-white text-2xl">
                 Message Sent!
               </h3>
-              <p className="text-[#666] font-inter text-sm">
+              <p className="text-gray-400 font-inter text-sm">
                 Our team will contact you within 24 hours.
               </p>
               <button
@@ -175,7 +175,7 @@ export function ContactForm() {
           <form onSubmit={submit} className="space-y-5" noValidate>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-syne font-700 text-[#555] mb-2 uppercase tracking-widest">
+                  <label className="block text-md font-syne font-700 text-gray-400 mb-2 uppercase tracking-widest">
                     Full Name *
                   </label>
                   <input
@@ -195,13 +195,13 @@ export function ContactForm() {
                   className={inputCls('fullName')} />
                 
                   {errors.fullName &&
-                <p className="text-red-400 text-xs mt-1 font-inter">
+                <p className="text-red-400 text-md mt-1 font-inter">
                       {errors.fullName}
                     </p>
                 }
                 </div>
                 <div>
-                  <label className="block text-xs font-syne font-700 text-[#555] mb-2 uppercase tracking-widest">
+                  <label className="block text-md font-syne font-700 text-gray-400 mb-2 uppercase tracking-widest">
                     Company
                   </label>
                   <input
@@ -220,7 +220,7 @@ export function ContactForm() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-syne font-700 text-[#555] mb-2 uppercase tracking-widest">
+                  <label className="block text-md font-syne font-700 text-gray-400 mb-2 uppercase tracking-widest">
                     Email *
                   </label>
                   <input
@@ -246,7 +246,7 @@ export function ContactForm() {
                 }
                 </div>
                 <div>
-                  <label className="block text-xs font-syne font-700 text-[#555] mb-2 uppercase tracking-widest">
+                  <label className="block text-md font-syne font-700 text-gray-400 mb-2 uppercase tracking-widest">
                     Phone *
                   </label>
                   <input
