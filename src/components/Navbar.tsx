@@ -117,7 +117,7 @@ export function Navbar() {
                 className="btn-flame inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
               >
                 <PhoneIcon className="w-3.5 h-3.5 relative z-10" />
-                <span>Book a Strategy Call</span>
+                <span>Connect with us</span>
               </motion.a>
             </div>
 

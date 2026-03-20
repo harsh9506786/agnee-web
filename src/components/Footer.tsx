@@ -42,17 +42,17 @@ const socials = [
   {
     icon: LinkedinIcon,
     label: "LinkedIn",
-    href: "#",
+    href: "https://www.linkedin.com/company/agneehybridcreativeagency",
   },
   {
     icon: FacebookIcon,
     label: "Facebook",
-    href: "#",
+    href: "https://www.facebook.com/agneeofficiall",
   },
   {
     icon: InstagramIcon,
     label: "Instagram",
-    href: "#",
+    href: "https://www.instagram.com/agnee__official/",
   },
   {
     icon: FaBehance,
@@ -89,7 +89,6 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-5">
             <div className="flex items-center gap-2">
-              
               {/* Logo */}
               <a
                 href="#home"
@@ -111,20 +110,33 @@ export function Footer() {
               businesses scale with clarity and structure.
             </p>
             <div className="flex gap-2.5">
-              {socials.map(({ icon: Icon, label, href }) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  whileHover={{
-                    scale: 1.12,
-                    y: -2,
-                  }}
-                  aria-label={label}
-                  className="w-8 h-8 rounded-lg bg-dark-700 border border-[rgba(255,255,255,0.05)] flex items-center justify-center text-gray-400 hover:text-flame-500 hover:border-[rgba(255,90,0,0.3)] transition-all duration-300"
-                >
-                  <Icon className="w-5.5 h-7.5" />
-                </motion.a>
-              ))}
+              {socials.map(({ icon: Icon, label, href }) => {
+                const isSpecial = label === "Behance" || label === "Pinterest";
+
+                return (
+                  <motion.a
+                    key={label}
+                    href={href}
+                    target={href === "#" ? undefined : "_blank"}
+                    rel={href === "#" ? undefined : "noopener noreferrer"}
+                    onClick={(e) => {
+                      if (href === "#") e.preventDefault();
+                    }}
+                    whileHover={{
+                      scale: 1.12,
+                      y: -2,
+                    }}
+                    aria-label={label}
+                    className="w-10 h-10 rounded-xl bg-dark-700 border border-[rgba(255,255,255,0.05)] flex items-center justify-center text-gray-400 hover:text-flame-500 hover:border-[rgba(255,90,0,0.3)] transition-all duration-300"
+                  >
+                    <Icon
+                      className={`w-5 h-5 ${
+                        isSpecial ? "scale-125" : "scale-100"
+                      }`}
+                    />
+                  </motion.a>
+                );
+              })}
             </div>
           </div>
 
@@ -191,7 +203,7 @@ export function Footer() {
                   <span>
                     Jhansi, India
                     <br />
-                    <span className="text-[#333]">
+                    <span className="text-gray-400">
                       Serving Clients Worldwide
                     </span>
                   </span>
@@ -226,7 +238,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-[rgba(255,255,255,0.03)] flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-400 font-inter">
-            © 2024 Agnee. All rights reserved.
+            © 2026 Agnee. All rights reserved.
           </p>
           <p className="text-xs text-gray-400 font-inter">
             AI Driven Branding & Digital Growth Agency

@@ -39,56 +39,46 @@ export function FounderMessage() {
           }}
           className="mb-16"
         >
-          <span className="text-xs font-syne font-700 text-flame-500 tracking-widest uppercase">
-            From The Founder
+          <span
+            className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full"
+            style={{
+              color: "#FF6B00",
+              background: "rgba(255,107,0,0.08)",
+              border: "1px solid rgba(255,107,0,0.2)",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            From the Founder
           </span>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Photo */}
           <motion.div
-            initial={{
-              opacity: 0,
-              x: -40,
-            }}
-            animate={
-              inView
-                ? {
-                    opacity: 1,
-                    x: 0,
-                  }
-                : {}
-            }
-            transition={{
-              duration: 0.9,
-              delay: 0.2,
-            }}
+            initial={{ opacity: 0, x: -40 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.2 }}
             className="flex justify-center lg:justify-end"
           >
             <div className="relative">
-              <div
-                className="absolute -inset-5 rounded-3xl pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(ellipse 80% 80% at 50% 50%, rgba(255,90,0,0.14) 0%, transparent 70%)",
-                }}
-              />
+              {/* Wrapper (IMPORTANT: overflow visible) */}
+              <div className="relative w-[340px] sm:w-[400px] h-[420px] sm:h-[500px]">
+                {/* Black card ONLY bottom part */}
+                <div className="absolute bottom-0 left-0 w-full h-[90%] bg-black rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.6)]" />
 
-              <div
-                className="relative w-72 h-72 sm:w-80 sm:h-80 overflow-hidden"
-                style={{
-                  boxShadow:
-                    "0 0 50px rgba(255,90,0,0.25), 0 20px 40px rgba(0,0,0,0.5)",
-                }}
-              >
+                {/* Inner glow */}
+                <div className="absolute bottom-0 left-0 w-full h-[70%] rounded-2xl bg-gradient-to-b from-transparent to-black/50" />
+
+                {/* Image (NO CUT NOW) */}
                 <img
                   src={shubhamimg2}
                   alt="Shubham Joshi"
-                  className="w-full h-full object-cover object-top"
+                  className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[520px] sm:h-[600px] object-contain z-10 drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
                 />
               </div>
-              <div className="absolute -bottom-4 -right-4 px-4 py-2 rounded-xl bg-[rgba(255,90,0,0.12)] border border-[rgba(255,90,0,0.3)] backdrop-blur-sm">
-                <div className="text-xs font-syne font-700 text-flame-400">
+
+              {/* Badge */}
+              <div className="absolute bottom-10 right-3 px-5 py-2.5 rounded-xl z-50 bg-[rgba(255,90,0,0.18)] border border-[rgba(255,90,0,0.4)] backdrop-blur-md shadow-[0_10px_30px_rgba(255,90,0,0.2)]">
+                <div className="text-sm font-syne font-700 text-flame-400">
                   Founder & CEO
                 </div>
               </div>
@@ -125,7 +115,7 @@ export function FounderMessage() {
             >
               A Message from
               <br />
-              <span className="text-flame">the Founder</span>
+              <span className="text-flame">Founder</span>
             </h2>
 
             {[

@@ -71,11 +71,11 @@ function WireframeSphere() {
   );
 }
 const lines = [
-  "Agnee is an AI driven branding and digital growth agency built for ambitious businesses that want more than just designs and campaigns.",
-  "We combine creative thinking, technology, automation and performance marketing to build structured growth engines.",
-  "We do not believe in random posting or temporary hype. We believe in clarity, positioning and measurable execution.",
-  "From brand identity and digital presence to paid campaigns and automation systems, we help businesses scale with confidence and consistency.",
-  "Whether you are launching your first product, entering new markets or strengthening your authority, Agnee builds the systems that move you forward.",
+  "A Growth Focused Branding and Digital Marketing Agency",
+  "Agnee is built for businesses that want more than just designs and random marketing activities. We work with startups, SaaS companies, agribusinesses, enterprises and political leaders to build structured and scalable growth systems.",
+  "We combine branding, technology, content and performance marketing to create a strong digital presence that delivers measurable results.",
+  "Our approach is simple. We focus on clarity, positioning and execution. Every strategy is built to generate real growth, not just impressions.",
+  "Whether you are launching a new product, entering a new market or building authority in your industry, Agnee helps you move forward with confidence and consistency.",
 ];
 
 export function AboutSection() {
@@ -119,24 +119,16 @@ export function AboutSection() {
               }}
             >
               <div
-                className="font-syne font-extrabold text-white overflow-visible"
+                className="font-syne font-extrabold overflow-visible"
                 style={{
-                  fontSize: "clamp(4rem, 9vw, 8rem)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
-                  paddingBottom: "8px",
+                  fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.2,
                 }}
               >
-                <div className="block">ABOUT</div>
-                <div
-                  className="block"
-                  style={{
-                    color: "#ff5a00",
-                    textShadow: "0 0 10px rgba(255,90,0,0.4)",
-                  }}
-                >
-                  AGNEE
-                </div>
+                <div className="text-white">ABOUT</div>
+
+                <div className="text-flame">AGNEE</div>
               </div>
             </motion.div>
 

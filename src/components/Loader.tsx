@@ -49,7 +49,7 @@ export function Loader({ onComplete }: LoaderProps) {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="w-[180px] h-[150px] object-contain"
+              className="w-[280px] h-[250px] object-contain"
               style={{
                 filter: "drop-shadow(0 0 20px rgba(255,107,0,0.6))",
               }}
@@ -70,12 +70,9 @@ export function Loader({ onComplete }: LoaderProps) {
               delay: 0.3,
               duration: 0.6,
             }}
-            className="mb-4 text-center"
+            className=" -mb-6 text-center"
           >
-          
-            <p className="text-xs tracking-[0.2em] text-gray-500 uppercase">
-              Intelligent Growth Platform
-            </p>
+        
           </motion.div>
 
           {/* Loading bar */}
@@ -102,7 +99,7 @@ export function Loader({ onComplete }: LoaderProps) {
               }}
             />
           </div>
-          <p className="mt-2 text-xs text-gray-300 tracking-widest">
+          <p className=" mt-2 text-xs text-gray-300 tracking-widest">
             {progress}%
           </p>
         </motion.div>

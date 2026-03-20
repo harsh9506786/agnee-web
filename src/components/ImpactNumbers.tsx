@@ -63,18 +63,10 @@ function Counter({
       }}
     >
       {/* number */}
-      <span
-        className={
-          done
-            ? "text-flame drop-shadow-[0_0_30px_rgba(255,90,0,0.7)]"
-            : "text-white"
-        }
-      >
-        {count}
-      </span>
+      <span className="text-white">{count}</span>
 
       {/* suffix */}
-      <span className="text-white">{suffix}</span>
+      <span className="text-flame">{suffix}</span>
     </span>
   );
 }
@@ -86,7 +78,7 @@ export function ImpactNumbers() {
   return (
     <motion.section
       onViewportEnter={() => setStartCount(true)}
-      viewport={{ once: true, amount: 0.5 }} // 🔥 trigger when 50% visible
+      viewport={{ once: true, amount: 0.5 }}
       className="relative py-24 lg:py-36 bg-dark-900 overflow-hidden"
     >
       {/* Background */}
@@ -118,9 +110,8 @@ export function ImpactNumbers() {
             Unleash Your Brand's <span className="text-flame">Potential</span>
           </h2>
 
-          <p className="text-[#555] font-inter max-w-xl mx-auto text-sm">
-            We measure success by growth, not just deliverables. Every number
-            represents real businesses scaled through structured execution.
+          <p className="text-gray-400 font-inter max-w-xl mx-auto text-sm">
+            Every number represents businesses that trusted us and scaled with structured execution.
           </p>
         </motion.div>
 
@@ -142,7 +133,7 @@ export function ImpactNumbers() {
               <Counter value={s.value} suffix={s.suffix} active={startCount} />
 
               <div className="mt-3">
-                <div className="text-xs font-syne font-700 text-[#666] uppercase tracking-widest">
+                <div className="text-xs font-syne font-700 text-gray-400 uppercase tracking-widest">
                   {s.label}
                 </div>
 

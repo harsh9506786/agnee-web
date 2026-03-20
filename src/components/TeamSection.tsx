@@ -10,6 +10,7 @@ import anshulimg from "../assets/team/anshul.png";
 import dishitaimg from "../assets/team/dishita.png";
 import piyushimg from "../assets/team/piyush.png";
 import shailendraimg from "../assets/team/shailendra.png";
+import praveenimg from "../assets/team/praveen.png";
 const team = [
   {
     name: "Shubham Joshi",
@@ -30,6 +31,7 @@ const team = [
     role: "Chief Experience Officer",
     desc: "Praveen Bhargava focuses on user experience and product quality across digital platforms. With experience in software testing and usability analysis, he ensures that every product and platform performs smoothly and delivers a reliable experience for users.",
     seed: "Preveen",
+    img: praveenimg,
   },
   {
     name: "Shiva Gupta",
@@ -128,8 +130,16 @@ export function TeamSection() {
           }}
           className="mb-16"
         >
-          <span className="text-xs font-syne font-700 text-flame-500 tracking-widest uppercase block mb-4">
-            The Team
+          <span
+            className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full"
+            style={{
+              color: "#FF6B00",
+              background: "rgba(255,107,0,0.08)",
+              border: "1px solid rgba(255,107,0,0.2)",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Our Team
           </span>
           <h2
             className="font-syne font-extrabold text-white"
@@ -141,7 +151,7 @@ export function TeamSection() {
           >
             Meet The <span className="text-flame">Core Team</span>
           </h2>
-          <p className="text-[#555] font-inter mt-4 max-w-xl">
+          <p className="text-gray-400 font-inter mt-4 max-w-xl">
             Behind every successful campaign is a team that understands
             strategy, creativity and execution.
           </p>
@@ -202,7 +212,7 @@ export function TeamSection() {
               <div className="text-xs font-syne font-600 text-flame-500 mb-3">
                 {member.role}
               </div>
-              <p className="text-xs text-[#555] font-inter leading-relaxed">
+              <p className="text-xs text-gray-400 font-inter leading-relaxed">
                 {member.desc}
               </p>
             </motion.div>
@@ -224,7 +234,7 @@ export function TeamSection() {
             duration: 0.7,
             delay: 0.7,
           }}
-          className="mt-10 text-center text-[#444] font-inter text-sm"
+          className="mt-10 text-center text-gray-400 font-inter text-sm"
         >
           We are strategists, designers, developers and marketers working as one
           integrated growth unit.

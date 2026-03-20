@@ -2,8 +2,11 @@ import React, { useEffect, useRef, Children } from "react";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 import { ArrowRightIcon, ChevronDownIcon } from "lucide-react";
+import flameimg from "../assets/agneelogo/Flame.png";
 export function HeroSection() {
   const mountRef = useRef<HTMLDivElement>(null);
+  const textureLoader = new THREE.TextureLoader();
+  const texture = textureLoader.load(flameimg);
   const mouseRef = useRef({
     x: 0,
     y: 0,
@@ -29,16 +32,24 @@ export function HeroSection() {
     const group = new THREE.Group();
     scene.add(group);
     // === CORE SPHERE ===
-    const coreGeo = new THREE.SphereGeometry(0.6, 32, 32);
-    const coreMat = new THREE.MeshStandardMaterial({
-      color: 0xff6b00,
-      emissive: 0xff4400,
-      emissiveIntensity: 0.8,
-      roughness: 0.3,
-      metalness: 0.5,
+    // === CORE LOGO (REPLACES SPHERE) ===
+
+    // Load texture
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load(flameimg);
+
+    // Correct color rendering
+    texture.colorSpace = THREE.SRGBColorSpace;
+
+    // Flat geometry (logo distortion na ho)
+    const coreGeo = new THREE.PlaneGeometry(1.8, 2.4);
+
+    const coreMat = new THREE.MeshBasicMaterial({
+      map: texture,
       transparent: true,
-      opacity: 0.9,
+      depthWrite: false,
     });
+
     const core = new THREE.Mesh(coreGeo, coreMat);
     group.add(core);
     // Inner glow sphere
@@ -314,16 +325,15 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-24 pb-16 mt-16">
-        {/* Left: Text */}
         <motion.div
-          className="flex-1 max-w-2xl"
+          className="w-full lg:flex-1 lg:max-w-2xl"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={itemVariants} className="mb-6">
+          <motion.div variants={itemVariants} className="mb-5 sm:mb-6">
             <span
-              className="inline-block text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full"
+              className="inline-block text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full"
               style={{
                 color: "#FF6B00",
                 background: "rgba(255,107,0,0.08)",
@@ -331,22 +341,22 @@ export function HeroSection() {
                 fontFamily: "Inter, sans-serif",
               }}
             >
-              AI-Powered Growth Agency
+              Build Brands That Scale
             </span>
           </motion.div>
+
+          {/* Heading */}
           <motion.h1
             variants={itemVariants}
-            className="font-extrabold mb-6"
+            className="font-extrabold mb-5 sm:mb-6"
             style={{
-              fontSize: "clamp(32px, 4.5vw, 56px)", // 👈 aur chhota
+              fontSize: "clamp(26px, 7vw, 56px)", // 👈 mobile optimized
               fontFamily: "Syne, sans-serif",
-              lineHeight: 1.15,
+              lineHeight: 1.2,
             }}
           >
-            {/* Line 1 */}
-            <span className="text-white block">WE BUILD</span>
+            <span className="text-white block">AI Powered</span>
 
-            {/* Line 2 */}
             <span
               className="block"
               style={{
@@ -355,88 +365,52 @@ export function HeroSection() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                whiteSpace: "nowrap",
+                // ❌ nowrap hata diya (mobile break ke liye)
               }}
             >
-              THAT GROWS
+              BRAND GROWTH
             </span>
           </motion.h1>
 
-          <motion.p
-            variants={itemVariants}
-            className="text-lg leading-relaxed mb-10 max-w-xl"
-            style={{
-              color: "#A0A0A0",
-              fontFamily: "Inter, sans-serif",
-            }}
-          >
-            AI Powered Branding, Social Media Strategy and Performance Marketing
-            for Businesses That Want to Scale.
-          </motion.p>
-
-          {/* Supporting */}
-          <motion.p
-            initial={{
-              opacity: 0,
-              y: 16,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 1.0,
-            }}
-            className="text-sm font-syne font-700 text-flame-400 tracking-widest uppercase"
-          >
-            Human Intelligence. AI Efficiency. Relentless Execution.
-          </motion.p>
-
           {/* Paragraph */}
           <motion.p
-            initial={{
-              opacity: 0,
-              y: 16,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 1.1,
-            }}
-            className="text-sm text-[#555] font-inter leading-relaxed max-w-md mt-5 mb-5"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.1 }}
+            className="text-sm sm:text-base text-gray-400 font-inter leading-relaxed w-full sm:max-w-md mt-4 sm:mt-5 mb-6 sm:mb-8"
           >
-            Agnee is a growth-focused branding and digital strategy agency
-            helping startups, SaaS companies, agribusinesses, enterprises and
-            political leaders build structured, scalable and performance-driven
-            brands in the digital era.
+            We help businesses grow with clarity, strategy and execution. From
+            branding and social media to performance marketing and AI
+            automation, we build systems that create real business growth.
+            <br />
+            <br />
+            <span>
+              Human intelligence combined with AI efficiency and strong
+              execution helps your brand move faster, smarter and stronger in
+              today’s digital world.
+            </span>
+            <br />
+            <br />
+            <span>
+              Book a free consultation and start building a brand that actually
+              grows.
+            </span>
           </motion.p>
 
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
+          {/* Buttons */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full"
+          >
             <button
-              className="group flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-300"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-300"
               style={{
                 background: "linear-gradient(135deg, #FF6B00, #FF9500)",
                 boxShadow: "0 0 30px rgba(255,107,0,0.4)",
                 fontFamily: "Inter, sans-serif",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                  "0 0 50px rgba(255,107,0,0.6)";
-                (e.currentTarget as HTMLButtonElement).style.transform =
-                  "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                  "0 0 30px rgba(255,107,0,0.4)";
-                (e.currentTarget as HTMLButtonElement).style.transform =
-                  "translateY(0)";
-              }}
             >
-              Book a strategy call
+              Connect with us
               <ArrowRightIcon
                 size={16}
                 className="group-hover:translate-x-1 transition-transform"
@@ -444,57 +418,16 @@ export function HeroSection() {
             </button>
 
             <button
-              className="px-7 py-3.5 rounded-full font-semibold transition-all duration-300"
+              className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold transition-all duration-300"
               style={{
                 color: "#E5E5E5",
                 border: "1px solid rgba(255,255,255,0.12)",
                 background: "rgba(255,255,255,0.03)",
                 fontFamily: "Inter, sans-serif",
               }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor =
-                  "rgba(255,107,0,0.4)";
-                (e.currentTarget as HTMLButtonElement).style.color = "#FF9500";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor =
-                  "rgba(255,255,255,0.12)";
-                (e.currentTarget as HTMLButtonElement).style.color = "#E5E5E5";
-              }}
             >
               View Our Work
             </button>
-          </motion.div>
-
-          {/* Scroll indicator */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-16 flex items-center gap-3"
-            style={{
-              color: "#555",
-            }}
-          >
-            <div
-              className="flex flex-col items-center gap-1"
-              style={{
-                animation: "float-up 2s ease-in-out infinite",
-              }}
-            >
-              <ChevronDownIcon
-                size={16}
-                style={{
-                  color: "#FF6B00",
-                }}
-              />
-            </div>
-            <span
-              className="text-xs tracking-widest uppercase"
-              style={{
-                fontFamily: "Inter, sans-serif",
-              }}
-            >
-              Scroll to explore
-            </span>
           </motion.div>
         </motion.div>
 

@@ -51,8 +51,16 @@ export function ClientLogos() {
           }}
           className="text-center mb-12"
         >
-          <span className="text-xs font-syne font-700 text-flame-500 tracking-widest uppercase block mb-4">
-            Our Clients
+           <span
+            className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full"
+            style={{
+              color: "#FF6B00",
+              background: "rgba(255,107,0,0.08)",
+              border: "1px solid rgba(255,107,0,0.2)",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Our clients
           </span>
           <h2
             className="font-syne font-extrabold text-white"
@@ -72,9 +80,9 @@ export function ClientLogos() {
             {logos.map((logo, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 mx-6 px-7 py-4 rounded-xl border border-[rgba(255,255,255,0.05)] bg-dark-700 hover:border-[rgba(255,90,0,0.3)] hover:bg-[rgba(255,90,0,0.04)] transition-all duration-300 group cursor-default"
+                className="flex-shrink-0 mx-6 px-7 py-4 rounded-xl border border-gray-400 hover:border-[rgba(255,90,0,0.3)] hover:bg-[rgba(255,90,0,0.04)] transition-all duration-300 group cursor-default"
               >
-                <span className="font-syne font-700 text-[#333] group-hover:text-flame-500 transition-colors duration-300 whitespace-nowrap text-sm tracking-wide">
+                <span className="font-syne font-700 text-white group-hover:text-flame-500 transition-colors duration-300 whitespace-nowrap text-md tracking-wide">
                   {logo}
                 </span>
               </div>
