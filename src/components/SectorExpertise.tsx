@@ -154,10 +154,17 @@ export function SectorExpertise() {
           {/* ✅ SCROLL CONTAINER (YAHI MAIN CHEEZ HAI) */}
           <div
             ref={scrollRef}
-            onTouchStart={() => setIsUserScrolling(true)} // 👈 user touch detect
+            onTouchStart={() => setIsUserScrolling(true)}
             onScroll={() => {
-              if (isUserScrolling) {
-                setShowHints(false); // 👈 sirf user scroll pe hide
+              const container = scrollRef.current;
+              if (!container) return;
+
+              if (isUserScrolling) setShowHints(false);
+
+              // 👇 Agar scroll wapas start pe aa gaya → hints visible
+              if (container.scrollLeft <= 5) {
+                setShowHints(true);
+                setIsUserScrolling(false);
               }
             }}
             className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar touch-pan-x"

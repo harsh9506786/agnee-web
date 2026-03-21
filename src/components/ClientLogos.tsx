@@ -148,7 +148,16 @@ export function ClientLogos() {
             ref={scrollRef}
             onTouchStart={() => setIsUserScrolling(true)}
             onScroll={() => {
+              const container = scrollRef.current;
+              if (!container) return;
+
               if (isUserScrolling) setShowHints(false);
+
+              // 👇 agar scrollLeft wapas start pe aa gaya → hints fir se visible
+              if (container.scrollLeft <= 5) {
+                setShowHints(true);
+                setIsUserScrolling(false);
+              }
             }}
             className="flex gap-6 overflow-x-auto py-2 scroll-smooth no-scrollbar touch-pan-x"
             onMouseEnter={() => setIsPaused(true)}

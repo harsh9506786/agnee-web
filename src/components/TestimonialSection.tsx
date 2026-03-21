@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 const testimonials = [
   {
@@ -88,6 +88,11 @@ export function TestimonialSection() {
   const [cur, setCur] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [showHints, setShowHints] = useState(true);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
 
   // Auto-change testimonials
   useEffect(() => {
@@ -96,6 +101,33 @@ export function TestimonialSection() {
     }, 4500);
     return () => clearInterval(t);
   }, []);
+
+  // Detect desktop
+  useEffect(() => {
+    const check = () => {
+      const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+      const isLargeScreen = window.innerWidth >= 1024;
+      setIsDesktop(isFinePointer && isLargeScreen);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // 👈 Manual scroll for desktop buttons
+  const scrollLeft = () => {
+    if (!scrollRef.current) return;
+    setIsUserScrolling(true);
+    scrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
+    setTimeout(() => setIsUserScrolling(false), 800);
+  };
+
+  const scrollRight = () => {
+    if (!scrollRef.current) return;
+    setIsUserScrolling(true);
+    scrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
+    setTimeout(() => setIsUserScrolling(false), 800);
+  };
 
   return (
     <section
@@ -133,57 +165,121 @@ export function TestimonialSection() {
           </h2>
         </motion.div>
 
-        {/* Testimonial Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-        >
-          <div className="relative p-10 sm:p-14 rounded-3xl bg-dark-800 border border-[rgba(255,255,255,0.05)] overflow-hidden">
-            {/* Stars */}
-            <div className="flex justify-center gap-1 mb-4">
-              {Array(testimonials[cur].stars)
-                .fill(0)
-                .map((_, i) => (
-                  <span key={i} className="text-flame-500 text-xl">
-                    ⭐
-                  </span>
-                ))}
-            </div>
+        {/* Scroll Container */}
+        <div className="relative flex items-center overflow-visible">
+          {/* LEFT ARROW */}
+          {isDesktop ? (
+            <button
+              onClick={scrollLeft}
+              className="absolute -left-12 z-20 w-10 h-10 rounded-full flex items-center justify-center
+              bg-dark-700 hover:bg-dark-900 text-white"
+            >
+              &#10094;
+            </button>
+          ) : (
+            showHints && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, x: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 1.2 }}
+                className="absolute left-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
+                bg-dark-700/80 text-white pointer-events-none"
+              >
+                &#10094;
+              </motion.div>
+            )
+          )}
 
-            {/* Title */}
-            <div className="text-center font-syne font-600 text-white text-lg sm:text-xl mb-3">
-              {testimonials[cur].title}
-            </div>
-
-            {/* Description */}
-            <div className="text-center text-gray-300 text-md sm:text-lg leading-relaxed">
-              {testimonials[cur].description}
-            </div>
-
-            {/* Author */}
-            <div className="mt-6 text-center font-syne font-700 text-white text-sm sm:text-base">
-              {testimonials[cur].author}
-            </div>
-            <div className="text-center text-flame-500 font-inter text-xs sm:text-sm">
-              {testimonials[cur].company}
-            </div>
-          </div>
-
-          {/* Pagination Buttons */}
-          <div className="flex justify-center gap-3 mt-7">
-            {testimonials.map((_, i) => (
-              <button
+          {/* Testimonial Card */}
+          <div
+            ref={scrollRef}
+            onTouchStart={() => setIsUserScrolling(true)}
+            onScroll={() => {
+              if (isUserScrolling) setShowHints(false);
+              const container = scrollRef.current;
+              if (container && container.scrollLeft <= 5) setShowHints(true);
+            }}
+            className="flex overflow-x-auto scroll-smooth no-scrollbar gap-6"
+            style={{ scrollSnapType: "x mandatory" }}
+          >
+            {testimonials.map((t, i) => (
+              <motion.div
                 key={i}
-                onClick={() => setCur(i)}
-                className={`rounded-full transition-all duration-300 ${i === cur ? "w-8 h-2 bg-flame-500" : "w-2 h-2 bg-gray-400"}`}
-                aria-label={`Testimonial ${i + 1}`}
-              />
+                initial={{ opacity: 0, x: 40 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="flex-shrink-0 w-full sm:w-[400px] p-10 sm:p-14 rounded-3xl bg-dark-800 border border-[rgba(255,255,255,0.05)]"
+              >
+                {/* Stars */}
+                <div className="flex justify-center gap-1 mb-4">
+                  {Array(t.stars)
+                    .fill(0)
+                    .map((_, i) => (
+                      <span key={i} className="text-flame-500 text-xl">
+                        ⭐
+                      </span>
+                    ))}
+                </div>
+
+                {/* Title */}
+                <div className="text-center font-syne font-600 text-white text-lg sm:text-xl mb-3">
+                  {t.title}
+                </div>
+
+                {/* Description */}
+                <div className="text-center text-gray-300 text-md sm:text-lg leading-relaxed">
+                  {t.description}
+                </div>
+
+                {/* Author */}
+                <div className="mt-6 text-center font-syne font-700 text-white text-sm sm:text-base">
+                  {t.author}
+                </div>
+                <div className="text-center text-flame-500 font-inter text-xs sm:text-sm">
+                  {t.company}
+                </div>
+              </motion.div>
             ))}
           </div>
-        </motion.div>
+
+          {/* RIGHT ARROW */}
+          {isDesktop ? (
+            <button
+              onClick={scrollRight}
+              className="absolute -right-12 z-20 w-10 h-10 rounded-full flex items-center justify-center
+              bg-dark-700 hover:bg-dark-900 text-white"
+            >
+              &#10095;
+            </button>
+          ) : (
+            showHints && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, x: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 1.2 }}
+                className="absolute right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
+                bg-dark-700/80 text-white pointer-events-none"
+              >
+                &#10095;
+              </motion.div>
+            )
+          )}
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex justify-center gap-3 mt-7">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCur(i)}
+              className={`rounded-full transition-all duration-300 ${
+                i === cur ? "w-8 h-2 bg-flame-500" : "w-2 h-2 bg-gray-400"
+              }`}
+              aria-label={`Testimonial ${i + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
-}  
-
+}
