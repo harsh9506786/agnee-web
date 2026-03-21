@@ -121,7 +121,7 @@ export function ExpertiseSection() {
           transition={{
             duration: 0.7,
           }}
-          className="mb-16"
+        className="mb-16 text-center lg:text-left"
         >
           <motion.div className="mb-6">
             <span

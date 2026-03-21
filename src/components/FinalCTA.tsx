@@ -168,9 +168,8 @@ export function FinalCTA() {
           className="space-y-8"
         >
           <h2
-            className="font-syne font-extrabold text-white"
+            className="font-syne font-extrabold text-white text-[clamp(2.2rem,7vw,6.5rem)] sm:text-[clamp(2.6rem,6vw,6.5rem)] leading-[0.95] break-words"
             style={{
-              fontSize: "clamp(3rem, 8vw, 6.5rem)",
               letterSpacing: "-0.04em",
               lineHeight: 0.92,
             }}

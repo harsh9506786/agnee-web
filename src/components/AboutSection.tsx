@@ -222,7 +222,9 @@ export function AboutSection() {
               }}
             />
 
-            <WireframeSphere />
+            <div className="w-full max-w-[320px] sm:max-w-[380px] lg:max-w-none mx-auto lg:mx-0">
+              <WireframeSphere />
+            </div>
           </motion.div>
         </div>
       </div>
