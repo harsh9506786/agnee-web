@@ -52,32 +52,23 @@ export function FounderMessage() {
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.2 }}
-            className="flex justify-center lg:justify-end"
+            className="flex justify-center lg:justify-end h-full"
           >
-            <div className="relative">
-              {/* Wrapper (IMPORTANT: overflow visible) */}
-              <div className="relative w-[340px] sm:w-[400px] h-[420px] sm:h-[500px]">
-                {/* Black card ONLY bottom part */}
-                <div className="absolute bottom-0 left-0 w-full h-[90%] bg-black rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.6)]" />
-
-                {/* Inner glow */}
-                <div className="absolute bottom-0 left-0 w-full h-[70%] rounded-2xl bg-gradient-to-b from-transparent to-black/50" />
-
-                {/* Image (NO CUT NOW) */}
-                <img
-                  src={shubhamimg2}
-                  alt="Shubham Joshi"
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[520px] sm:h-[600px] object-contain z-10 drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
-                />
-              </div>
+            <div className="relative w-full max-w-[450px] h-full flex items-end justify-center">
+              {/* FULL HEIGHT IMAGE */}
+              <img
+                src={shubhamimg2}
+                alt="Shubham Joshi"
+                className="h-full w-full object-contain z-10 drop-shadow-[0_25px_50px_rgba(0,0,0,0.7)]"
+              />
 
               {/* Badge */}
-              <div className="absolute bottom-10 right-3 px-5 py-2.5 rounded-xl z-50 bg-[rgba(255,90,0,0.18)] border border-[rgba(255,90,0,0.4)] backdrop-blur-md shadow-[0_10px_30px_rgba(255,90,0,0.2)]">
+              <div className="absolute bottom-10 right-2 px-5 py-2.5 rounded-xl z-50 bg-[rgba(255,90,0,0.18)] border border-[rgba(255,90,0,0.4)] backdrop-blur-md shadow-[0_10px_30px_rgba(255,90,0,0.2)]">
                 <div className="text-sm font-syne font-700 text-flame-400">
                   Founder & CEO
                 </div>
@@ -110,12 +101,11 @@ export function FounderMessage() {
               style={{
                 fontSize: "clamp(2.5rem, 5vw, 4rem)",
                 letterSpacing: "-0.03em",
-                lineHeight: 0.95,
+                lineHeight: 1,
               }}
             >
-              A Message from
-              <br />
-              <span className="text-flame">Founder</span>
+              <span className="block">A Message</span>
+              <span className="text-flame block">from Founder</span>
             </h2>
 
             {[

@@ -116,7 +116,7 @@ export function ImpactNumbers() {
         </motion.div>
 
         {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-10">
+        <div className="flex flex-col items-center gap-10 sm:flex-row sm:flex-wrap sm:justify-center">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}

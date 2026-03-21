@@ -1,58 +1,49 @@
-import React, { useEffect, useRef, Children } from "react";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { motion } from "framer-motion";
-import { ArrowRightIcon, ChevronDownIcon } from "lucide-react";
 import flameimg from "../assets/agneelogo/Visual.png";
+
 export function HeroSection() {
   const mountRef = useRef<HTMLDivElement>(null);
-  const textureLoader = new THREE.TextureLoader();
-  const texture = textureLoader.load(flameimg);
-  const mouseRef = useRef({
-    x: 0,
-    y: 0,
-  });
+  const mouseRef = useRef({ x: 0, y: 0 });
+
   useEffect(() => {
     if (!mountRef.current) return;
     const container = mountRef.current;
     const width = container.clientWidth;
     const height = container.clientHeight;
+
     // Scene
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
     camera.position.z = 3.5;
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-    });
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
-    // Group for entire sphere system
+
+    // Group for rotating background (rings, particles, neural network)
     const group = new THREE.Group();
     scene.add(group);
-    // === CORE SPHERE ===
-    // === CORE LOGO (REPLACES SPHERE) ===
 
-    // Load texture
+    // ===== CORE FLAME LOGO (Always front-facing) =====
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load(flameimg);
-
-    // Correct color rendering
     texture.colorSpace = THREE.SRGBColorSpace;
 
-    // Flat geometry (logo distortion na ho)
     const coreGeo = new THREE.PlaneGeometry(2, 2);
-
     const coreMat = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
       depthWrite: false,
     });
-
     const core = new THREE.Mesh(coreGeo, coreMat);
-    group.add(core);
-    // Inner glow sphere
+    scene.add(core); // Added directly to scene (not rotating group)
+
+    // ===== INNER GLOW SPHERE =====
     const innerGlowGeo = new THREE.SphereGeometry(0.65, 32, 32);
     const innerGlowMat = new THREE.MeshBasicMaterial({
       color: 0xff6b00,
@@ -61,7 +52,8 @@ export function HeroSection() {
       side: THREE.BackSide,
     });
     group.add(new THREE.Mesh(innerGlowGeo, innerGlowMat));
-    // === NEURAL NETWORK LINES ===
+
+    // ===== NEURAL NETWORK LINES =====
     const neuralPoints: THREE.Vector3[] = [];
     for (let i = 0; i < 80; i++) {
       const phi = Math.acos(-1 + (2 * i) / 80);
@@ -75,6 +67,7 @@ export function HeroSection() {
         ),
       );
     }
+
     const linePositions: number[] = [];
     for (let i = 0; i < neuralPoints.length; i++) {
       for (let j = i + 1; j < neuralPoints.length; j++) {
@@ -91,6 +84,7 @@ export function HeroSection() {
         }
       }
     }
+
     const lineGeo = new THREE.BufferGeometry();
     lineGeo.setAttribute(
       "position",
@@ -102,7 +96,8 @@ export function HeroSection() {
       opacity: 0.35,
     });
     group.add(new THREE.LineSegments(lineGeo, lineMat));
-    // Neural node dots
+
+    // Neural nodes
     const nodeGeo = new THREE.BufferGeometry();
     const nodePositions = new Float32Array(
       neuralPoints.flatMap((p) => [p.x, p.y, p.z]),
@@ -118,14 +113,10 @@ export function HeroSection() {
       opacity: 0.8,
     });
     group.add(new THREE.Points(nodeGeo, nodeMat));
-    // === OUTER RINGS ===
+
+    // ===== OUTER RINGS =====
     const ringConfigs = [
-      {
-        radius: 1.3,
-        tube: 0.006,
-        rot: [Math.PI / 2, 0, 0],
-        speed: 0.003,
-      },
+      { radius: 1.3, tube: 0.006, rot: [Math.PI / 2, 0, 0], speed: 0.003 },
       {
         radius: 1.5,
         tube: 0.004,
@@ -139,10 +130,7 @@ export function HeroSection() {
         speed: 0.0015,
       },
     ];
-    const rings: {
-      mesh: THREE.Mesh;
-      speed: number;
-    }[] = [];
+    const rings: { mesh: THREE.Mesh; speed: number }[] = [];
     ringConfigs.forEach(({ radius, tube, rot, speed }) => {
       const geo = new THREE.TorusGeometry(radius, tube, 8, 120);
       const mat = new THREE.MeshBasicMaterial({
@@ -153,12 +141,10 @@ export function HeroSection() {
       const ring = new THREE.Mesh(geo, mat);
       ring.rotation.set(rot[0], rot[1], rot[2]);
       group.add(ring);
-      rings.push({
-        mesh: ring,
-        speed,
-      });
+      rings.push({ mesh: ring, speed });
     });
-    // === PARTICLES ===
+
+    // ===== PARTICLES =====
     const particleCount = 200;
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: THREE.Vector3[] = [];
@@ -191,7 +177,8 @@ export function HeroSection() {
     });
     const particles = new THREE.Points(particleGeo, particleMat);
     group.add(particles);
-    // === LIGHTS ===
+
+    // ===== LIGHTS =====
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
     const orangeLight = new THREE.PointLight(0xff6b00, 3, 5);
@@ -200,35 +187,42 @@ export function HeroSection() {
     const fillLight = new THREE.PointLight(0xff9500, 1, 8);
     fillLight.position.set(2, 2, 2);
     scene.add(fillLight);
-    // === MOUSE HANDLER ===
+
+    // ===== MOUSE HANDLER =====
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
       mouseRef.current.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       mouseRef.current.y = -((e.clientY - rect.top) / rect.height - 0.5) * 2;
     };
     window.addEventListener("mousemove", handleMouseMove);
-    // === ANIMATION LOOP ===
+
+    // ===== ANIMATION LOOP =====
     let frameId: number;
     let time = 0;
     const animate = () => {
       frameId = requestAnimationFrame(animate);
       time += 0.01;
+
       // Rotate rings
       rings.forEach(({ mesh, speed }) => {
         mesh.rotation.z += speed;
         mesh.rotation.x += speed * 0.5;
       });
-      // Core pulse
+
+      // Core pulse (always front-facing)
       const scale = 1 + Math.sin(time * 2) * 0.03;
       core.scale.set(scale, scale, scale);
-      // Mouse tilt
+
+      // Mouse tilt for group
       const targetX = mouseRef.current.y * 0.25;
       const targetY = mouseRef.current.x * 0.25;
       group.rotation.x += (targetX - group.rotation.x) * 0.05;
       group.rotation.y += (targetY - group.rotation.y) * 0.05;
+
       // Slow base rotation
       group.rotation.y += 0.002;
-      // Particles drift outward and reset
+
+      // Particles drift
       const pos = particleGeo.attributes.position as THREE.BufferAttribute;
       for (let i = 0; i < particleCount; i++) {
         pos.array[i * 3] += particleVelocities[i].x;
@@ -257,31 +251,33 @@ export function HeroSection() {
         }
       }
       pos.needsUpdate = true;
+
       // Orange light pulse
       orangeLight.intensity = 2.5 + Math.sin(time * 3) * 0.5;
+
       renderer.render(scene, camera);
     };
     animate();
-    // === RESIZE ===
+
+    // ===== RESIZE =====
     const handleResize = () => {
       if (!container) return;
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      camera.aspect = w / h;
+      camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(container.clientWidth, container.clientHeight);
     };
     window.addEventListener("resize", handleResize);
+
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
       renderer.dispose();
-      if (container.contains(renderer.domElement)) {
+      if (container.contains(renderer.domElement))
         container.removeChild(renderer.domElement);
-      }
     };
   }, []);
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -290,6 +286,7 @@ export function HeroSection() {
       },
     },
   };
+
   const itemVariants = {
     hidden: {
       opacity: 0,
@@ -306,6 +303,7 @@ export function HeroSection() {
       },
     },
   };
+
   return (
     <section
       id="hero"
@@ -315,7 +313,6 @@ export function HeroSection() {
           "linear-gradient(135deg, #080808 0%, #0d0d0d 50%, #0a0500 100%)",
       }}
     >
-      {/* Radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -324,9 +321,9 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-24 pb-16 mt-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-24 pb-16 mt-16 text-center lg:text-left">
         <motion.div
-          className="w-full lg:flex-1 lg:max-w-2xl"
+          className="w-full lg:flex-1 lg:max-w-2xl flex flex-col items-center lg:items-start"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -377,7 +374,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.1 }}
-            className="text-sm sm:text-base text-gray-400 font-inter leading-relaxed w-full sm:max-w-md mt-4 sm:mt-5 mb-6 sm:mb-8"
+            className="text-sm sm:text-base text-gray-400 font-inter leading-relaxed w-full sm:max-w-md mt-4 sm:mt-5 mb-6 sm:mb-8 text-center lg:text-left"
           >
             We help businesses grow with clarity, strategy and execution. From
             branding and social media to performance marketing and AI
@@ -400,7 +397,7 @@ export function HeroSection() {
           {/* Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full items-center sm:items-start"
           >
             <motion.a
               href="tel:9696933327"
@@ -410,17 +407,13 @@ export function HeroSection() {
               whileTap={{
                 scale: 0.95,
               }}
-              className="btn-flame inline-flex items-center gap-3 px-10 py-5 rounded-full text-base font-syne font-700 pulse-glow"
+              className="btn-flame w-full sm:w-auto justify-center inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-syne font-700 pulse-glow"
             >
               <span>Connect with us</span>
             </motion.a>
 
-            <motion.button
-              whileHover={{
-                color: "#FF6B00",
-                borderColor: "#FF6B00",
-              }}
-              className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold"
+            <button
+              className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:text-[#FF6B00] hover:border-[#FF6B00] hover:bg-[rgba(255,107,0,0.05)] hover:shadow-[0_0_10px_rgba(255,107,0,0.4)] text-center"
               style={{
                 color: "#E5E5E5",
                 border: "1px solid rgba(255,255,255,0.12)",
@@ -428,50 +421,16 @@ export function HeroSection() {
                 fontFamily: "Inter, sans-serif",
               }}
             >
-              View Our Work
-            </motion.button>
+              Book a call
+            </button>
           </motion.div>
         </motion.div>
 
         {/* Right: Three.js canvas */}
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.8,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{
-            duration: 1.2,
-            ease: "easeOut",
-            delay: 0.3,
-          }}
-          className="flex-shrink-0 relative"
-          style={{
-            width: "min(560px, 90vw)",
-            height: "min(560px, 90vw)",
-          }}
-        >
-          {/* Outer glow halo */}
-          <div
-            className="absolute inset-0 rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(255,107,0,0.12) 0%, transparent 70%)",
-              filter: "blur(20px)",
-            }}
-          />
-          <div
-            ref={mountRef}
-            className="w-full h-full"
-            style={{
-              position: "relative",
-              zIndex: 1,
-            }}
-          />
-        </motion.div>
+        <div
+          ref={mountRef}
+          className="flex-shrink-0 relative w-[min(560px,90vw)] h-[min(560px,90vw)] mt-8 lg:mt-0"
+        />
       </div>
     </section>
   );

@@ -15,26 +15,29 @@ const industries = [
   "Startups and Entrepreneurs",
 ];
 
+// 🔁 duplicate for infinite scroll
+const loopedIndustries = [...industries, ...industries];
+
 export function SectorExpertise() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-scroll effect
+  // 🔥 Infinite auto-scroll
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const scrollSpeed = 0.7;
 
     const interval = setInterval(() => {
       if (!isHovered) {
-        scrollContainer.scrollLeft += 1;
-        // Loop back to start
-        if (
-          scrollContainer.scrollLeft + scrollContainer.clientWidth >=
-          scrollContainer.scrollWidth
-        ) {
-          scrollContainer.scrollTo({ left: 0, behavior: "smooth" });
+        container.scrollLeft += scrollSpeed;
+
+        // seamless loop
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft = 0;
         }
       }
     }, 20);
@@ -42,12 +45,23 @@ export function SectorExpertise() {
     return () => clearInterval(interval);
   }, [isHovered]);
 
-  // Buttons scroll
+  // 👉 Manual scroll (with pause)
   const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+    if (!scrollRef.current) return;
+
+    setIsHovered(true);
+    scrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
+
+    setTimeout(() => setIsHovered(false), 800);
   };
+
   const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
+    if (!scrollRef.current) return;
+
+    setIsHovered(true);
+    scrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
+
+    setTimeout(() => setIsHovered(false), 800);
   };
 
   return (
@@ -63,79 +77,84 @@ export function SectorExpertise() {
           transition={{ duration: 0.7 }}
           className="mb-14"
         >
-          <motion.div className="mb-6">
-            <span
-              className="inline-block text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full"
-              style={{
-                color: "#FF6B00",
-                background: "rgba(255,107,0,0.08)",
-                border: "1px solid rgba(255,107,0,0.2)",
-                fontFamily: "Inter, sans-serif",
-              }}
-            >
-              Our Services
-            </span>
-          </motion.div>
-          <h2
-            className="font-syne font-extrabold text-white"
+          <span
+            className="inline-block text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full"
             style={{
-              fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
-              letterSpacing: "-0.03em",
-              lineHeight: 0.95,
+              color: "#FF6B00",
+              background: "rgba(255,107,0,0.08)",
+              border: "1px solid rgba(255,107,0,0.2)",
             }}
           >
+            Our Services
+          </span>
+
+          <h2 className="font-syne font-extrabold text-white mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95]">
             Industries We <span className="text-flame">Serve</span>
           </h2>
-          <p className="text-gray-400 font-inter mt-4 max-w-2xl">
-            We work across multiple industries with customized strategies for
-            each sector.
+
+          <p className="text-gray-400 mt-4 max-w-2xl">
+            We work across multiple industries with customized strategies.
           </p>
         </motion.div>
 
-        {/* Scroll + Buttons wrapper */}
-        <div className="relative flex items-center">
-          {/* Left Button outside scroll */}
+        {/* Scroll Wrapper */}
+        <div className="relative flex items-center overflow-visible">
+          {/* 🌫️ Left Fade */}
+          <div
+            className="pointer-events-none absolute left-0 top-0 h-full w-16 z-10"
+            style={{
+              background: "linear-gradient(to right, #0f0f0f, transparent)",
+            }}
+          />
+
+          {/* 🌫️ Right Fade */}
+          <div
+            className="pointer-events-none absolute right-0 top-0 h-full w-16 z-10"
+            style={{
+              background: "linear-gradient(to left, #0f0f0f, transparent)",
+            }}
+          />
+
+          {/* ⬅️ Left Button */}
           <button
             onClick={scrollLeft}
-            className="absolute -left-16 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+            className="absolute -left-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
+            bg-dark-700 hover:bg-dark-900 text-white
+            transition-all duration-300 hover:scale-110
+            hover:shadow-[0_0_15px_rgba(255,107,0,0.6)]"
           >
             &#10094;
           </button>
 
-          {/* Scroll container */}
+          {/* Scroll Container */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth"
+            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            style={{
-              scrollbarWidth: "none", // Firefox
-            }}
           >
-            {industries.map((ind, i) => (
+            {loopedIndustries.map((ind, i) => (
               <motion.div
-                key={ind}
-                initial={{ opacity: 0, x: 40, rotate: 2 }}
-                animate={inView ? { opacity: 1, x: 0, rotate: 0 } : {}}
-                transition={{
-                  duration: 0.6,
-                  delay: i * 0.06,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="group flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,90,0,0.35)] hover:bg-dark-900 transition-all duration-350 cursor-default"
+                key={i}
+                initial={{ opacity: 0, x: 40 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.04 }}
+                className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5
+                hover:border-orange-500/40 hover:bg-dark-900 transition-all duration-300"
               >
-                <CheckCircleIcon className="w-5 h-5 text-flame-500 mb-4 group-hover:scale-110 transition-transform duration-300" />
-                <div className="font-syne font-700 text-white text-base leading-tight group-hover:text-flame-400 transition-colors duration-300">
-                  {ind}
-                </div>
+                <CheckCircleIcon className="w-5 h-5 text-orange-500 mb-4" />
+                <div className="text-white font-semibold">{ind}</div>
               </motion.div>
             ))}
           </div>
 
-          {/* Right Button outside scroll */}
+          {/* ➡️ Right Button */}
           <button
             onClick={scrollRight}
-            className="absolute -right-16 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+            className="absolute -right-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
+            bg-dark-700 hover:bg-dark-900 text-white
+            transition-all duration-300 hover:scale-110
+            hover:shadow-[0_0_15px_rgba(255,107,0,0.6)]"
           >
             &#10095;
           </button>
@@ -144,14 +163,13 @@ export function SectorExpertise() {
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.8 }}
-          className="mt-10 text-gray-400 font-inter text-md max-w-2xl"
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="mt-10 text-gray-400 max-w-2xl"
         >
           Every industry needs a different approach and we build strategies
           accordingly.
         </motion.p>
       </div>
-
     </section>
   );
 }

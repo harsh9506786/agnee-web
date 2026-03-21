@@ -28,40 +28,51 @@ const logos = [
 export function ClientLogos() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-scroll
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // 👇 Infinite scroll ke liye duplicate
+  const duplicatedLogos = [...logos, ...logos];
+
+  // ✅ Auto scroll
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
 
     const interval = setInterval(() => {
-      if (!isHovered) {
+      if (!isPaused) {
         container.scrollLeft += 1;
-        if (
-          container.scrollLeft + container.clientWidth >=
-          container.scrollWidth
-        ) {
-          container.scrollLeft = 0; // loop back
+
+        // 👇 half tak pahuchte hi reset (seamless loop)
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft = 0;
         }
       }
     }, 20);
 
     return () => clearInterval(interval);
-  }, [isHovered]);
+  }, [isPaused]);
 
-  // Manual scroll
+  // ✅ Buttons scroll
   const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft -= 300;
-    }
+    const container = scrollRef.current;
+    if (!container) return;
+
+    setIsPaused(true);
+    container.scrollBy({ left: -400, behavior: "smooth" });
+
+    setTimeout(() => setIsPaused(false), 800);
   };
 
   const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft += 300;
-    }
+    const container = scrollRef.current;
+    if (!container) return;
+
+    setIsPaused(true);
+    container.scrollBy({ left: 400, behavior: "smooth" });
+
+    setTimeout(() => setIsPaused(false), 800);
   };
 
   return (
@@ -85,6 +96,7 @@ export function ClientLogos() {
           >
             Our Clients
           </span>
+
           <h2
             className="font-syne font-extrabold text-white"
             style={{
@@ -96,25 +108,24 @@ export function ClientLogos() {
           </h2>
         </motion.div>
 
-        {/* Scroll + Buttons */}
-        <div className="relative flex items-center">
-          {/* Left Button */}
+        {/* Scroll Section */}
+        <div className="relative flex items-center overflow-visible">
+          {/* LEFT BUTTON */}
           <button
             onClick={scrollLeft}
-            className="absolute -left-16 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+            className="absolute -left-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
           >
             &#10094;
           </button>
 
-          {/* Scroll Container */}
+          {/* SCROLL CONTAINER */}
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-scroll py-2 scroll-smooth"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            style={{ scrollbarWidth: "none" }}
+            className="flex gap-6 overflow-x-auto py-2 scroll-smooth no-scrollbar"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
           >
-            {logos.map((logo, i) => (
+            {duplicatedLogos.map((logo, i) => (
               <div
                 key={i}
                 className="flex-shrink-0 px-6 py-4 rounded-xl border border-gray-400 hover:border-[rgba(255,90,0,0.3)] hover:bg-[rgba(255,90,0,0.04)] transition-all duration-300 group cursor-default"
@@ -126,10 +137,10 @@ export function ClientLogos() {
             ))}
           </div>
 
-          {/* Right Button */}
+          {/* RIGHT BUTTON */}
           <button
             onClick={scrollRight}
-            className="absolute -right-16 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+            className="absolute -right-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
           >
             &#10095;
           </button>

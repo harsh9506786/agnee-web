@@ -15,6 +15,7 @@ import { FinalCTA } from "./components/FinalCTA";
 import { ContactForm } from "./components/ContactForm";
 import { Footer } from "./components/Footer";
 import { Loader } from "./components/Loader";
+import { WhatsAppFloat } from "./components/WhatsappFloat";
 function CursorGlow() {
   const glowRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -108,6 +109,7 @@ export function App() {
         </section>
       </main>
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 }

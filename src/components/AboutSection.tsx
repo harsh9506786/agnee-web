@@ -98,9 +98,9 @@ export function AboutSection() {
       />
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
           {/* LEFT */}
-          <div>
+          <div className="flex flex-col items-center lg:items-start">
             <motion.div
               initial={{
                 opacity: 0,
@@ -126,9 +126,10 @@ export function AboutSection() {
                   lineHeight: 1.2,
                 }}
               >
-                <div className="text-white">ABOUT</div>
-
-                <div className="text-flame">AGNEE</div>
+                <div className="flex flex-col items-center lg:items-start">
+                  <div className="text-white">ABOUT</div>
+                  <div className="text-flame">AGNEE</div>
+                </div>
               </div>
             </motion.div>
 
@@ -155,7 +156,7 @@ export function AboutSection() {
                     delay: 0.25 + i * 0.13,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="text-[#777] font-inter leading-relaxed text-base"
+                  className="text-[#777] font-inter leading-relaxed text-base text-center lg:text-left"
                 >
                   {line}
                 </motion.p>
@@ -179,7 +180,7 @@ export function AboutSection() {
                 duration: 0.7,
                 delay: 1.0,
               }}
-              className="mt-10 p-5 rounded-2xl border border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)]"
+              className="mt-10 p-5 rounded-2xl border text-center lg:text-left border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)]"
             >
               <div className="flex flex-wrap items-center gap-2 text-sm font-syne font-700">
                 <span className="text-white">Human Intelligence</span>
@@ -211,7 +212,7 @@ export function AboutSection() {
               duration: 1.1,
               delay: 0.3,
             }}
-            className="relative h-[380px] lg:h-[480px] flex justify-end lg:pl-10"
+            className="relative h-[320px] sm:h-[380px] lg:h-[480px] flex justify-center lg:justify-end lg:pl-10"
           >
             <div
               className="absolute inset-0 pointer-events-none"
