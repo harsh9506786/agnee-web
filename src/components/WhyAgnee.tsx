@@ -64,22 +64,10 @@ export function WhyAgnee() {
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          animate={
-            inView
-              ? {
-                  opacity: 1,
-                  y: 0,
-                }
-              : {}
-          }
-          transition={{
-            duration: 0.7,
-          }}
-          className="mb-16 text-center lg:text-left"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="mb-16 lg:text-left text-center"
         >
           <span
             className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full mx-auto lg:mx-0"
