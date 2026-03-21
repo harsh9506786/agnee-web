@@ -23,27 +23,8 @@ export function SectorExpertise() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-
-  // 🔥 Infinite auto-scroll
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const scrollSpeed = 0.7;
-
-    const interval = setInterval(() => {
-      if (!isHovered) {
-        container.scrollLeft += scrollSpeed;
-
-        // seamless loop
-        if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft = 0;
-        }
-      }
-    }, 20);
-
-    return () => clearInterval(interval);
-  }, [isHovered]);
+  const [showHints, setShowHints] = useState(true);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
 
   // 👉 Manual scroll (with pause)
   const scrollLeft = () => {
@@ -63,6 +44,42 @@ export function SectorExpertise() {
 
     setTimeout(() => setIsHovered(false), 800);
   };
+
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+      const isLargeScreen = window.innerWidth >= 1024;
+      setIsDesktop(isFinePointer && isLargeScreen);
+    };
+
+    check();
+    window.addEventListener("resize", check);
+
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return; // 🚀 MOBILE FIX
+
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const scrollSpeed = 0.7;
+
+    const interval = setInterval(() => {
+      if (!isHovered) {
+        container.scrollLeft += scrollSpeed;
+
+        if (container.scrollLeft >= container.scrollWidth / 2) {
+          container.scrollLeft = 0;
+        }
+      }
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, [isHovered, isDesktop]);
 
   return (
     <section
@@ -111,39 +128,40 @@ export function SectorExpertise() {
 
         {/* Scroll Wrapper */}
         <div className="relative flex items-center overflow-visible">
-          {/* 🌫️ Left Fade */}
-          <div
-            className="pointer-events-none absolute left-0 top-0 h-full w-16 z-10"
-            style={{
-              background: "linear-gradient(to right, #0f0f0f, transparent)",
-            }}
-          />
+          {/* LEFT */}
+          {isDesktop ? (
+            <button
+              onClick={scrollLeft}
+              className="absolute -left-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
+      bg-dark-700 hover:bg-dark-900 text-white"
+            >
+              &#10094;
+            </button>
+          ) : (
+            showHints && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, x: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 1.2 }}
+                className="absolute left-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
+        bg-dark-700/80 text-white pointer-events-none"
+              >
+                &#10094;
+              </motion.div>
+            )
+          )}
 
-          {/* 🌫️ Right Fade */}
-          <div
-            className="pointer-events-none absolute right-0 top-0 h-full w-16 z-10"
-            style={{
-              background: "linear-gradient(to left, #0f0f0f, transparent)",
-            }}
-          />
-
-          {/* ⬅️ Left Button */}
-          <button
-            onClick={scrollLeft}
-            className="absolute -left-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
-            bg-dark-700 hover:bg-dark-900 text-white
-            transition-all duration-300 hover:scale-110
-            hover:shadow-[0_0_15px_rgba(255,107,0,0.6)]"
-          >
-            &#10094;
-          </button>
-
-          {/* Scroll Container */}
+          {/* ✅ SCROLL CONTAINER (YAHI MAIN CHEEZ HAI) */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            onTouchStart={() => setIsUserScrolling(true)} // 👈 user touch detect
+            onScroll={() => {
+              if (isUserScrolling) {
+                setShowHints(false); // 👈 sirf user scroll pe hide
+              }
+            }}
+            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar touch-pan-x"
+            style={{ WebkitOverflowScrolling: "touch" }}
           >
             {loopedIndustries.map((ind, i) => (
               <motion.div
@@ -151,8 +169,7 @@ export function SectorExpertise() {
                 initial={{ opacity: 0, x: 40 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.04 }}
-                className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5
-                hover:border-orange-500/40 hover:bg-dark-900 transition-all duration-300"
+                className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5"
               >
                 <CheckCircleIcon className="w-5 h-5 text-orange-500 mb-4" />
                 <div className="text-white font-semibold">{ind}</div>
@@ -160,16 +177,28 @@ export function SectorExpertise() {
             ))}
           </div>
 
-          {/* ➡️ Right Button */}
-          <button
-            onClick={scrollRight}
-            className="absolute -right-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
-            bg-dark-700 hover:bg-dark-900 text-white
-            transition-all duration-300 hover:scale-110
-            hover:shadow-[0_0_15px_rgba(255,107,0,0.6)]"
-          >
-            &#10095;
-          </button>
+          {/* RIGHT */}
+          {isDesktop ? (
+            <button
+              onClick={scrollRight}
+              className="absolute -right-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
+      bg-dark-700 hover:bg-dark-900 text-white"
+            >
+              &#10095;
+            </button>
+          ) : (
+            showHints && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, x: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 1.2 }}
+                className="absolute right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
+        bg-dark-700/80 text-white pointer-events-none"
+              >
+                &#10095;
+              </motion.div>
+            )
+          )}
         </div>
 
         <motion.p
