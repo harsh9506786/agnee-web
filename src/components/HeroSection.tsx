@@ -2,7 +2,7 @@ import React, { useEffect, useRef, Children } from "react";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 import { ArrowRightIcon, ChevronDownIcon } from "lucide-react";
-import flameimg from "../assets/agneelogo/Flame.png";
+import flameimg from "../assets/agneelogo/Visual.png";
 export function HeroSection() {
   const mountRef = useRef<HTMLDivElement>(null);
   const textureLoader = new THREE.TextureLoader();
@@ -42,7 +42,7 @@ export function HeroSection() {
     texture.colorSpace = THREE.SRGBColorSpace;
 
     // Flat geometry (logo distortion na ho)
-    const coreGeo = new THREE.PlaneGeometry(1.8, 2.4);
+    const coreGeo = new THREE.PlaneGeometry(2, 2);
 
     const coreMat = new THREE.MeshBasicMaterial({
       map: texture,
@@ -402,23 +402,25 @@ export function HeroSection() {
             variants={itemVariants}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full"
           >
-            <button
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 rounded-full font-semibold text-white transition-all duration-300"
-              style={{
-                background: "linear-gradient(135deg, #FF6B00, #FF9500)",
-                boxShadow: "0 0 30px rgba(255,107,0,0.4)",
-                fontFamily: "Inter, sans-serif",
+            <motion.a
+              href="tel:9696933327"
+              whileHover={{
+                scale: 1.06,
               }}
+              whileTap={{
+                scale: 0.95,
+              }}
+              className="btn-flame inline-flex items-center gap-3 px-10 py-5 rounded-full text-base font-syne font-700 pulse-glow"
             >
-              Connect with us
-              <ArrowRightIcon
-                size={16}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </button>
+              <span>Connect with us</span>
+            </motion.a>
 
-            <button
-              className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold transition-all duration-300"
+            <motion.button
+              whileHover={{
+                color: "#FF6B00",
+                borderColor: "#FF6B00",
+              }}
+              className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold"
               style={{
                 color: "#E5E5E5",
                 border: "1px solid rgba(255,255,255,0.12)",
@@ -427,7 +429,7 @@ export function HeroSection() {
               }}
             >
               View Our Work
-            </button>
+            </motion.button>
           </motion.div>
         </motion.div>
 

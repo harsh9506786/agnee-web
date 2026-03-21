@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { CheckCircleIcon } from "lucide-react";
+
 const industries = [
   "SaaS and Technology",
   "Healthcare and Hospitals",
@@ -16,86 +17,50 @@ const industries = [
 
 export function SectorExpertise() {
   const ref = useRef(null);
-  const inView = useInView(ref, {
-    once: true,
-    margin: "-80px",
-  });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto-scroll effect
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const interval = setInterval(() => {
+      if (!isHovered) {
+        scrollContainer.scrollLeft += 1;
+        // Loop back to start
+        if (
+          scrollContainer.scrollLeft + scrollContainer.clientWidth >=
+          scrollContainer.scrollWidth
+        ) {
+          scrollContainer.scrollTo({ left: 0, behavior: "smooth" });
+        }
+      }
+    }, 20);
+
+    return () => clearInterval(interval);
+  }, [isHovered]);
+
+  // Buttons scroll
+  const scrollLeft = () => {
+    scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+  };
+  const scrollRight = () => {
+    scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
+  };
+
   return (
     <section
       ref={ref}
       className="relative py-24 lg:py-36 bg-dark-800 overflow-hidden"
     >
-      {/* Neural network bg */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.05]">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          {[
-            [120, 100],
-            [350, 60],
-            [580, 140],
-            [800, 80],
-            [1050, 120],
-            [200, 280],
-            [450, 320],
-            [700, 260],
-            [950, 300],
-            [150, 440],
-            [400, 480],
-            [650, 420],
-            [900, 460],
-          ].map(([x, y], i) => (
-            <g key={i}>
-              <circle cx={x} cy={y} r="5" fill="#ff5a00" />
-              <circle cx={x} cy={y} r="18" fill="#ff5a00" opacity="0.3" />
-            </g>
-          ))}
-          {[
-            [120, 100, 350, 60],
-            [350, 60, 580, 140],
-            [580, 140, 800, 80],
-            [800, 80, 1050, 120],
-            [120, 100, 200, 280],
-            [350, 60, 450, 320],
-            [580, 140, 700, 260],
-            [800, 80, 950, 300],
-            [200, 280, 450, 320],
-            [450, 320, 700, 260],
-            [700, 260, 950, 300],
-            [200, 280, 150, 440],
-            [450, 320, 400, 480],
-            [700, 260, 650, 420],
-            [950, 300, 900, 460],
-          ].map(([x1, y1, x2, y2], i) => (
-            <line
-              key={i}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              stroke="#ff5a00"
-              strokeWidth="0.6"
-            />
-          ))}
-        </svg>
-      </div>
-
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
+        {/* Heading */}
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          animate={
-            inView
-              ? {
-                  opacity: 1,
-                  y: 0,
-                }
-              : {}
-          }
-          transition={{
-            duration: 0.7,
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
           className="mb-14"
         >
           <motion.div className="mb-6">
@@ -127,31 +92,31 @@ export function SectorExpertise() {
           </p>
         </motion.div>
 
-        {/* Horizontal scroll cards */}
-        <div ref={scrollRef} className="h-scroll-container pb-4">
+        {/* Scroll + Buttons wrapper */}
+        <div className="relative flex items-center">
+          {/* Left Button outside scroll */}
+          <button
+            onClick={scrollLeft}
+            className="absolute -left-16 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+          >
+            &#10094;
+          </button>
+
+          {/* Scroll container */}
           <div
-            className="flex gap-4"
+            ref={scrollRef}
+            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             style={{
-              width: "max-content",
+              scrollbarWidth: "none", // Firefox
             }}
           >
             {industries.map((ind, i) => (
               <motion.div
                 key={ind}
-                initial={{
-                  opacity: 0,
-                  x: 40,
-                  rotate: 2,
-                }}
-                animate={
-                  inView
-                    ? {
-                        opacity: 1,
-                        x: 0,
-                        rotate: 0,
-                      }
-                    : {}
-                }
+                initial={{ opacity: 0, x: 40, rotate: 2 }}
+                animate={inView ? { opacity: 1, x: 0, rotate: 0 } : {}}
                 transition={{
                   duration: 0.6,
                   delay: i * 0.06,
@@ -166,31 +131,27 @@ export function SectorExpertise() {
               </motion.div>
             ))}
           </div>
+
+          {/* Right Button outside scroll */}
+          <button
+            onClick={scrollRight}
+            className="absolute -right-16 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+          >
+            &#10095;
+          </button>
         </div>
 
         <motion.p
-          initial={{
-            opacity: 0,
-            y: 16,
-          }}
-          animate={
-            inView
-              ? {
-                  opacity: 1,
-                  y: 0,
-                }
-              : {}
-          }
-          transition={{
-            duration: 0.7,
-            delay: 0.8,
-          }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.8 }}
           className="mt-10 text-gray-400 font-inter text-md max-w-2xl"
         >
           Every industry needs a different approach and we build strategies
           accordingly.
         </motion.p>
       </div>
+
     </section>
   );
 }
