@@ -75,7 +75,7 @@ export function SectorExpertise() {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="mb-14"
+          className="mb-14 text-center lg:text-left"
         >
           <span
             className="inline-block text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full"
@@ -92,7 +92,7 @@ export function SectorExpertise() {
             Industries We <span className="text-flame">Serve</span>
           </h2>
 
-          <p className="text-gray-400 mt-4 max-w-2xl">
+          <p className="text-gray-400 mt-4 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
             We work across multiple industries with customized strategies.
           </p>
         </motion.div>

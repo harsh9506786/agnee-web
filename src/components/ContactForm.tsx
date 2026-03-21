@@ -97,7 +97,7 @@ export function ContactForm() {
           transition={{
             duration: 0.7,
           }}
-          className="mb-12"
+          className="mb-12 text-center lg:text-left"
         >
           <span
             className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full"

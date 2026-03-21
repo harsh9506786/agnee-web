@@ -37,7 +37,7 @@ export function FounderMessage() {
           transition={{
             duration: 0.6,
           }}
-          className="mb-16"
+          className="mb-16 text-center lg:text-left"
         >
           <span
             className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full"
@@ -94,7 +94,7 @@ export function FounderMessage() {
               duration: 0.9,
               delay: 0.3,
             }}
-            className="space-y-6"
+            className="space-y-6 text-center lg:text-left"
           >
             <h2
               className="font-syne font-extrabold text-white"
@@ -156,7 +156,7 @@ export function FounderMessage() {
               whileTap={{
                 scale: 0.96,
               }}
-              className="btn-flame inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm mt-2"
+              className="btn-flame inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm mt-2 mx-auto lg:mx-0"
             >
               <span>Book a Strategy Call</span>
             </motion.a>
