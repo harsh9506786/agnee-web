@@ -81,7 +81,7 @@ export function WhyAgnee() {
             Our Advantages
           </span>
           <h2 className="font-syne font-extrabold text-white text-[clamp(2rem,7vw,4.5rem)] sm:text-[clamp(2.3rem,6vw,4.5rem)] leading-[1] break-words px-2 lg:px-0">
-            Why Businesses <span className="text-flame">Work With Us</span>
+            Why Businesses <span className="text-flame">Work With us</span>
           </h2>
         </motion.div>
 
