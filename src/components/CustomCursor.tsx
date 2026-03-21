@@ -3,6 +3,7 @@ export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [isDesktop, setIsDesktop] = useState(false);
+
   const mousePos = useRef({
     x: 0,
     y: 0,
@@ -69,6 +70,7 @@ export function CustomCursor() {
       cancelAnimationFrame(rafRef.current);
     };
   }, [isHovering]);
+  if (!isDesktop) return null;
   return (
     <>
       {/* Dot */}
