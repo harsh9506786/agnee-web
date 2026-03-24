@@ -432,7 +432,7 @@ export function HeroSection() {
         {/* Right: Three.js canvas */}
         <div
           ref={mountRef}
-          className="flex-shrink-0 relative w-[min(560px,90vw)] h-[min(560px,90vw)] mt-8 lg:mt-0"
+          className="flex-shrink-0 relative w-[min(420px,80vw)] h-[min(420px,80vw)] mt-8 lg:mt-0"
         />
       </div>
     </section>

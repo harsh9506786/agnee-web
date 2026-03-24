@@ -29,6 +29,9 @@ export function ClientLogos() {
   const [activeIndex, setActiveIndex] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const DOT_COUNT = 6;
+  const ITEMS_PER_DOT = Math.ceil(logos.length / DOT_COUNT);
+  // 21 / 6 = ~3.5 → 4
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -47,9 +50,13 @@ export function ClientLogos() {
     if (!(item instanceof HTMLElement)) return;
 
     const itemWidth = item.clientWidth + 24;
-    const index = Math.round(container.scrollLeft / itemWidth) % logos.length;
 
-    setActiveIndex(index);
+    const rawIndex =
+      Math.round(container.scrollLeft / itemWidth) % logos.length;
+
+    const index = Math.floor(rawIndex / ITEMS_PER_DOT);
+
+    setActiveIndex(Math.min(index, DOT_COUNT - 1));
   };
 
   // detect desktop
@@ -136,23 +143,13 @@ export function ClientLogos() {
         {/* Scroll Section */}
         <div className="relative flex items-center overflow-visible">
           {/* LEFT */}
-          {isDesktop ? (
+          {isDesktop && (
             <button
               onClick={scrollLeft}
               className="absolute -left-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
             >
               &#10094;
             </button>
-          ) : (
-            showHints && (
-              <motion.div
-                animate={{ x: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute left-2 z-20 w-8 h-8 flex items-center justify-center bg-dark-700/80 text-white rounded-full pointer-events-none"
-              >
-                &#10094;
-              </motion.div>
-            )
           )}
 
           {/* SCROLL */}
@@ -186,30 +183,19 @@ export function ClientLogos() {
             ))}
           </div>
 
-          {/* RIGHT */}
-          {isDesktop ? (
+          {isDesktop && (
             <button
               onClick={scrollRight}
               className="absolute -right-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
             >
               &#10095;
             </button>
-          ) : (
-            showHints && (
-              <motion.div
-                animate={{ x: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute right-2 z-20 w-8 h-8 flex items-center justify-center bg-dark-700/80 text-white rounded-full pointer-events-none"
-              >
-                &#10095;
-              </motion.div>
-            )
           )}
         </div>
 
         {/* DOTS */}
         <div className="flex justify-center gap-2 mt-6">
-          {logos.map((_, i) => (
+          {Array.from({ length: DOT_COUNT }).map((_, i) => (
             <button
               key={i}
               onClick={() => {
@@ -221,8 +207,18 @@ export function ClientLogos() {
 
                 const itemWidth = item.clientWidth + 24;
 
+                const ITEMS_PER_DOT = Math.ceil(logos.length / DOT_COUNT);
+
+                const targetIndex = i * ITEMS_PER_DOT;
+
+                // last dot → force end
+                const finalIndex =
+                  i === DOT_COUNT - 1
+                    ? logos.length - ITEMS_PER_DOT
+                    : targetIndex;
+
                 container.scrollTo({
-                  left: i * itemWidth,
+                  left: finalIndex * itemWidth,
                   behavior: "smooth",
                 });
               }}

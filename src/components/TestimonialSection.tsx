@@ -93,12 +93,14 @@ export function TestimonialSection() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [showHints, setShowHints] = useState(true);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const DOT_COUNT = 6;
+  const ITEMS_PER_DOT = Math.ceil(testimonials.length / DOT_COUNT);
 
   // Auto-change testimonials
   useEffect(() => {
     const t = setInterval(() => {
       setCur((p) => {
-        const next = (p + 1) % testimonials.length;
+        const nextDot = (p + 1) % DOT_COUNT;
 
         const container = scrollRef.current;
         if (container) {
@@ -106,14 +108,19 @@ export function TestimonialSection() {
           if (item instanceof HTMLElement) {
             const itemWidth = item.clientWidth + 24;
 
+            const targetIndex =
+              nextDot === DOT_COUNT - 1
+                ? testimonials.length - ITEMS_PER_DOT
+                : nextDot * ITEMS_PER_DOT;
+
             container.scrollTo({
-              left: next * itemWidth,
+              left: targetIndex * itemWidth,
               behavior: "smooth",
             });
           }
         }
 
-        return next;
+        return nextDot;
       });
     }, 4500);
 
@@ -151,10 +158,13 @@ export function TestimonialSection() {
     const item = container.firstElementChild;
     if (!(item instanceof HTMLElement)) return;
 
-    const itemWidth = item.clientWidth + 24; // gap-6
-    const index = Math.round(container.scrollLeft / itemWidth);
+    const itemWidth = item.clientWidth + 24;
 
-    setCur(index);
+    const rawIndex = Math.round(container.scrollLeft / itemWidth);
+
+    const index = Math.floor(rawIndex / ITEMS_PER_DOT);
+
+    setCur(Math.min(index, DOT_COUNT - 1));
   };
   const scrollRight = () => {
     if (!scrollRef.current) return;
@@ -207,26 +217,14 @@ export function TestimonialSection() {
         {/* Scroll Container */}
         <div className="relative flex items-center overflow-visible">
           {/* LEFT ARROW */}
-          {isDesktop ? (
+          {isDesktop && (
             <button
               onClick={scrollLeft}
               className="absolute -left-12 z-20 w-10 h-10 rounded-full flex items-center justify-center
-              bg-dark-700 hover:bg-dark-900 text-white"
+    bg-dark-700 hover:bg-dark-900 text-white"
             >
               &#10094;
             </button>
-          ) : (
-            showHints && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, x: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute left-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
-                bg-dark-700/80 text-white pointer-events-none"
-              >
-                &#10094;
-              </motion.div>
-            )
           )}
 
           {/* Testimonial Card */}
@@ -266,7 +264,7 @@ export function TestimonialSection() {
                 </div>
 
                 {/* Description */}
-                <div className="text-center text-gray-300 text-md sm:text-lg leading-relaxed">
+                <div className="text-center text-gray-500 text-sm sm:text-lg leading-relaxed">
                   {t.description}
                 </div>
 
@@ -282,35 +280,43 @@ export function TestimonialSection() {
           </div>
 
           {/* RIGHT ARROW */}
-          {isDesktop ? (
+          {isDesktop && (
             <button
               onClick={scrollRight}
               className="absolute -right-12 z-20 w-10 h-10 rounded-full flex items-center justify-center
-              bg-dark-700 hover:bg-dark-900 text-white"
+    bg-dark-700 hover:bg-dark-900 text-white"
             >
               &#10095;
             </button>
-          ) : (
-            showHints && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, x: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
-                bg-dark-700/80 text-white pointer-events-none"
-              >
-                &#10095;
-              </motion.div>
-            )
           )}
         </div>
 
         {/* Pagination Dots */}
         <div className="flex justify-center gap-3 mt-7">
-          {testimonials.map((_, i) => (
+          {Array.from({ length: DOT_COUNT }).map((_, i) => (
             <button
               key={i}
-              onClick={() => setCur(i)}
+              onClick={() => {
+                const container = scrollRef.current;
+                if (!container) return;
+
+                const item = container.firstElementChild;
+                if (!(item instanceof HTMLElement)) return;
+
+                const itemWidth = item.clientWidth + 24;
+
+                const targetIndex =
+                  i === DOT_COUNT - 1
+                    ? testimonials.length - ITEMS_PER_DOT
+                    : i * ITEMS_PER_DOT;
+
+                container.scrollTo({
+                  left: targetIndex * itemWidth,
+                  behavior: "smooth",
+                });
+
+                setCur(i);
+              }}
               className={`rounded-full transition-all duration-300 ${
                 i === cur ? "w-8 h-2 bg-flame-500" : "w-2 h-2 bg-gray-400"
               }`}

@@ -28,6 +28,7 @@ export function SectorExpertise() {
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const DOT_COUNT = 6;
 
   // 🔥 ACTIVE INDEX CALCULATOR
   const updateActiveIndex = () => {
@@ -39,8 +40,13 @@ export function SectorExpertise() {
 
     const itemWidth = item.clientWidth + 16; // gap-4
 
-    const index =
+    const rawIndex =
       Math.round(container.scrollLeft / itemWidth) % industries.length;
+
+    // map 10 → 6
+    const index = Math.floor((rawIndex / industries.length) * DOT_COUNT);
+
+    setActiveIndex(index);
 
     setActiveIndex(index);
   };
@@ -135,24 +141,13 @@ export function SectorExpertise() {
 
         {/* Scroll Wrapper */}
         <div className="relative flex items-center">
-          {isDesktop ? (
+          {isDesktop && (
             <button
               onClick={scrollLeft}
               className="absolute -left-20 z-20 w-10 h-10 rounded-full flex items-center justify-center bg-dark-700 hover:bg-dark-900 text-white"
             >
               &#10094;
             </button>
-          ) : (
-            showHints && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, x: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute left-2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-dark-700/80 text-white pointer-events-none"
-              >
-                &#10094;
-              </motion.div>
-            )
           )}
 
           {/* SCROLL CONTAINER */}
@@ -186,30 +181,19 @@ export function SectorExpertise() {
             ))}
           </div>
 
-          {isDesktop ? (
+          {isDesktop && (
             <button
               onClick={scrollRight}
               className="absolute -right-20 z-20 w-10 h-10 rounded-full flex items-center justify-center bg-dark-700 hover:bg-dark-900 text-white"
             >
               &#10095;
             </button>
-          ) : (
-            showHints && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, x: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-dark-700/80 text-white pointer-events-none"
-              >
-                &#10095;
-              </motion.div>
-            )
           )}
         </div>
 
         {/* DOTS */}
         <div className="flex justify-center gap-2 mt-6">
-          {industries.map((_, i) => (
+          {Array.from({ length: DOT_COUNT }).map((_, i) => (
             <button
               key={i}
               onClick={() => {
@@ -221,8 +205,12 @@ export function SectorExpertise() {
 
                 const itemWidth = item.clientWidth + 16;
 
+                const targetIndex = Math.floor(
+                  (i / DOT_COUNT) * industries.length,
+                );
+
                 container.scrollTo({
-                  left: i * itemWidth,
+                  left: targetIndex * itemWidth,
                   behavior: "smooth",
                 });
               }}

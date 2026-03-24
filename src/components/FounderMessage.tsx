@@ -10,7 +10,7 @@ export function FounderMessage() {
   return (
     <section
       ref={ref}
-      className="relative py-24 lg:py-36 bg-dark-900 overflow-hidden"
+      className="relative  lg:py-12 bg-dark-900 overflow-hidden"
     >
       <div
         className="absolute inset-0 pointer-events-none"
