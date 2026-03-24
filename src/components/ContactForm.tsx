@@ -65,16 +65,16 @@ export function ContactForm() {
 
     // 📩 WhatsApp Message Format
     const message = `
-New Inquiry 🚀
+New Inquiry
 
-👤 Name: ${form.fullName}
-🏢 Company: ${form.companyName || "-"}
-📧 Email: ${form.email}
-📞 Phone: ${form.phone}
-🏭 Industry: ${form.industry || "-"}
-💼 Service: ${form.service}
+Name: ${form.fullName}
+Company: ${form.companyName || "-"}
+Email: ${form.email}
+Phone: ${form.phone}
+Industry: ${form.industry || "-"}
+Service: ${form.service}
 
-📝 Description:
+Description:
 ${form.description || "-"}
   `;
 
