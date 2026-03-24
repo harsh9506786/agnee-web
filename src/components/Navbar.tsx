@@ -66,9 +66,11 @@ export function Navbar() {
           duration: 0.7,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? "bg-[rgba(11,11,11,0.92)] backdrop-blur-2xl border-b border-[rgba(255,90,0,0.12)] shadow-[0_4px_40px_rgba(255,90,0,0.06)]" : "bg-transparent"}`}
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 $scrolled
+  ? "bg-[rgba(11,11,11,0.85)] backdrop-blur-xl border-b border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
+  : "bg-transparent"`}
       >
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-4">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <a

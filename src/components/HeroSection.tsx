@@ -412,7 +412,10 @@ export function HeroSection() {
               <span>Connect with us</span>
             </motion.a>
 
-            <button
+            <motion.a
+              href="tel:9696933327"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:text-[#FF6B00] hover:border-[#FF6B00] hover:bg-[rgba(255,107,0,0.05)] hover:shadow-[0_0_10px_rgba(255,107,0,0.4)] text-center"
               style={{
                 color: "#E5E5E5",
@@ -422,7 +425,7 @@ export function HeroSection() {
               }}
             >
               Book a call
-            </button>
+            </motion.a>
           </motion.div>
         </motion.div>
 

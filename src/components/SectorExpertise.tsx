@@ -15,38 +15,37 @@ const industries = [
   "Startups and Entrepreneurs",
 ];
 
-// 🔁 duplicate for infinite scroll
+// duplicate for infinite scroll
 const loopedIndustries = [...industries, ...industries];
 
 export function SectorExpertise() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
   const [isHovered, setIsHovered] = useState(false);
   const [showHints, setShowHints] = useState(true);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
-
-  // 👉 Manual scroll (with pause)
-  const scrollLeft = () => {
-    if (!scrollRef.current) return;
-
-    setIsHovered(true);
-    scrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
-
-    setTimeout(() => setIsHovered(false), 800);
-  };
-
-  const scrollRight = () => {
-    if (!scrollRef.current) return;
-
-    setIsHovered(true);
-    scrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
-
-    setTimeout(() => setIsHovered(false), 800);
-  };
-
   const [isDesktop, setIsDesktop] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
+  // 🔥 ACTIVE INDEX CALCULATOR
+  const updateActiveIndex = () => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const item = container.firstElementChild as HTMLElement;
+    if (!item) return;
+
+    const itemWidth = item.clientWidth + 16; // gap-4
+
+    const index =
+      Math.round(container.scrollLeft / itemWidth) % industries.length;
+
+    setActiveIndex(index);
+  };
+
+  // detect desktop
   useEffect(() => {
     const check = () => {
       const isFinePointer = window.matchMedia("(pointer: fine)").matches;
@@ -56,12 +55,12 @@ export function SectorExpertise() {
 
     check();
     window.addEventListener("resize", check);
-
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // auto scroll
   useEffect(() => {
-    if (!isDesktop) return; // 🚀 MOBILE FIX
+    if (!isDesktop) return;
 
     const container = scrollRef.current;
     if (!container) return;
@@ -72,6 +71,8 @@ export function SectorExpertise() {
       if (!isHovered) {
         container.scrollLeft += scrollSpeed;
 
+        updateActiveIndex(); // 🔥 sync dots
+
         if (container.scrollLeft >= container.scrollWidth / 2) {
           container.scrollLeft = 0;
         }
@@ -81,6 +82,31 @@ export function SectorExpertise() {
     return () => clearInterval(interval);
   }, [isHovered, isDesktop]);
 
+  // arrows
+  const scrollLeft = () => {
+    if (!scrollRef.current) return;
+
+    setIsHovered(true);
+    scrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
+
+    setTimeout(() => {
+      updateActiveIndex();
+      setIsHovered(false);
+    }, 400);
+  };
+
+  const scrollRight = () => {
+    if (!scrollRef.current) return;
+
+    setIsHovered(true);
+    scrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
+
+    setTimeout(() => {
+      updateActiveIndex();
+      setIsHovered(false);
+    }, 400);
+  };
+
   return (
     <section
       ref={ref}
@@ -89,31 +115,12 @@ export function SectorExpertise() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         {/* Heading */}
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          animate={
-            inView
-              ? {
-                  opacity: 1,
-                  y: 0,
-                }
-              : {}
-          }
-          transition={{
-            duration: 0.7,
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
           className="mb-16 text-center lg:text-left"
         >
-          <span
-            className="inline-block text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full"
-            style={{
-              color: "#FF6B00",
-              background: "rgba(255,107,0,0.08)",
-              border: "1px solid rgba(255,107,0,0.2)",
-            }}
-          >
+          <span className="inline-block text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full text-orange-500 bg-orange-500/10 border border-orange-500/20">
             Our Services
           </span>
 
@@ -121,19 +128,17 @@ export function SectorExpertise() {
             Industries We <span className="text-flame">Serve</span>
           </h2>
 
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
+          <p className="text-gray-400 mt-4 max-w-2xl mx-auto lg:mx-0">
             We work across multiple industries with customized strategies.
           </p>
         </motion.div>
 
         {/* Scroll Wrapper */}
-        <div className="relative flex items-center overflow-visible">
-          {/* LEFT */}
+        <div className="relative flex items-center">
           {isDesktop ? (
             <button
               onClick={scrollLeft}
-              className="absolute -left-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
-      bg-dark-700 hover:bg-dark-900 text-white"
+              className="absolute -left-20 z-20 w-10 h-10 rounded-full flex items-center justify-center bg-dark-700 hover:bg-dark-900 text-white"
             >
               &#10094;
             </button>
@@ -143,15 +148,14 @@ export function SectorExpertise() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, x: [0, -8, 0] }}
                 transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute left-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
-        bg-dark-700/80 text-white pointer-events-none"
+                className="absolute left-2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-dark-700/80 text-white pointer-events-none"
               >
                 &#10094;
               </motion.div>
             )
           )}
 
-          {/* ✅ SCROLL CONTAINER (YAHI MAIN CHEEZ HAI) */}
+          {/* SCROLL CONTAINER */}
           <div
             ref={scrollRef}
             onTouchStart={() => setIsUserScrolling(true)}
@@ -159,23 +163,21 @@ export function SectorExpertise() {
               const container = scrollRef.current;
               if (!container) return;
 
-              if (isUserScrolling) setShowHints(false);
+              updateActiveIndex(); // 🔥 MAIN
 
-              // 👇 Agar scroll wapas start pe aa gaya → hints visible
               if (container.scrollLeft <= 5) {
                 setShowHints(true);
                 setIsUserScrolling(false);
               }
             }}
-            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar touch-pan-x"
-            style={{ WebkitOverflowScrolling: "touch" }}
+            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar"
           >
             {loopedIndustries.map((ind, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: 40 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.04 }}
+                transition={{ duration: 0.5, delay: i * 0.03 }}
                 className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5"
               >
                 <CheckCircleIcon className="w-5 h-5 text-orange-500 mb-4" />
@@ -184,12 +186,10 @@ export function SectorExpertise() {
             ))}
           </div>
 
-          {/* RIGHT */}
           {isDesktop ? (
             <button
               onClick={scrollRight}
-              className="absolute -right-20 z-20 w-10 h-10 rounded-full flex items-center justify-center
-      bg-dark-700 hover:bg-dark-900 text-white"
+              className="absolute -right-20 z-20 w-10 h-10 rounded-full flex items-center justify-center bg-dark-700 hover:bg-dark-900 text-white"
             >
               &#10095;
             </button>
@@ -199,8 +199,7 @@ export function SectorExpertise() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, x: [0, 8, 0] }}
                 transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center
-        bg-dark-700/80 text-white pointer-events-none"
+                className="absolute right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-dark-700/80 text-white pointer-events-none"
               >
                 &#10095;
               </motion.div>
@@ -208,15 +207,33 @@ export function SectorExpertise() {
           )}
         </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.6 }}
-          className="mt-10 text-gray-400 max-w-2xl"
-        >
-          Every industry needs a different approach and we build strategies
-          accordingly.
-        </motion.p>
+        {/* DOTS */}
+        <div className="flex justify-center gap-2 mt-6">
+          {industries.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const container = scrollRef.current;
+                if (!container) return;
+
+                const item = container.firstElementChild as HTMLElement;
+                if (!item) return;
+
+                const itemWidth = item.clientWidth + 16;
+
+                container.scrollTo({
+                  left: i * itemWidth,
+                  behavior: "smooth",
+                });
+              }}
+              className={`transition-all duration-300 rounded-full ${
+                i === activeIndex
+                  ? "w-6 h-2 bg-flame-500"
+                  : "w-2 h-2 bg-gray-500"
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

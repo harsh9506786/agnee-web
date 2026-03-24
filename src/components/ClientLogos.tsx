@@ -26,6 +26,7 @@ const logos = [
 ];
 
 export function ClientLogos() {
+  const [activeIndex, setActiveIndex] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -37,7 +38,21 @@ export function ClientLogos() {
 
   const duplicatedLogos = [...logos, ...logos];
 
-  // 1️⃣ Detect desktop vs mobile
+  // 🔥 ACTIVE INDEX
+  const updateActiveIndex = () => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const item = container.firstElementChild;
+    if (!(item instanceof HTMLElement)) return;
+
+    const itemWidth = item.clientWidth + 24;
+    const index = Math.round(container.scrollLeft / itemWidth) % logos.length;
+
+    setActiveIndex(index);
+  };
+
+  // detect desktop
   useEffect(() => {
     const check = () => {
       const isFinePointer = window.matchMedia("(pointer: fine)").matches;
@@ -50,15 +65,19 @@ export function ClientLogos() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // 2️⃣ Auto scroll (desktop only)
+  // auto scroll
   useEffect(() => {
     if (!isDesktop) return;
+
     const container = scrollRef.current;
     if (!container) return;
 
     const interval = setInterval(() => {
       if (!isPaused) {
         container.scrollLeft += 1;
+
+        updateActiveIndex(); // 🔥 sync dots
+
         if (container.scrollLeft >= container.scrollWidth / 2) {
           container.scrollLeft = 0;
         }
@@ -68,14 +87,18 @@ export function ClientLogos() {
     return () => clearInterval(interval);
   }, [isPaused, isDesktop]);
 
-  // 3️⃣ Button scroll
+  // arrows
   const scrollLeft = () => {
     const container = scrollRef.current;
     if (!container) return;
 
     setIsPaused(true);
     container.scrollBy({ left: -400, behavior: "smooth" });
-    setTimeout(() => setIsPaused(false), 800);
+
+    setTimeout(() => {
+      updateActiveIndex();
+      setIsPaused(false);
+    }, 400);
   };
 
   const scrollRight = () => {
@@ -84,7 +107,11 @@ export function ClientLogos() {
 
     setIsPaused(true);
     container.scrollBy({ left: 400, behavior: "smooth" });
-    setTimeout(() => setIsPaused(false), 800);
+
+    setTimeout(() => {
+      updateActiveIndex();
+      setIsPaused(false);
+    }, 400);
   };
 
   return (
@@ -97,53 +124,38 @@ export function ClientLogos() {
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
-          <span
-            className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full"
-            style={{
-              color: "#FF6B00",
-              background: "rgba(255,107,0,0.08)",
-              border: "1px solid rgba(255,107,0,0.2)",
-              fontFamily: "Inter, sans-serif",
-            }}
-          >
+          <span className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full text-orange-500 bg-orange-500/10 border border-orange-500/20">
             Our Clients
           </span>
 
-          <h2
-            className="font-syne font-extrabold text-white"
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3.2rem)",
-              letterSpacing: "-0.03em",
-            }}
-          >
+          <h2 className="font-syne font-extrabold text-white text-[clamp(2rem,4vw,3.2rem)]">
             Brands That <span className="text-flame">Trust Agnee</span>
           </h2>
         </motion.div>
 
         {/* Scroll Section */}
         <div className="relative flex items-center overflow-visible">
-          {/* Left button / mobile hint */}
+          {/* LEFT */}
           {isDesktop ? (
             <button
               onClick={scrollLeft}
-              className="absolute -left-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+              className="absolute -left-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
             >
               &#10094;
             </button>
           ) : (
             showHints && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, x: [0, -8, 0] }}
+                animate={{ x: [0, -8, 0] }}
                 transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute left-2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-dark-700/80 text-white pointer-events-none"
+                className="absolute left-2 z-20 w-8 h-8 flex items-center justify-center bg-dark-700/80 text-white rounded-full pointer-events-none"
               >
                 &#10094;
               </motion.div>
             )
           )}
 
-          {/* Scroll container */}
+          {/* SCROLL */}
           <div
             ref={scrollRef}
             onTouchStart={() => setIsUserScrolling(true)}
@@ -151,51 +163,76 @@ export function ClientLogos() {
               const container = scrollRef.current;
               if (!container) return;
 
+              updateActiveIndex(); // 🔥
+
               if (isUserScrolling) setShowHints(false);
 
-              // 👇 agar scrollLeft wapas start pe aa gaya → hints fir se visible
               if (container.scrollLeft <= 5) {
                 setShowHints(true);
                 setIsUserScrolling(false);
               }
             }}
-            className="flex gap-6 overflow-x-auto py-2 scroll-smooth no-scrollbar touch-pan-x"
+            className="flex gap-6 overflow-x-auto py-2 scroll-smooth no-scrollbar"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            style={{ WebkitOverflowScrolling: "touch" }}
           >
             {duplicatedLogos.map((logo, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 px-6 py-4 rounded-xl border border-gray-400 hover:border-[rgba(255,90,0,0.3)] hover:bg-[rgba(255,90,0,0.04)] transition-all duration-300 group cursor-default"
+                className="flex-shrink-0 px-6 py-4 rounded-xl border border-gray-400 hover:border-orange-400/30 hover:bg-orange-400/5 transition"
               >
-                <span className="font-syne font-700 text-white group-hover:text-flame-500 transition-colors duration-300 whitespace-nowrap text-md tracking-wide">
-                  {logo}
-                </span>
+                <span className="text-white whitespace-nowrap">{logo}</span>
               </div>
             ))}
           </div>
 
-          {/* Right button / mobile hint */}
+          {/* RIGHT */}
           {isDesktop ? (
             <button
               onClick={scrollRight}
-              className="absolute -right-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md"
+              className="absolute -right-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
             >
               &#10095;
             </button>
           ) : (
             showHints && (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, x: [0, 8, 0] }}
+                animate={{ x: [0, 8, 0] }}
                 transition={{ repeat: Infinity, duration: 1.2 }}
-                className="absolute right-2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-dark-700/80 text-white pointer-events-none"
+                className="absolute right-2 z-20 w-8 h-8 flex items-center justify-center bg-dark-700/80 text-white rounded-full pointer-events-none"
               >
                 &#10095;
               </motion.div>
             )
           )}
+        </div>
+
+        {/* DOTS */}
+        <div className="flex justify-center gap-2 mt-6">
+          {logos.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const container = scrollRef.current;
+                if (!container) return;
+
+                const item = container.firstElementChild;
+                if (!(item instanceof HTMLElement)) return;
+
+                const itemWidth = item.clientWidth + 24;
+
+                container.scrollTo({
+                  left: i * itemWidth,
+                  behavior: "smooth",
+                });
+              }}
+              className={`transition-all duration-300 rounded-full ${
+                i === activeIndex
+                  ? "w-6 h-2 bg-orange-500"
+                  : "w-2 h-2 bg-gray-500"
+              }`}
+            />
+          ))}
         </div>
       </div>
     </section>

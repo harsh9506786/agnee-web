@@ -56,11 +56,40 @@ export function ContactForm() {
   };
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
+
     const errs = validate();
     if (Object.keys(errs).length) {
       setErrors(errs);
       return;
     }
+
+    // 📩 WhatsApp Message Format
+    const message = `
+New Inquiry 🚀
+
+👤 Name: ${form.fullName}
+🏢 Company: ${form.companyName || "-"}
+📧 Email: ${form.email}
+📞 Phone: ${form.phone}
+🏭 Industry: ${form.industry || "-"}
+💼 Service: ${form.service}
+
+📝 Description:
+${form.description || "-"}
+  `;
+
+    // 🔥 Encode message
+    const encodedMessage = encodeURIComponent(message);
+
+    // 👉 YOUR WHATSAPP NUMBER (without +)
+    const phoneNumber = "919696933327";
+
+    // 🚀 Open WhatsApp
+    window.open(
+      `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
+      "_blank",
+    );
+
     setDone(true);
   };
   const inputCls = (f: string) =>

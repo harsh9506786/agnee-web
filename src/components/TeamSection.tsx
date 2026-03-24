@@ -149,7 +149,7 @@ export function TeamSection() {
               lineHeight: 0.95,
             }}
           >
-            Meet The <span className="text-flame">Core Team</span>
+            The minds <span className="text-white">behind the </span><span className="text-flame-600">magic</span>
           </h2>
           <p className="text-gray-400 font-inter mt-4 max-w-xl">
             Behind every successful campaign is a team that understands

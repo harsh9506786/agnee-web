@@ -97,8 +97,26 @@ export function TestimonialSection() {
   // Auto-change testimonials
   useEffect(() => {
     const t = setInterval(() => {
-      setCur((p) => (p + 1) % testimonials.length);
+      setCur((p) => {
+        const next = (p + 1) % testimonials.length;
+
+        const container = scrollRef.current;
+        if (container) {
+          const item = container.firstElementChild;
+          if (item instanceof HTMLElement) {
+            const itemWidth = item.clientWidth + 24;
+
+            container.scrollTo({
+              left: next * itemWidth,
+              behavior: "smooth",
+            });
+          }
+        }
+
+        return next;
+      });
     }, 4500);
+
     return () => clearInterval(t);
   }, []);
 
@@ -117,16 +135,37 @@ export function TestimonialSection() {
   // 👈 Manual scroll for desktop buttons
   const scrollLeft = () => {
     if (!scrollRef.current) return;
+
     setIsUserScrolling(true);
     scrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
-    setTimeout(() => setIsUserScrolling(false), 800);
-  };
 
+    setTimeout(() => {
+      updateActiveIndex(); // 🔥
+      setIsUserScrolling(false);
+    }, 400);
+  };
+  const updateActiveIndex = () => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const item = container.firstElementChild;
+    if (!(item instanceof HTMLElement)) return;
+
+    const itemWidth = item.clientWidth + 24; // gap-6
+    const index = Math.round(container.scrollLeft / itemWidth);
+
+    setCur(index);
+  };
   const scrollRight = () => {
     if (!scrollRef.current) return;
+
     setIsUserScrolling(true);
     scrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
-    setTimeout(() => setIsUserScrolling(false), 800);
+
+    setTimeout(() => {
+      updateActiveIndex(); // 🔥
+      setIsUserScrolling(false);
+    }, 400);
   };
 
   return (

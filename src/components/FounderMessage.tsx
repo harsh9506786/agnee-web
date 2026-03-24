@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import shubhamimg2 from "../assets/team/shubhamjoshi2.png";
+import shubhamimg2 from "../assets/team/shubhamjoshi2new.png";
 export function FounderMessage() {
   const ref = useRef(null);
   const inView = useInView(ref, {
@@ -39,17 +39,7 @@ export function FounderMessage() {
           }}
           className="mb-16 text-center lg:text-left"
         >
-          <span
-            className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full"
-            style={{
-              color: "#FF6B00",
-              background: "rgba(255,107,0,0.08)",
-              border: "1px solid rgba(255,107,0,0.2)",
-              fontFamily: "Inter, sans-serif",
-            }}
-          >
-            From the Founder
-          </span>
+         
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
@@ -104,7 +94,7 @@ export function FounderMessage() {
                 lineHeight: 1,
               }}
             >
-              <span className="block">A Message</span>
+              <span className="block">Message</span>
               <span className="text-flame block">from Founder</span>
             </h2>
 
