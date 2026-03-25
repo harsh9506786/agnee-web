@@ -14,8 +14,8 @@ export function Loader({ onComplete }: LoaderProps) {
           clearInterval(interval);
           setTimeout(() => {
             setVisible(false);
-            setTimeout(onComplete, 600);
-          }, 300);
+            onComplete(); // call directly after exit animation
+          }, 600); // combine delay into one
           return 100;
         }
         return prev + 2;
@@ -52,6 +52,7 @@ export function Loader({ onComplete }: LoaderProps) {
               className="w-[280px] h-[250px] object-contain"
               style={{
                 filter: "drop-shadow(0 0 20px rgba(255,107,0,0.6))",
+                willChange: "transform, opacity",
               }}
             />
           </div>
@@ -71,9 +72,7 @@ export function Loader({ onComplete }: LoaderProps) {
               duration: 0.6,
             }}
             className=" -mb-6 text-center"
-          >
-        
-          </motion.div>
+          ></motion.div>
 
           {/* Loading bar */}
           <div
@@ -89,12 +88,13 @@ export function Loader({ onComplete }: LoaderProps) {
               style={{
                 background: "linear-gradient(90deg, #FF6B00, #FF9500)",
                 boxShadow: "0 0 10px rgba(255,107,0,0.8)",
+                willChange: "width",
               }}
               animate={{
                 width: `${progress}%`,
               }}
               transition={{
-                duration: 0.1,
+                duration: 0.2,
                 ease: "linear",
               }}
             />
