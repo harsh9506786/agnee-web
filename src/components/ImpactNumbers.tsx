@@ -79,7 +79,7 @@ export function ImpactNumbers() {
     <motion.section
       onViewportEnter={() => setStartCount(true)}
       viewport={{ once: true, amount: 0.5 }}
-      className="relative py-24 lg:py-36 bg-dark-900 overflow-hidden"
+      className="relative py-8 lg:py-36 bg-dark-900 overflow-hidden"
     >
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
