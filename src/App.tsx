@@ -1,61 +1,36 @@
-import React, { useEffect, useRef, useState, Suspense, lazy } from "react";
-import { useInView } from "framer-motion";
-
-// 👇 Lazy imports
-const HeroSection = lazy(() => import("./components/HeroSection"));
-const ImpactNumbers = lazy(() => import("./components/ImpactNumbers"));
-const AboutSection = lazy(() => import("./components/AboutSection"));
-const ExpertiseSection = lazy(() => import("./components/ExpertiseSection"));
-const SectorExpertise = lazy(() => import("./components/SectorExpertise"));
-const WhyAgnee = lazy(() => import("./components/WhyAgnee"));
-const TeamSection = lazy(() => import("./components/TeamSection"));
-const TestimonialSection = lazy(
-  () => import("./components/TestimonialSection"),
-);
-const ClientLogos = lazy(() => import("./components/ClientLogos"));
-const FounderMessage = lazy(() => import("./components/FounderMessage"));
-const FinalCTA = lazy(() => import("./components/FinalCTA"));
-const ContactForm = lazy(() => import("./components/ContactForm"));
-const Footer = lazy(() => import("./components/Footer"));
-
-// 👇 NON-LAZY (important)
+import React, { useEffect, useRef, useState } from "react";
 import { Navbar } from "./components/Navbar";
 import { CustomCursor } from "./components/CustomCursor";
+import HeroSection from "./components/HeroSection";
+import ImpactNumbers from "./components/ImpactNumbers";
+import AboutSection from "./components/AboutSection";
+import ExpertiseSection from "./components/ExpertiseSection";
+import SectorExpertise from "./components/SectorExpertise";
+import WhyAgnee from "./components/WhyAgnee";
+import TeamSection from "./components/TeamSection";
+import TestimonialSection from "./components/TestimonialSection";
+import ClientLogos from "./components/ClientLogos";
+import FounderMessage from "./components/FounderMessage";
+import FinalCTA from "./components/FinalCTA";
+import ContactForm from "./components/ContactForm";
+import Footer from "./components/Footer";
 import { Loader } from "./components/Loader";
 import { WhatsAppFloat } from "./components/WhatsAppFloat";
-
-// 🔥 LazySection wrapper (scroll pe render)
-function LazySection({ children, height = "40vh" }: any) {
-  const ref = useRef(null);
-  const inView = useInView(ref, {
-    once: true,
-    margin: "-150px", // thoda pehle load
-  });
-
-  return <div ref={ref}>{inView ? children : <div style={{ height }} />}</div>;
-}
-
-// 👇 Cursor Glow (same as yours)
 function CursorGlow() {
   const glowRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const el = glowRef.current;
     if (!el) return;
-
     let raf: number;
     let cx = window.innerWidth / 2;
     let cy = window.innerHeight / 2;
     let tx = cx;
     let ty = cy;
-
     const onMove = (e: MouseEvent) => {
       tx = e.clientX;
       ty = e.clientY;
     };
-
     window.addEventListener("mousemove", onMove);
-
     const tick = () => {
       cx += (tx - cx) * 0.12;
       cy += (ty - cy) * 0.12;
@@ -63,138 +38,77 @@ function CursorGlow() {
       el.style.top = `${cy}px`;
       raf = requestAnimationFrame(tick);
     };
-
     tick();
-
     return () => {
       window.removeEventListener("mousemove", onMove);
       cancelAnimationFrame(raf);
     };
   }, []);
-
   return <div ref={glowRef} className="cursor-glow" aria-hidden="true" />;
 }
-
 export function App() {
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     document.title = "Agnee — AI Driven Branding & Digital Growth Agency";
   }, []);
-
   return (
     <div className="min-h-screen bg-dark-900 text-white overflow-x-hidden">
-      {/* Loader */}
+      {/* ✅ Loader */}
       {loading && <Loader onComplete={() => setLoading(false)} />}
-
       <CustomCursor />
       <div className="film-grain" aria-hidden="true" />
       <CursorGlow />
       <Navbar />
-
       <main>
-        {/* 🔥 Hero (NO LazySection — always load) */}
-        <Suspense fallback={<div className="h-[60vh]" />}>
-          <section id="home">
-            <HeroSection />
-          </section>
-        </Suspense>
-
+        <section id="home">
+          <HeroSection />
+        </section>
         <div className="sep" />
-
-        {/* 👇 बाकी सब LazySection me */}
-
-        <LazySection>
-          <section id="impact">
-            <ImpactNumbers />
-          </section>
-        </LazySection>
-
+        <section id="impact">
+          <ImpactNumbers />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="about">
-            <AboutSection />
-          </section>
-        </LazySection>
-
+        <section id="about">
+          <AboutSection />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="services">
-            <ExpertiseSection />
-          </section>
-        </LazySection>
-
+        <section id="services">
+          <ExpertiseSection />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="industries">
-            <SectorExpertise />
-          </section>
-        </LazySection>
-
+        <section id="industries">
+          <SectorExpertise />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="why">
-            <WhyAgnee />
-          </section>
-        </LazySection>
-
+        <section id="why">
+          <WhyAgnee />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="team">
-            <TeamSection />
-          </section>
-        </LazySection>
-
+        <section id="team">
+          <TeamSection />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="testimonials">
-            <TestimonialSection />
-          </section>
-        </LazySection>
-
+        <section id="testimonials">
+          <TestimonialSection />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="clients">
-            <ClientLogos />
-          </section>
-        </LazySection>
-
+        <section id="clients">
+          <ClientLogos />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="founder">
-            <FounderMessage />
-          </section>
-        </LazySection>
-
+        <section id="founder">
+          <FounderMessage />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="cta">
-            <FinalCTA />
-          </section>
-        </LazySection>
-
+        <section id="cta">
+          <FinalCTA />
+        </section>
         <div className="sep" />
-
-        <LazySection>
-          <section id="contact">
-            <ContactForm />
-          </section>
-        </LazySection>
+        <section id="contact">
+          <ContactForm />
+        </section>
       </main>
-
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
-
+      <Footer />
       <WhatsAppFloat />
     </div>
   );
