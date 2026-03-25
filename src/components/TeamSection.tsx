@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import shubhamimg from "../assets/team/shubhamwebp.webp";
 import chitranshimg from "../assets/team/chitranshwebp.webp";
 import rishabhimg from "../assets/team/rishabhwebp.webp";
-import rishiimg from "../assets/team/rishabhwebp.webp";
+import rishiimg from "../assets/team/rishiwebp.webp";
 import shivaimg from "../assets/team/shivawebp.webp";
 import harshimg from "../assets/team/harshwebp.webp";
 import anshulimg from "../assets/team/anshulwebp.webp";

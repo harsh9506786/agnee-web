@@ -216,11 +216,8 @@ export function App() {
         </Suspense>
       </main>
 
-      {/* Footer */}
       <Suspense fallback={null}>
-        <LazySection height="20vh">
-          <Footer />
-        </LazySection>
+        <Footer />
       </Suspense>
 
       <WhatsAppFloat />
