@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/agneelogo/Agnee Logo.png"; // apne path ke according change karo
+import logo from "../assets/agneelogo/Agnee Logo.png";
 interface LoaderProps {
   onComplete: () => void;
 }

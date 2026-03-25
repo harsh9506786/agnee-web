@@ -146,7 +146,7 @@ function HeroSection() {
     });
 
     // ===== PARTICLES =====
-    const particleCount = 200;
+    const particleCount = 120;
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: THREE.Vector3[] = [];
     for (let i = 0; i < particleCount; i++) {
