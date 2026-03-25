@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MenuIcon, XIcon, FlameIcon, PhoneIcon } from "lucide-react";
-import logoimg from "../assets/agneelogo/Agnee Logo.png";
+import logoimg from "../assets/agneelogo/Agnee Logo.webp";
 const links = [
   {
     label: "Home",

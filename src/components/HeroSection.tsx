@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { motion } from "framer-motion";
-import flameimg from "../assets/agneelogo/Visual.png";
+import flameimg from "../assets/agneelogo/Visual.webp";
 
 function HeroSection() {
   const mountRef = useRef<HTMLDivElement>(null);

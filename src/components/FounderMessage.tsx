@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import shubhamimg2 from "../assets/team/shubhamjoshi2new.png";
+import shubhamimg2 from "../assets/team/Shubham Joshi.webp";
 
 function FounderMessage() {
   const ref = useRef(null);
