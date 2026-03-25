@@ -24,8 +24,7 @@ const logos = [
   "Yumiko",
   "Coffee Spot",
 ];
-
-export function ClientLogos() {
+function ClientLogos() {
   const [activeIndex, setActiveIndex] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -234,3 +233,5 @@ export function ClientLogos() {
     </section>
   );
 }
+
+export default ClientLogos;

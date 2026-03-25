@@ -125,7 +125,7 @@ function EnergyBeam() {
   }, []);
   return <div ref={mountRef} className="w-full h-full" />;
 }
-export function FinalCTA() {
+function FinalCTA() {
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
@@ -232,3 +232,5 @@ export function FinalCTA() {
     </section>
   );
 }
+
+export default FinalCTA

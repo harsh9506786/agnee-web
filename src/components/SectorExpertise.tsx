@@ -18,7 +18,7 @@ const industries = [
 // duplicate for infinite scroll
 const loopedIndustries = [...industries, ...industries];
 
-export function SectorExpertise() {
+function SectorExpertise() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -40,13 +40,14 @@ export function SectorExpertise() {
 
     const itemWidth = item.clientWidth + 16; // gap-4
 
-    const rawIndex =
-      Math.round(container.scrollLeft / itemWidth) % industries.length;
+    const rawIndex = Math.round(container.scrollLeft / itemWidth);
 
-    // map 10 → 6
-    const index = Math.floor((rawIndex / industries.length) * DOT_COUNT);
+    // normalize to original list (10 items)
+    const normalizedIndex = rawIndex % industries.length;
 
-    setActiveIndex(index);
+    // map to dots (6)
+    const itemsPerDot = industries.length / DOT_COUNT;
+    const index = Math.floor(normalizedIndex / itemsPerDot);
 
     setActiveIndex(index);
   };
@@ -80,7 +81,8 @@ export function SectorExpertise() {
         updateActiveIndex(); // 🔥 sync dots
 
         if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft = 0;
+          container.scrollLeft =
+            container.scrollLeft - container.scrollWidth / 2;
         }
       }
     }, 20);
@@ -226,3 +228,5 @@ export function SectorExpertise() {
     </section>
   );
 }
+
+export default SectorExpertise;

@@ -92,7 +92,7 @@ const team = [
     img: harshimg,
   },
 ];
-export function TeamSection() {
+function TeamSection() {
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
@@ -149,7 +149,8 @@ export function TeamSection() {
               lineHeight: 0.95,
             }}
           >
-            The minds <span className="text-white">behind the </span><span className="text-flame-600">magic</span>
+            The minds <span className="text-white">behind the </span>
+            <span className="text-flame-600">magic</span>
           </h2>
           <p className="text-gray-400 font-inter mt-4 max-w-xl">
             Behind every successful campaign is a team that understands
@@ -243,3 +244,5 @@ export function TeamSection() {
     </section>
   );
 }
+
+export default TeamSection;

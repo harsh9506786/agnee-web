@@ -72,7 +72,7 @@ function Counter({
 }
 
 /* ─── MAIN SECTION ─── */
-export function ImpactNumbers() {
+function ImpactNumbers() {
   const [startCount, setStartCount] = useState(false);
 
   return (
@@ -155,3 +155,5 @@ export function ImpactNumbers() {
     </motion.section>
   );
 }
+
+export default ImpactNumbers;

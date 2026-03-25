@@ -57,7 +57,7 @@ const socials = [
   {
     icon: FaBehance,
     label: "Behance",
-    href: "#",
+    href: "https://www.behance.net/agnee_official",
   },
 
   {
@@ -67,7 +67,7 @@ const socials = [
   },
 ];
 
-export function Footer() {
+function Footer() {
   const go = (href: string) =>
     document.querySelector(href)?.scrollIntoView({
       behavior: "smooth",
@@ -248,3 +248,5 @@ export function Footer() {
     </footer>
   );
 }
+
+export default Footer;

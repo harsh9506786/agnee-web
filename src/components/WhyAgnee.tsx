@@ -42,7 +42,7 @@ const items = [
   },
 ];
 
-export function WhyAgnee() {
+function WhyAgnee() {
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
@@ -152,3 +152,5 @@ export function WhyAgnee() {
     </section>
   );
 }
+
+export default WhyAgnee

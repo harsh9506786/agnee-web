@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { motion } from "framer-motion";
 import flameimg from "../assets/agneelogo/Visual.png";
 
-export function HeroSection() {
+function HeroSection() {
   const mountRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
 
@@ -16,7 +16,7 @@ export function HeroSection() {
     // Scene
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-    camera.position.z = 3.5;
+    camera.position.z = 4.8;
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -39,6 +39,7 @@ export function HeroSection() {
       map: texture,
       transparent: true,
       depthWrite: false,
+      depthTest: false,
     });
     const core = new THREE.Mesh(coreGeo, coreMat);
     scene.add(core); // Added directly to scene (not rotating group)
@@ -58,7 +59,7 @@ export function HeroSection() {
     for (let i = 0; i < 80; i++) {
       const phi = Math.acos(-1 + (2 * i) / 80);
       const theta = Math.sqrt(80 * Math.PI) * phi;
-      const r = 0.9 + Math.random() * 0.3;
+      const r = 1.3 + Math.random() * 0.5;
       neuralPoints.push(
         new THREE.Vector3(
           r * Math.sin(phi) * Math.cos(theta),
@@ -72,7 +73,7 @@ export function HeroSection() {
     for (let i = 0; i < neuralPoints.length; i++) {
       for (let j = i + 1; j < neuralPoints.length; j++) {
         const dist = neuralPoints[i].distanceTo(neuralPoints[j]);
-        if (dist < 0.55) {
+        if (dist < 0.75) {
           linePositions.push(
             neuralPoints[i].x,
             neuralPoints[i].y,
@@ -116,16 +117,16 @@ export function HeroSection() {
 
     // ===== OUTER RINGS =====
     const ringConfigs = [
-      { radius: 1.3, tube: 0.006, rot: [Math.PI / 2, 0, 0], speed: 0.003 },
+      { radius: 1.8, tube: 0.008, rot: [Math.PI / 2, 0, 0], speed: 0.003 },
       {
-        radius: 1.5,
-        tube: 0.004,
+        radius: 2.1,
+        tube: 0.006,
         rot: [Math.PI / 4, Math.PI / 6, 0],
         speed: -0.002,
       },
       {
-        radius: 1.7,
-        tube: 0.003,
+        radius: 2.4,
+        tube: 0.005,
         rot: [0, Math.PI / 3, Math.PI / 5],
         speed: 0.0015,
       },
@@ -151,7 +152,7 @@ export function HeroSection() {
     for (let i = 0; i < particleCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
-      const r = 0.8 + Math.random() * 0.5;
+      const r = 1.2 + Math.random() * 0.8;
       particlePositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       particlePositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       particlePositions[i * 3 + 2] = r * Math.cos(phi);
@@ -321,7 +322,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-16 pb-12 mt-8 lg:pt-24 lg:pb-16 lg:mt-16 text-center lg:text-left">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-16 pt-16 pb-12 mt-8 lg:pt-24 lg:pb-16 lg:mt-16 text-center lg:text-left">
         <motion.div
           className="w-full lg:flex-1 lg:max-w-2xl flex flex-col items-center lg:items-start"
           variants={containerVariants}
@@ -432,9 +433,11 @@ export function HeroSection() {
         {/* Right: Three.js canvas */}
         <div
           ref={mountRef}
-          className="flex-shrink-0 relative w-[min(420px,80vw)] h-[min(420px,80vw)] mt-8 lg:mt-0"
+          className="flex-shrink-0 relative w-[min(590px,90vw)] h-[min(590px,90vw)]"
         />
       </div>
     </section>
   );
 }
+
+export default HeroSection;

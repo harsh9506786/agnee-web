@@ -78,7 +78,7 @@ const lines = [
   "Whether you are launching a new product, entering a new market or building authority in your industry, Agnee helps you move forward with confidence and consistency.",
 ];
 
-export function AboutSection() {
+function AboutSection() {
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
@@ -231,3 +231,5 @@ export function AboutSection() {
     </section>
   );
 }
+
+export default AboutSection;

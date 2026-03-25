@@ -28,7 +28,7 @@ const services = [
   "Full Growth Package",
 ];
 
-export function ContactForm() {
+function ContactForm() {
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
@@ -421,3 +421,5 @@ ${form.description || "-"}
     </section>
   );
 }
+
+export default ContactForm

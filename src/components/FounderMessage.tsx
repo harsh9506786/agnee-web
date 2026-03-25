@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import shubhamimg2 from "../assets/team/shubhamjoshi2new.png";
-export function FounderMessage() {
+
+function FounderMessage() {
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
@@ -38,9 +39,7 @@ export function FounderMessage() {
             duration: 0.6,
           }}
           className="mb-16 text-center lg:text-left"
-        >
-         
-        </motion.div>
+        ></motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
           <motion.div
@@ -156,3 +155,5 @@ export function FounderMessage() {
     </section>
   );
 }
+
+export default FounderMessage;

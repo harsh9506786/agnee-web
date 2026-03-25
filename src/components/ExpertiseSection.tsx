@@ -71,7 +71,7 @@ const cards = [
   },
 ];
 
-export function ExpertiseSection() {
+function ExpertiseSection() {
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
@@ -121,7 +121,7 @@ export function ExpertiseSection() {
           transition={{
             duration: 0.7,
           }}
-        className="mb-16 text-center lg:text-left"
+          className="mb-16 text-center lg:text-left"
         >
           <motion.div className="mb-6">
             <span
@@ -193,3 +193,5 @@ export function ExpertiseSection() {
     </section>
   );
 }
+
+export default ExpertiseSection;

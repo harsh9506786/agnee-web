@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import TeamSection from "./TeamSection";
 
 const testimonials = [
   {
@@ -84,7 +85,7 @@ const testimonials = [
   },
 ];
 
-export function TestimonialSection() {
+function TestimonialSection() {
   const [cur, setCur] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -236,8 +237,7 @@ export function TestimonialSection() {
               const container = scrollRef.current;
               if (container && container.scrollLeft <= 5) setShowHints(true);
             }}
-            className="flex overflow-x-auto scroll-smooth no-scrollbar gap-6"
-            style={{ scrollSnapType: "x mandatory" }}
+            className="flex overflow-x-auto scroll-smooth no-scrollbar gap-6 snap-x snap-mandatory"
           >
             {testimonials.map((t, i) => (
               <motion.div
@@ -245,7 +245,7 @@ export function TestimonialSection() {
                 initial={{ opacity: 0, x: 40 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className="flex-shrink-0 w-full sm:w-[400px] p-10 sm:p-14 rounded-3xl bg-dark-800 border border-[rgba(255,255,255,0.05)]"
+                className="flex-shrink-0 w-full snap-start p-10 sm:p-14 rounded-3xl bg-dark-800 border border-[rgba(255,255,255,0.05)]"
               >
                 {/* Stars */}
                 <div className="flex justify-center gap-1 mb-4">
@@ -328,3 +328,5 @@ export function TestimonialSection() {
     </section>
   );
 }
+
+export default TestimonialSection;
