@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 const stats = [
@@ -20,32 +20,28 @@ function Counter({
   active: boolean;
 }) {
   const [count, setCount] = useState(0);
-  const [done, setDone] = useState(false);
+  const countRef = useRef(0); // ✅ component scope
 
   useEffect(() => {
     if (!active) return;
 
     let startTime: number;
-    let last = -1;
     const duration = 2000;
 
     const animate = (time: number) => {
       if (!startTime) startTime = time;
-
       const progress = Math.min((time - startTime) / duration, 1);
       const current = Math.floor(progress * value);
 
-      if (current !== last) {
-        setCount(current);
-        last = current;
+      if (current !== countRef.current) {
+        countRef.current = current;
+        if (current % Math.ceil(value / 100) === 0 || current === value) {
+          setCount(current);
+        }
       }
 
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        setCount(value);
-        setDone(true);
-      }
+      if (progress < 1) requestAnimationFrame(animate);
+      else setCount(value);
     };
 
     requestAnimationFrame(animate);
@@ -63,7 +59,9 @@ function Counter({
       }}
     >
       {/* number */}
-      <span className="text-white">{count}</span>
+      <span className="text-white" style={{ willChange: "transform, opacity" }}>
+        {count}
+      </span>
 
       {/* suffix */}
       <span className="text-flame">{suffix}</span>
@@ -111,7 +109,8 @@ function ImpactNumbers() {
           </h2>
 
           <p className="text-gray-400 font-inter max-w-xl mx-auto text-sm">
-            Every number represents businesses that trusted us and scaled with structured execution.
+            Every number represents businesses that trusted us and scaled with
+            structured execution.
           </p>
         </motion.div>
 
@@ -129,6 +128,7 @@ function ImpactNumbers() {
                 ease: [0.22, 1, 0.36, 1],
               }}
               className="text-center"
+              style={{ willChange: "transform, opacity" }}
             >
               <Counter value={s.value} suffix={s.suffix} active={startCount} />
 
@@ -146,6 +146,7 @@ function ImpactNumbers() {
                     delay: 0.5 + i * 0.1,
                   }}
                   className="mt-1.5 h-px bg-gradient-to-r from-flame-500 to-flame-700 origin-left"
+                  style={{ willChange: "transform, opacity" }}
                 />
               </div>
             </motion.div>
