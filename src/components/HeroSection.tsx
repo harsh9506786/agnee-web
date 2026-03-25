@@ -321,7 +321,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-24 pb-16 mt-16 text-center lg:text-left">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-12 pt-16 pb-12 mt-8 lg:pt-24 lg:pb-16 lg:mt-16 text-center lg:text-left">
         <motion.div
           className="w-full lg:flex-1 lg:max-w-2xl flex flex-col items-center lg:items-start"
           variants={containerVariants}
