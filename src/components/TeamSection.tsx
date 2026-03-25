@@ -1,16 +1,16 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import shubhamimg from "../assets/team/shubhamjoshi.png";
-import chitranshimg from "../assets/team/chitransh.png";
-import rishabhimg from "../assets/team/rishabh.png";
-import rishiimg from "../assets/team/rishi.png";
-import shivaimg from "../assets/team/shiva.png";
-import harshimg from "../assets/team/harsh.jpeg";
-import anshulimg from "../assets/team/anshul.png";
-import dishitaimg from "../assets/team/dishita.png";
-import piyushimg from "../assets/team/piyush.png";
-import shailendraimg from "../assets/team/shailendra.png";
-import praveenimg from "../assets/team/praveen.png";
+import shubhamimg from "../assets/team/shubhamwebp.webp";
+import chitranshimg from "../assets/team/chitranshwebp.webp";
+import rishabhimg from "../assets/team/rishabhwebp.webp";
+import rishiimg from "../assets/team/rishabhwebp.webp";
+import shivaimg from "../assets/team/shivawebp.webp";
+import harshimg from "../assets/team/harshwebp.webp";
+import anshulimg from "../assets/team/anshulwebp.webp";
+import dishitaimg from "../assets/team/dikhshitawebp.webp";
+import piyushimg from "../assets/team/piyushwebp.webp";
+import shailendraimg from "../assets/team/shailendrawebp.webp";
+import praveenimg from "../assets/team/praveenwebp.webp";
 const team = [
   {
     name: "Shubham Joshi",
