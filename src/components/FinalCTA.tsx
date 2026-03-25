@@ -7,6 +7,7 @@ function EnergyBeam() {
   useEffect(() => {
     const c = mountRef.current;
     if (!c) return;
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       55,
@@ -16,17 +17,15 @@ function EnergyBeam() {
     );
     camera.position.set(0, 3, 9);
     camera.lookAt(0, 1, 0);
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-    });
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(c.clientWidth, c.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0, 0);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // reduce GPU load
     c.appendChild(renderer.domElement);
+
     // Platform
     const disc = new THREE.Mesh(
-      new THREE.CylinderGeometry(3.5, 3.5, 0.06, 64),
+      new THREE.CylinderGeometry(3.5, 3.5, 0.06, 32), // reduce segments
       new THREE.MeshBasicMaterial({
         color: "#161616",
         transparent: true,
@@ -36,12 +35,13 @@ function EnergyBeam() {
     disc.position.y = -0.5;
     scene.add(disc);
 
-    // Beam particles
-    const N = 900;
-    const pos = new Float32Array(N * 3),
-      vel = new Float32Array(N * 3);
-    const life = new Float32Array(N),
-      maxLife = new Float32Array(N);
+    // Beam particles (reduce N to 500 for smoother performance)
+    const N = 500;
+    const pos = new Float32Array(N * 3);
+    const vel = new Float32Array(N * 3);
+    const life = new Float32Array(N);
+    const maxLife = new Float32Array(N);
+
     const init = (i: number) => {
       const a = Math.random() * Math.PI * 2,
         r = Math.random() * 0.25;
@@ -49,26 +49,29 @@ function EnergyBeam() {
       pos[i * 3 + 1] = -0.5 + Math.random() * 0.4;
       pos[i * 3 + 2] = Math.sin(a) * r;
       vel[i * 3] = (Math.random() - 0.5) * 0.012;
-      vel[i * 3 + 1] = 0.03 + Math.random() * 0.055;
+      vel[i * 3 + 1] = 0.03 + Math.random() * 0.035; // reduce velocity variation
       vel[i * 3 + 2] = (Math.random() - 0.5) * 0.01;
-      maxLife[i] = 1 + Math.random() * 2.5;
+      maxLife[i] = 1 + Math.random() * 2.0;
       life[i] = Math.random() * maxLife[i];
     };
     for (let i = 0; i < N; i++) init(i);
+
     const geo = new THREE.BufferGeometry();
     geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     const mat = new THREE.PointsMaterial({
       size: 0.09,
       color: "#ff5a00",
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.7,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
-    scene.add(new THREE.Points(geo, mat));
+    const points = new THREE.Points(geo, mat);
+    scene.add(points);
+
     // Float particles
-    const fN = 200,
-      fPos = new Float32Array(fN * 3);
+    const fN = 100; // reduce floating particles
+    const fPos = new Float32Array(fN * 3);
     for (let i = 0; i < fN; i++) {
       fPos[i * 3] = (Math.random() - 0.5) * 9;
       fPos[i * 3 + 1] = Math.random() * 5;
@@ -82,40 +85,48 @@ function EnergyBeam() {
         size: 0.04,
         color: "#ff5a00",
         transparent: true,
-        opacity: 0.35,
+        opacity: 0.3,
         blending: THREE.AdditiveBlending,
       }),
     );
     scene.add(fPts);
-    scene.add(new THREE.PointLight("#ff5a00", 3, 12));
+
+    // Light
+    scene.add(new THREE.PointLight("#ff5a00", 2, 12));
+
     let raf: number,
       t = 0;
-    const tick = () => {
-      raf = requestAnimationFrame(tick);
-      t += 0.016;
-      for (let i = 0; i < N; i++) {
-        life[i] += 0.016;
-        if (life[i] > maxLife[i]) {
-          init(i);
-          continue;
-        }
-        pos[i * 3] += vel[i * 3] + Math.sin(t * 2 + i) * 0.002;
-        pos[i * 3 + 1] += vel[i * 3 + 1];
-        pos[i * 3 + 2] += vel[i * 3 + 2];
-      }
-      fPts.rotation.y = t * 0.08;
 
-      geo.attributes.position.needsUpdate = true;
-      renderer.render(scene, camera);
+    const tick = () => {
+      // Only animate if visible
+      const rect = c.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        t += 0.016;
+        for (let i = 0; i < N; i++) {
+          life[i] += 0.016;
+          if (life[i] > maxLife[i]) {
+            init(i);
+            continue;
+          }
+          pos[i * 3] += vel[i * 3] + Math.sin(t * 2 + i) * 0.0015; // reduce sin influence
+          pos[i * 3 + 1] += vel[i * 3 + 1];
+          pos[i * 3 + 2] += vel[i * 3 + 2];
+        }
+        fPts.rotation.y = t * 0.05; // reduce rotation speed
+        geo.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+      }
+      raf = requestAnimationFrame(tick);
     };
     tick();
+
     const onResize = () => {
-      if (!c) return;
       camera.aspect = c.clientWidth / c.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(c.clientWidth, c.clientHeight);
     };
     window.addEventListener("resize", onResize);
+
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
@@ -149,22 +160,9 @@ function FinalCTA() {
 
       <div className="max-w-3xl mx-auto px-5 sm:px-8 relative z-10 text-center">
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 40,
-          }}
-          animate={
-            inView
-              ? {
-                  opacity: 1,
-                  y: 0,
-                }
-              : {}
-          }
-          transition={{
-            duration: 0.9,
-            ease: [0.22, 1, 0.36, 1],
-          }}
+          initial={{ opacity: 0, y: 20 }} // reduce y movement
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="space-y-8"
         >
           <h2
@@ -233,4 +231,4 @@ function FinalCTA() {
   );
 }
 
-export default FinalCTA
+export default FinalCTA;

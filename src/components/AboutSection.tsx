@@ -6,6 +6,7 @@ function WireframeSphere() {
   useEffect(() => {
     const c = mountRef.current;
     if (!c) return;
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       55,
@@ -14,16 +15,15 @@ function WireframeSphere() {
       100,
     );
     camera.position.set(0, 0, 5);
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-    });
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(c.clientWidth, c.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0, 0);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // reduce GPU load
     c.appendChild(renderer.domElement);
+
+    // Original shapes
     const outer = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(1.9, 1),
+      new THREE.IcosahedronGeometry(1.9, 1), // same
       new THREE.MeshBasicMaterial({
         color: "#ff5a00",
         wireframe: true,
@@ -31,8 +31,9 @@ function WireframeSphere() {
         opacity: 0.22,
       }),
     );
+
     const inner = new THREE.Mesh(
-      new THREE.OctahedronGeometry(1.1, 0),
+      new THREE.OctahedronGeometry(1.1, 0), // same
       new THREE.MeshBasicMaterial({
         color: "#ff2e00",
         wireframe: true,
@@ -40,23 +41,40 @@ function WireframeSphere() {
         opacity: 0.14,
       }),
     );
+
     scene.add(outer, inner);
-    scene.add(new THREE.PointLight("#ff5a00", 2, 10));
+    scene.add(new THREE.PointLight("#ff5a00", 1.5, 10)); // lower intensity
+
     let raf: number,
       t = 0;
+
     const tick = () => {
+      // Only animate when visible in viewport
+      const rect = c.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        t += 0.007;
+        outer.rotation.x = t * 0.28;
+        outer.rotation.y = t * 0.42;
+        inner.rotation.x = -t * 0.35;
+        inner.rotation.y = -t * 0.25;
+        renderer.render(scene, camera);
+      }
       raf = requestAnimationFrame(tick);
-      t += 0.007;
-      outer.rotation.x = t * 0.28;
-      outer.rotation.y = t * 0.42;
-      inner.rotation.x = -t * 0.35;
-      inner.rotation.y = -t * 0.25;
-      renderer.render(scene, camera);
     };
     tick();
+
+    // Handle resize
+    const handleResize = () => {
+      camera.aspect = c.clientWidth / c.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(c.clientWidth, c.clientHeight);
+    };
+    window.addEventListener("resize", handleResize);
+
     return () => {
       cancelAnimationFrame(raf);
       renderer.dispose();
+      window.removeEventListener("resize", handleResize);
       if (c.contains(renderer.domElement)) c.removeChild(renderer.domElement);
     };
   }, []);
@@ -137,23 +155,11 @@ function AboutSection() {
               {lines.map((line, i) => (
                 <motion.p
                   key={i}
-                  initial={{
-                    opacity: 0,
-                    y: 18,
-                    filter: "blur(5px)",
-                  }}
-                  animate={
-                    inView
-                      ? {
-                          opacity: 1,
-                          y: 0,
-                          filter: "blur(0px)",
-                        }
-                      : {}
-                  }
+                  initial={{ opacity: 0, y: 10 }} // y reduced, blur removed
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{
-                    duration: 0.65,
-                    delay: 0.25 + i * 0.13,
+                    duration: 0.5,
+                    delay: 0.25 + i * 0.1,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                   className="text-[#777] font-inter leading-relaxed text-base text-center lg:text-left"

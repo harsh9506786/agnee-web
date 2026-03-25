@@ -21,7 +21,7 @@ function HeroSection() {
     // Renderer
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
@@ -146,7 +146,7 @@ function HeroSection() {
     });
 
     // ===== PARTICLES =====
-    const particleCount = 200;
+    const particleCount = 120;
     const particlePositions = new Float32Array(particleCount * 3);
     const particleVelocities: THREE.Vector3[] = [];
     for (let i = 0; i < particleCount; i++) {
@@ -162,7 +162,7 @@ function HeroSection() {
         particlePositions[i * 3 + 2],
       ).normalize();
       particleVelocities.push(
-        dir.multiplyScalar(0.002 + Math.random() * 0.003),
+        dir.multiplyScalar(0.0015 + Math.random() * 0.0025),
       );
     }
     const particleGeo = new THREE.BufferGeometry();
@@ -206,22 +206,22 @@ function HeroSection() {
 
       // Rotate rings
       rings.forEach(({ mesh, speed }) => {
-        mesh.rotation.z += speed;
+        mesh.rotation.z += speed * 0.7;
         mesh.rotation.x += speed * 0.5;
       });
 
       // Core pulse (always front-facing)
-      const scale = 1 + Math.sin(time * 2) * 0.03;
+      const scale = 1 + Math.sin(time * 2) * 0.025;
       core.scale.set(scale, scale, scale);
 
       // Mouse tilt for group
-      const targetX = mouseRef.current.y * 0.25;
-      const targetY = mouseRef.current.x * 0.25;
-      group.rotation.x += (targetX - group.rotation.x) * 0.05;
-      group.rotation.y += (targetY - group.rotation.y) * 0.05;
+      const targetX = mouseRef.current.y * 0.2;
+      const targetY = mouseRef.current.x * 0.2;
+      group.rotation.x += (targetX - group.rotation.x) * 0.04;
+      group.rotation.y += (targetY - group.rotation.y) * 0.04;
 
       // Slow base rotation
-      group.rotation.y += 0.002;
+      group.rotation.y += 0.0015;
 
       // Particles drift
       const pos = particleGeo.attributes.position as THREE.BufferAttribute;
@@ -237,7 +237,7 @@ function HeroSection() {
         if (dist > 2.2) {
           const theta = Math.random() * Math.PI * 2;
           const phi = Math.acos(2 * Math.random() - 1);
-          const r = 0.8;
+          const r = 0.7;
           pos.array[i * 3] = r * Math.sin(phi) * Math.cos(theta);
           pos.array[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
           pos.array[i * 3 + 2] = r * Math.cos(phi);
@@ -289,11 +289,7 @@ function HeroSection() {
   };
 
   const itemVariants = {
-    hidden: {
-      opacity: 0,
-      y: 40,
-      filter: "blur(10px)",
-    },
+    hidden: { opacity: 0, y: 20, filter: "blur(5px)" },
     visible: {
       opacity: 1,
       y: 0,
