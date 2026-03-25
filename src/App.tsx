@@ -32,11 +32,7 @@ function LazySection({ children, height = "40vh" }: any) {
     margin: "-150px", // thoda pehle load
   });
 
-  return (
-    <div ref={ref}>
-      {inView ? children : <div className={`h-[${height}]`} />}
-    </div>
-  );
+  return <div ref={ref}>{inView ? children : <div style={{ height }} />}</div>;
 }
 
 // 👇 Cursor Glow (same as yours)
@@ -107,113 +103,92 @@ export function App() {
         <div className="sep" />
 
         {/* 👇 बाकी सब LazySection me */}
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="impact">
-              <ImpactNumbers />
-            </section>
-          </LazySection>
-        </Suspense>
+
+        <LazySection>
+          <section id="impact">
+            <ImpactNumbers />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="about">
-              <AboutSection />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="about">
+            <AboutSection />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="services">
-              <ExpertiseSection />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="services">
+            <ExpertiseSection />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="industries">
-              <SectorExpertise />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="industries">
+            <SectorExpertise />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="why">
-              <WhyAgnee />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="why">
+            <WhyAgnee />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="team">
-              <TeamSection />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="team">
+            <TeamSection />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="testimonials">
-              <TestimonialSection />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="testimonials">
+            <TestimonialSection />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="clients">
-              <ClientLogos />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="clients">
+            <ClientLogos />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="founder">
-              <FounderMessage />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="founder">
+            <FounderMessage />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="cta">
-              <FinalCTA />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="cta">
+            <FinalCTA />
+          </section>
+        </LazySection>
 
         <div className="sep" />
 
-        <Suspense fallback={<div className="h-[40vh]" />}>
-          <LazySection>
-            <section id="contact">
-              <ContactForm />
-            </section>
-          </LazySection>
-        </Suspense>
+        <LazySection>
+          <section id="contact">
+            <ContactForm />
+          </section>
+        </LazySection>
       </main>
 
       <Suspense fallback={null}>
