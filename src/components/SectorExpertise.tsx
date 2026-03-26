@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import { motion, useInView } from "framer-motion";
 import { CheckCircleIcon } from "lucide-react";
 
@@ -16,18 +16,16 @@ const industries = [
 ];
 
 // duplicate for infinite scroll
-const loopedIndustries = [...industries, ...industries];
 
 function SectorExpertise() {
+  const loopedIndustries = useMemo(() => [...industries, ...industries], []);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const scrollRef = useRef<HTMLDivElement | null>(null);
-
-  const [isHovered, setIsHovered] = useState(false);
-  const [showHints, setShowHints] = useState(true);
-  const [isUserScrolling, setIsUserScrolling] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const isHoveredRef = useRef(false);
+  const scrollTimeout = useRef<any>(null);
   const DOT_COUNT = 6;
 
   // 🔥 ACTIVE INDEX CALCULATOR
@@ -72,46 +70,48 @@ function SectorExpertise() {
     const container = scrollRef.current;
     if (!container) return;
 
+    let frameId: number;
+
     const scrollSpeed = 0.7;
 
-    const interval = setInterval(() => {
-      if (!isHovered) {
+    const animate = () => {
+      if (!isHoveredRef.current) {
         container.scrollLeft += scrollSpeed;
-
-        updateActiveIndex(); // 🔥 sync dots
-
         if (container.scrollLeft >= container.scrollWidth / 2) {
           container.scrollLeft =
             container.scrollLeft - container.scrollWidth / 2;
         }
       }
-    }, 20);
 
-    return () => clearInterval(interval);
-  }, [isHovered, isDesktop]);
+      frameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => cancelAnimationFrame(frameId);
+  }, [isDesktop]);
 
   // arrows
   const scrollLeft = () => {
     if (!scrollRef.current) return;
-
-    setIsHovered(true);
+    isHoveredRef.current = true;
     scrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
 
     setTimeout(() => {
       updateActiveIndex();
-      setIsHovered(false);
+      isHoveredRef.current = false;
     }, 400);
   };
 
   const scrollRight = () => {
     if (!scrollRef.current) return;
 
-    setIsHovered(true);
+    isHoveredRef.current = true;
     scrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
 
     setTimeout(() => {
       updateActiveIndex();
-      setIsHovered(false);
+      isHoveredRef.current = false;
     }, 400);
   };
 
@@ -155,17 +155,16 @@ function SectorExpertise() {
           {/* SCROLL CONTAINER */}
           <div
             ref={scrollRef}
-            onTouchStart={() => setIsUserScrolling(true)}
+            onMouseEnter={() => (isHoveredRef.current = true)}
+            onMouseLeave={() => (isHoveredRef.current = false)}
+            style={{ willChange: "scroll-position" }}
             onScroll={() => {
-              const container = scrollRef.current;
-              if (!container) return;
+              if (scrollTimeout.current) return;
 
-              updateActiveIndex(); // 🔥 MAIN
-
-              if (container.scrollLeft <= 5) {
-                setShowHints(true);
-                setIsUserScrolling(false);
-              }
+              scrollTimeout.current = setTimeout(() => {
+                updateActiveIndex();
+                scrollTimeout.current = null;
+              }, 100);
             }}
             className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar"
           >
@@ -174,7 +173,8 @@ function SectorExpertise() {
                 key={i}
                 initial={{ opacity: 0, x: 40 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.03 }}
+                transition={{ duration: 0.5, delay: Math.min(i * 0.03, 0.3) }}
+                style={{ willChange: "transform, opacity" }}
                 className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5"
               >
                 <CheckCircleIcon className="w-5 h-5 text-orange-500 mb-4" />
