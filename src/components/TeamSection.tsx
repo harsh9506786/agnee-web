@@ -11,6 +11,7 @@ import dishitaimg from "../assets/team/dikhshitawebp.webp";
 import piyushimg from "../assets/team/piyushwebp.webp";
 import shailendraimg from "../assets/team/shailendrawebp.webp";
 import praveenimg from "../assets/team/praveenwebp.webp";
+import chitranimg from "../assets/team/chitranwebp.webp"
 const team = [
   {
     name: "Shubham Joshi",
@@ -88,8 +89,15 @@ const team = [
     name: "Harshvardhan Sharma",
     role: "Senior developer",
     desc: "Harshvardhan Sharma is responsible for development and technical implementation. He builds and maintains websites, applications and digital systems that are fast, reliable and scalable for growing businesses.",
-    seed: "Chitransh",
+    seed: "harsh",
     img: harshimg,
+  },
+    {
+    name: "Chitran Tiwari",
+    role: "Business Marketing Head",
+    desc: "Chitran Tiwari leads the marketing and growth initiatives at Agnee, focusing on building strong brand positioning and effective marketing strategies. He works closely on campaign planning, business development and market outreach, ensuring that every effort is aligned with measurable growth and long-term brand success.",
+    seed: "chitran",
+    img: chitranimg,
   },
 ];
 function TeamSection() {

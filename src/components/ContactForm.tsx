@@ -98,6 +98,7 @@ ${form.description || "-"}
     } text-white placeholder-gray-400 font-inter text-sm focus:outline-none focus:border-flame-500 focus:bg-[rgba(255,90,0,0.025)] transition-all duration-300`;
   return (
     <section
+      id="contact"
       ref={ref}
       className="relative py-24 lg:py-36 bg-dark-800 overflow-hidden"
     >
@@ -422,4 +423,4 @@ ${form.description || "-"}
   );
 }
 
-export default ContactForm
+export default ContactForm;

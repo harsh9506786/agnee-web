@@ -1,93 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import * as THREE from "three";
-function WireframeSphere() {
-  const mountRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const c = mountRef.current;
-    if (!c) return;
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      55,
-      c.clientWidth / c.clientHeight,
-      0.1,
-      100,
-    );
-    camera.position.set(0, 0, 5);
+import fireimg from "../assets/agneelogo/Fire.webp";
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(c.clientWidth, c.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5)); // reduce GPU load
-    c.appendChild(renderer.domElement);
-
-    // Original shapes
-    const outer = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(1.9, 1), // same
-      new THREE.MeshBasicMaterial({
-        color: "#ff5a00",
-        wireframe: true,
-        transparent: true,
-        opacity: 0.22,
-      }),
-    );
-
-    const inner = new THREE.Mesh(
-      new THREE.OctahedronGeometry(1.1, 0), // same
-      new THREE.MeshBasicMaterial({
-        color: "#ff2e00",
-        wireframe: true,
-        transparent: true,
-        opacity: 0.14,
-      }),
-    );
-
-    scene.add(outer, inner);
-    scene.add(new THREE.PointLight("#ff5a00", 1.5, 10)); // lower intensity
-
-    let raf: number,
-      t = 0;
-
-    const tick = () => {
-      // Only animate when visible in viewport
-      const rect = c.getBoundingClientRect();
-      if (rect.bottom > 0 && rect.top < window.innerHeight) {
-        t += 0.007;
-        outer.rotation.x = t * 0.28;
-        outer.rotation.y = t * 0.42;
-        inner.rotation.x = -t * 0.35;
-        inner.rotation.y = -t * 0.25;
-        renderer.render(scene, camera);
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    tick();
-
-    // Handle resize
-    const handleResize = () => {
-      camera.aspect = c.clientWidth / c.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(c.clientWidth, c.clientHeight);
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      renderer.dispose();
-      window.removeEventListener("resize", handleResize);
-      if (c.contains(renderer.domElement)) c.removeChild(renderer.domElement);
-    };
-  }, []);
-  return (
-    <div
-      ref={mountRef}
-      className="w-full h-full"
-      style={{
-        minHeight: 380,
-      }}
-    />
-  );
-}
 const lines = [
   "A Growth Focused Branding and Digital Marketing Agency",
   "Agnee is built for businesses that want more than just designs and random marketing activities. We work with startups, SaaS companies, agribusinesses, enterprises and political leaders to build structured and scalable growth systems.",
@@ -198,6 +113,41 @@ function AboutSection() {
                 <span className="text-flame font-800">Brands That Win.</span>
               </div>
             </motion.div>
+
+            {/* Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full items-center lg:items-start mt-10"
+            >
+              <motion.a
+                href="tel:9696933327"
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.95 }}
+                className="btn-flame w-full sm:w-auto justify-center inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-syne font-700 pulse-glow"
+              >
+                <span>Connect with us</span>
+              </motion.a>
+
+              <motion.button
+                onClick={() => {
+                  const el = document.getElementById("contact");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:text-[#FF6B00] hover:border-[#FF6B00] hover:bg-[rgba(255,107,0,0.05)] hover:shadow-[0_0_10px_rgba(255,107,0,0.4)] text-center"
+                style={{
+                  color: "#E5E5E5",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.03)",
+                  fontFamily: "Inter, sans-serif",
+                }}
+              >
+                Book a call
+              </motion.button>
+            </motion.div>
           </div>
 
           {/* RIGHT: 3D */}
@@ -218,7 +168,7 @@ function AboutSection() {
               duration: 1.1,
               delay: 0.3,
             }}
-            className="relative h-[320px] sm:h-[380px] lg:h-[480px] flex justify-center lg:justify-end lg:pl-10"
+            className="relative h-[320px] sm:h-[380px] lg:h-[480px] flex justify-center lg:justify-end lg:pl-10 lg:-mt-60"
           >
             <div
               className="absolute inset-0 pointer-events-none"
@@ -227,9 +177,13 @@ function AboutSection() {
                   "radial-gradient(ellipse 70% 70% at 50% 50%, rgba(255,90,0,0.09) 0%, transparent 70%)",
               }}
             />
-
             <div className="w-full max-w-[320px] sm:max-w-[380px] lg:max-w-none mx-auto lg:mx-0">
-              <WireframeSphere />
+              <img
+                src={fireimg}
+                alt="Agnee Visual"
+                className="w-full h-auto object-contain"
+                loading="lazy"
+              />
             </div>
           </motion.div>
         </div>

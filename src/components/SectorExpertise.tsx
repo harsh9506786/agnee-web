@@ -1,18 +1,28 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import { motion, useInView } from "framer-motion";
 import { CheckCircleIcon } from "lucide-react";
+import saasIcon from "../assets/industryicons/Icons-01.png";
+import healthcareIcon from "../assets/industryicons/Icons-02.png";
+import agriIcon from "../assets/industryicons/Icons-03.png";
+import educationIcon from "../assets/industryicons/Icons-04.png";
+import realestateIcon from "../assets/industryicons/Icons-05.png";
+import ecommerceIcon from "../assets/industryicons/Icons-06.png";
+import corporateIcon from "../assets/industryicons/Icons-07.png";
+import manufacturingIcon from "../assets/industryicons/Icons-08.png";
+import politicalIcon from "../assets/industryicons/Icons-09.png";
+import startupIcon from "../assets/industryicons/Icons-10.png";
 
 const industries = [
-  "SaaS and Technology",
-  "Healthcare and Hospitals",
-  "Agriculture and Agri-Business",
-  "Education and Coaching Centers",
-  "Real Estate and Builders",
-  "Ecommerce and Retail",
-  "Corporate B2B and B2C",
-  "Manufacturing and Industrial",
-  "Political Campaigns",
-  "Startups and Entrepreneurs",
+  { name: "SaaS and Technology", icon: saasIcon },
+  { name: "Healthcare and Hospitals", icon: healthcareIcon },
+  { name: "Agriculture and Agri-Business", icon: agriIcon },
+  { name: "Education and Coaching Centers", icon: educationIcon },
+  { name: "Real Estate and Builders", icon: realestateIcon },
+  { name: "Ecommerce and Retail", icon: ecommerceIcon },
+  { name: "Corporate B2B and B2C", icon: corporateIcon },
+  { name: "Manufacturing and Industrial", icon: manufacturingIcon },
+  { name: "Political Campaigns", icon: politicalIcon },
+  { name: "Startups and Entrepreneurs", icon: startupIcon },
 ];
 
 // duplicate for infinite scroll
@@ -177,8 +187,13 @@ function SectorExpertise() {
                 style={{ willChange: "transform, opacity" }}
                 className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5"
               >
-                <CheckCircleIcon className="w-5 h-5 text-orange-500 mb-4" />
-                <div className="text-white font-semibold">{ind}</div>
+                <img
+                  src={ind.icon}
+                  alt={ind.name}
+                  className="w-8 h-8 mb-4 object-contain"
+                />
+
+                <div className="text-white font-semibold">{ind.name}</div>
               </motion.div>
             ))}
           </div>

@@ -12,6 +12,7 @@ import {
   MegaphoneIcon,
   CalendarDaysIcon,
   SproutIcon,
+  PrinterIcon,
 } from "lucide-react";
 const cards = [
   {
@@ -68,6 +69,11 @@ const cards = [
     icon: MegaphoneIcon,
     title: "Political Campaign Marketing",
     desc: "We build strong digital presence for political leaders and parties through strategic branding and content. From social media campaigns and WhatsApp outreach to voter engagement and narrative building, we create campaigns that influence perception and build trust.",
+  },
+  {
+    icon: PrinterIcon,
+    title: "Print Design Support",
+    desc: "We provide complete print design solutions for businesses, covering everything required for professional brand communication in the physical world.From everyday marketing materials to large-scale branding assets, we design a wide range of print-ready creatives including brochures, flyers, banners, hoardings, packaging, labels, company profiles, event materials and more.Every design is created with a focus on clarity, consistency and high-quality output, ensuring your brand looks professional across all offline touchpoints.",
   },
 ];
 

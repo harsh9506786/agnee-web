@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import flameimg from "../assets/agneelogo/Visual.webp";
 
 function HeroSection() {
   const mountRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const textRef = useRef(null);
+  const inView = useInView(textRef, { once: true });
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -320,6 +322,7 @@ function HeroSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-16 pt-16 pb-12 mt-8 lg:pt-24 lg:pb-16 lg:mt-16 text-center lg:text-left">
         <motion.div
+          ref={textRef}
           className="w-full lg:flex-1 lg:max-w-2xl flex flex-col items-center lg:items-start"
           variants={containerVariants}
           initial="hidden"
@@ -366,6 +369,27 @@ function HeroSection() {
             </span>
           </motion.h1>
 
+          {/* 🔥 Value Proposition Block */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{
+              duration: 0.7,
+              delay: 0.6,
+            }}
+            className="mt-6 sm:mt-8 p-4 sm:p-5 rounded-2xl border text-center lg:text-left border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)]"
+          >
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-syne font-700">
+              <span className="text-white">Human Intelligence</span>
+              <span className="text-flame-500 text-lg">+</span>
+              <span className="text-white">AI Efficiency</span>
+              <span className="text-flame-500 text-lg">+</span>
+              <span className="text-white">Relentless Execution</span>
+              <span className="text-flame-500 text-lg">=</span>
+              <span className="text-flame font-800">Brands That Win.</span>
+            </div>
+          </motion.div>
+
           {/* Paragraph */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -409,8 +433,11 @@ function HeroSection() {
               <span>Connect with us</span>
             </motion.a>
 
-            <motion.a
-              href="tel:9696933327"
+            <motion.button
+              onClick={() => {
+                const el = document.getElementById("contact");
+                el?.scrollIntoView({ behavior: "smooth" });
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full font-semibold transition-all duration-300 hover:text-[#FF6B00] hover:border-[#FF6B00] hover:bg-[rgba(255,107,0,0.05)] hover:shadow-[0_0_10px_rgba(255,107,0,0.4)] text-center"
@@ -422,7 +449,7 @@ function HeroSection() {
               }}
             >
               Book a call
-            </motion.a>
+            </motion.button>
           </motion.div>
         </motion.div>
 
