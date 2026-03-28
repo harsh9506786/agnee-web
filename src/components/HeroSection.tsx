@@ -306,12 +306,64 @@ function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex items-center overflow-hidden"
+      className="relative min-h-screen w-full items-center overflow-hidden pt-24 lg:pt-28"
       style={{
         background:
           "linear-gradient(135deg, #080808 0%, #0d0d0d 50%, #0a0500 100%)",
       }}
     >
+      {/* Heading */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        className="text-center -mb-32"
+      >
+        <h2
+          className="font-syne font-extrabold text-white mb-3"
+          style={{
+            fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+            letterSpacing: "-0.03em",
+          }}
+        >
+          <span className="text-flame-400">Build</span> Brands that
+          <span className="text-flame-400"> Scale</span>
+        </h2>
+
+        <p
+          className="text-white italic -mt-2"
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "clamp(1.8rem, 3.2vw, 2.4rem)", // 🔥 bigger size
+            lineHeight: 1.2,
+          }}
+        >
+          Where brand design meets AI-powered web
+          <br />
+          solutions creating digital experiences that scale.
+        </p>
+        {/* 🔥 Value Proposition Block */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{
+            duration: 0.7,
+            delay: 0.6,
+          }}
+          className="mt-6 sm:mt-8 p-4 sm:p-5 rounded-2xl border border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)] inline-flex mx-auto"
+        >
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm font-syne font-700 text-center">
+            <span className="text-white">Human Intelligence</span>
+            <span className="text-flame-500 text-lg">+</span>
+            <span className="text-white">AI Efficiency</span>
+            <span className="text-flame-500 text-lg">+</span>
+            <span className="text-white">Relentless Execution</span>
+            <span className="text-flame-500 text-lg">=</span>
+            <span className="text-flame font-800">Brands That Win.</span>
+          </div>
+        </motion.div>
+      </motion.div>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -328,74 +380,12 @@ function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={itemVariants} className="mb-5 sm:mb-6">
-            <span
-              className="inline-block text-[10px] sm:text-xs font-semibold tracking-[0.25em] uppercase px-3 py-1.5 rounded-full"
-              style={{
-                color: "#FF6B00",
-                background: "rgba(255,107,0,0.08)",
-                border: "1px solid rgba(255,107,0,0.2)",
-                fontFamily: "Inter, sans-serif",
-              }}
-            >
-              Build Brands That Scale
-            </span>
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1
-            variants={itemVariants}
-            className="font-extrabold mb-5 sm:mb-6"
-            style={{
-              fontSize: "clamp(26px, 7vw, 56px)", // 👈 mobile optimized
-              fontFamily: "Syne, sans-serif",
-              lineHeight: 1.2,
-            }}
-          >
-            <span className="text-white block">AI Powered</span>
-
-            <span
-              className="block"
-              style={{
-                background:
-                  "linear-gradient(135deg, #FF6B00, #FF9500, #FFB347)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                // ❌ nowrap hata diya (mobile break ke liye)
-              }}
-            >
-              BRAND GROWTH
-            </span>
-          </motion.h1>
-
-          {/* 🔥 Value Proposition Block */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-              duration: 0.7,
-              delay: 0.6,
-            }}
-            className="mt-6 sm:mt-8 p-4 sm:p-5 rounded-2xl border text-center lg:text-left border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)]"
-          >
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs sm:text-sm font-syne font-700">
-              <span className="text-white">Human Intelligence</span>
-              <span className="text-flame-500 text-lg">+</span>
-              <span className="text-white">AI Efficiency</span>
-              <span className="text-flame-500 text-lg">+</span>
-              <span className="text-white">Relentless Execution</span>
-              <span className="text-flame-500 text-lg">=</span>
-              <span className="text-flame font-800">Brands That Win.</span>
-            </div>
-          </motion.div>
-
           {/* Paragraph */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.1 }}
-            className="text-sm sm:text-base text-gray-400 font-inter leading-relaxed w-full sm:max-w-md mt-4 sm:mt-5 mb-6 sm:mb-8 text-center lg:text-left"
+            className="text-base sm:text-lg lg:text-xl text-gray-400 font-inter leading-relaxed w-full sm:max-w-lg mt-4 sm:mt-5 mb-6 sm:mb-8 text-center lg:text-left"
           >
             We help businesses grow with clarity, strategy and execution. From
             branding and social media to performance marketing and AI
@@ -456,7 +446,7 @@ function HeroSection() {
         {/* Right: Three.js canvas */}
         <div
           ref={mountRef}
-          className="flex-shrink-0 relative w-[min(590px,90vw)] h-[min(590px,90vw)]"
+          className="flex-shrink-0 relative w-[min(480px,80vw)] h-[min(480px,80vw)]"
         />
       </div>
     </section>

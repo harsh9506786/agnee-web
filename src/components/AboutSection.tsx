@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
-import fireimg from "../assets/agneelogo/Fire.webp";
+import fireimg from "../assets/agneelogo/Fire1.webp";
 
 const lines = [
   "A Growth Focused Branding and Digital Marketing Agency",
@@ -177,7 +177,7 @@ function AboutSection() {
                   "radial-gradient(ellipse 70% 70% at 50% 50%, rgba(255,90,0,0.09) 0%, transparent 70%)",
               }}
             />
-            <div className="w-full max-w-[320px] sm:max-w-[380px] lg:max-w-none mx-auto lg:mx-0">
+            <div className="w-full max-w-[250px] sm:max-w-[280px] lg:max-w-none mx-auto lg:mx-0">
               <img
                 src={fireimg}
                 alt="Agnee Visual"
