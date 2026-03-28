@@ -327,15 +327,16 @@ function HeroSection() {
             letterSpacing: "-0.03em",
           }}
         >
-          <span className="text-flame-400">Build</span> Brands that <span className="text-flame-400">Scale</span>
+          <span className="text-flame-400">Build</span> Brands that{" "}
+          <span className="text-flame-400">Scale</span>
         </h2>
 
         <p
-          className="text-white italic -mt-2 mx-auto px-4 sm:px-0 max-w-[90%] sm:max-w-xl"
+          className="text-white italic -mt-2 mx-auto px-5 sm:px-0 
+  max-w-[92%] sm:max-w-xl leading-[1.25]"
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(1rem, 2.5vw, 1.8rem)", // 👈 thoda chhota
-            lineHeight: 1.3,
+            fontSize: "clamp(0.95rem, 2.2vw, 1.6rem)",
           }}
         >
           Where brand design meets AI-powered web
