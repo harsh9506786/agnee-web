@@ -321,22 +321,23 @@ function HeroSection() {
         className="text-center -mb-32"
       >
         <h2
-          className="font-syne font-extrabold text-white mb-3 text-center"
+          className="font-syne font-extrabold text-white mb-3 text-center px-4 sm:px-0"
           style={{
-            fontSize: "clamp(1.8rem, 6vw, 3.8rem)", // thoda mobile friendly bhi
+            fontSize: "clamp(2rem, 7vw, 3.8rem)", // 👈 thoda increase
             letterSpacing: "-0.03em",
+            lineHeight: 1.2,
           }}
         >
           <span className="text-flame-400">Build</span> Brands
-          <br className="block sm:hidden" /> {/* 👈 only mobile break */}
-          that <span className="text-flame-400">Scale</span>
+          {/* <br className="block sm:hidden" /> 👈 only mobile break */} that{" "}
+          <span className="text-flame-400">Scale</span>
         </h2>
 
         <p
-          className="text-white italic -mt-2"
+          className="text-white italic -mt-2 px-4 sm:px-0"
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(1.2rem, 3vw, 2.2rem)",
+            fontSize: "clamp(1.1rem, 3.5vw, 2.2rem)", // 👈 thoda control
             lineHeight: 1.3,
           }}
         >
@@ -352,7 +353,7 @@ function HeroSection() {
             duration: 0.7,
             delay: 0.6,
           }}
-          className="mt-6 sm:mt-8 mb-10 sm:mb-0 p-4 sm:p-5 rounded-2xl border border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)] inline-flex mx-auto"
+          className="mt-6 sm:mt-8 mb-10 sm:mb-0 p-4 sm:p-5 rounded-2xl border border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)] inline-flex mx-auto max-w-[90%] sm:max-w-fit"
         >
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm font-syne font-700 text-center">
             <span className="text-white">Human Intelligence</span>
@@ -386,7 +387,7 @@ function HeroSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.1 }}
-            className="text-base sm:text-lg lg:text-xl text-gray-400 font-inter leading-relaxed w-full sm:max-w-lg mt-4 sm:mt-5 mb-6 sm:mb-8 text-center lg:text-left"
+            className="text-sm sm:text-base lg:text-lg text-gray-400 font-inter leading-relaxed w-full sm:max-w-lg mt-4 sm:mt-5 mb-6 sm:mb-8 text-center lg:text-left"
           >
             We help businesses grow with clarity, strategy and execution. From
             branding and social media to performance marketing and AI

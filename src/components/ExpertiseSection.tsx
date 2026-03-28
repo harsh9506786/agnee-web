@@ -86,7 +86,7 @@ function ExpertiseSection() {
   return (
     <section
       ref={ref}
-      className="relative py-24 lg:py-36 bg-dark-900 overflow-visible"
+      className="relative py-14 lg:py-36 bg-dark-900 overflow-visible"
     >
       {/* Grid lines */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]">

@@ -168,7 +168,7 @@ function AboutSection() {
               duration: 1.1,
               delay: 0.3,
             }}
-            className="relative h-[260px] sm:h-[320px] lg:h-[480px] flex justify-center lg:justify-end lg:pl-10 mt-6 sm:mt-8 lg:-mt-60"
+            className="relative h-[260px] sm:h-[320px] lg:h-[480px] flex justify-center lg:justify-end lg:pl-10 lg:-mt-60"
           >
             <div
               className="absolute inset-0 pointer-events-none"
