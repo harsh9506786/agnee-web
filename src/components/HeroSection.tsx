@@ -321,15 +321,13 @@ function HeroSection() {
         className="text-center -mb-32"
       >
         <h2
-          className="font-syne font-extrabold text-white mb-3 text-center
-             text-[2.2rem] sm:text-[2.8rem] lg:text-[3.8rem]"
+          className="font-syne text-white mb-3 text-center
+             text-[2.2rem] sm:text-[2.8rem] lg:text-[3.8rem] font-[800] leading-[1.05]"
           style={{
             letterSpacing: "-0.03em",
           }}
         >
-          <span className="text-flame-400">Build</span> Brands
-          <br className="block sm:hidden" />
-          that <span className="text-flame-400">Scale</span>
+          <span className="text-flame-400">Build</span> Brands that <span className="text-flame-400">Scale</span>
         </h2>
 
         <p
