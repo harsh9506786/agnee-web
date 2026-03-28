@@ -321,23 +321,22 @@ function HeroSection() {
         className="text-center -mb-32"
       >
         <h2
-          className="font-syne font-extrabold text-white mb-3 text-center px-4 sm:px-0"
+          className="font-syne font-extrabold text-white mb-3 text-center
+             text-[2.2rem] sm:text-[2.8rem] lg:text-[3.8rem]"
           style={{
-            fontSize: "clamp(2rem, 7vw, 3.8rem)", // 👈 thoda increase
             letterSpacing: "-0.03em",
-            lineHeight: 1.2,
           }}
         >
           <span className="text-flame-400">Build</span> Brands
-          {/* <br className="block sm:hidden" /> 👈 only mobile break */} that{" "}
-          <span className="text-flame-400">Scale</span>
+          <br className="block sm:hidden" />
+          that <span className="text-flame-400">Scale</span>
         </h2>
 
         <p
-          className="text-white italic -mt-2 px-4 sm:px-0"
+          className="text-white italic -mt-2 mx-auto px-4 sm:px-0 max-w-[90%] sm:max-w-xl"
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(1.1rem, 3.5vw, 2.2rem)", // 👈 thoda control
+            fontSize: "clamp(1rem, 2.5vw, 1.8rem)", // 👈 thoda chhota
             lineHeight: 1.3,
           }}
         >
