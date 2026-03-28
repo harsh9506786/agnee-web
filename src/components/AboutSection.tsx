@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
-import fireimg from "../assets/agneelogo/Fire1.webp";
+// import fireimg from "../assets/agneelogo/Fire1.webp";
 
 const lines = [
   "A Growth Focused Branding and Digital Marketing Agency",
@@ -168,7 +168,7 @@ function AboutSection() {
               duration: 1.1,
               delay: 0.3,
             }}
-            className="relative h-[320px] sm:h-[380px] lg:h-[480px] flex justify-center lg:justify-end lg:pl-10 lg:-mt-60"
+            className="relative h-[260px] sm:h-[320px] lg:h-[480px] flex justify-center lg:justify-end lg:pl-10 mt-6 sm:mt-8 lg:-mt-60"
           >
             <div
               className="absolute inset-0 pointer-events-none"
@@ -179,7 +179,7 @@ function AboutSection() {
             />
             <div className="w-full max-w-[250px] sm:max-w-[280px] lg:max-w-none mx-auto lg:mx-0">
               <img
-                src={fireimg}
+                src="https://assets-v2.lottiefiles.com/a/9d140e5e-1121-11ef-a147-0f8f2c5fd446/sDpZPn8lZl.gif"
                 alt="Agnee Visual"
                 className="w-full h-auto object-contain"
                 loading="lazy"

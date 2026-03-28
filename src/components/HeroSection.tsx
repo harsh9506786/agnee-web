@@ -321,22 +321,23 @@ function HeroSection() {
         className="text-center -mb-32"
       >
         <h2
-          className="font-syne font-extrabold text-white mb-3"
+          className="font-syne font-extrabold text-white mb-3 text-center"
           style={{
-            fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+            fontSize: "clamp(1.8rem, 6vw, 3.8rem)", // thoda mobile friendly bhi
             letterSpacing: "-0.03em",
           }}
         >
-          <span className="text-flame-400">Build</span> Brands that
-          <span className="text-flame-400"> Scale</span>
+          <span className="text-flame-400">Build</span> Brands
+          <br className="block sm:hidden" /> {/* 👈 only mobile break */}
+          that <span className="text-flame-400">Scale</span>
         </h2>
 
         <p
           className="text-white italic -mt-2"
           style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(1.8rem, 3.2vw, 2.4rem)", // 🔥 bigger size
-            lineHeight: 1.2,
+            fontSize: "clamp(1.2rem, 3vw, 2.2rem)",
+            lineHeight: 1.3,
           }}
         >
           Where brand design meets AI-powered web
@@ -351,7 +352,7 @@ function HeroSection() {
             duration: 0.7,
             delay: 0.6,
           }}
-          className="mt-6 sm:mt-8 p-4 sm:p-5 rounded-2xl border border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)] inline-flex mx-auto"
+          className="mt-6 sm:mt-8 mb-10 sm:mb-0 p-4 sm:p-5 rounded-2xl border border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)] inline-flex mx-auto"
         >
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm font-syne font-700 text-center">
             <span className="text-white">Human Intelligence</span>
