@@ -58,7 +58,7 @@ function FounderMessage() {
 
               {/* Badge */}
               <div className="absolute bottom-10 right-2 px-5 py-2.5 rounded-xl z-50 bg-[rgba(255,90,0,0.18)] border border-[rgba(255,90,0,0.4)] backdrop-blur-md shadow-[0_10px_30px_rgba(255,90,0,0.2)]">
-                <div className="text-sm font-syne font-700 text-flame-400">
+                <div className="text-sm font-700 text-flame-400">
                   Founder & CEO
                 </div>
               </div>
@@ -129,10 +129,10 @@ function FounderMessage() {
             ))}
 
             <div className="pt-4 border-t border-[rgba(255,255,255,0.05)]">
-              <div className="font-syne font-800 text-white text-xl">
+              <div className="font-800 text-white text-xl">
                 Shubham Joshi
               </div>
-              <div className="text-xs text-flame-500 font-syne font-600 mt-1 tracking-wide">
+              <div className="text-xs text-flame-500  font-600 mt-1 tracking-wide">
                 Founder & CEO, Agnee
               </div>
             </div>

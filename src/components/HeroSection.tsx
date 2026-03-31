@@ -334,7 +334,7 @@ function HeroSection() {
         </h2>
 
         <p
-          className="text-white mx-auto px-0 
+          className="text-white font-inter mx-auto px-0 
   w-full max-w-[1400px] 
   leading-[1.2] text-center"
           style={{
@@ -358,7 +358,7 @@ function HeroSection() {
           <div
             className="flex flex-wrap items-center justify-center gap-2 
   text-sm sm:text-base lg:text-lg 
-  font-syne font-700 text-center"
+  font-inter font-700 text-center"
           >
             <span className="text-white">Human Intelligence</span>
 

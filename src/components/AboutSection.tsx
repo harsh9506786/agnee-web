@@ -35,35 +35,21 @@ function AboutSection() {
           {/* LEFT */}
           <div className="flex flex-col items-center lg:items-start">
             <motion.div
-              initial={{
-                opacity: 0,
-                x: -30,
-              }}
-              animate={
-                inView
-                  ? {
-                      opacity: 1,
-                      x: 0,
-                    }
-                  : {}
-              }
-              transition={{
-                duration: 0.8,
-              }}
+              initial={{ opacity: 0, x: -30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8 }}
             >
-              <div
-                className="font-syne font-extrabold overflow-visible"
+              <h2
+                className="font-syne font-extrabold text-center lg:text-left"
                 style={{
-                  fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+                 fontSize: "clamp(2.8rem, 6vw, 4.8rem)",
                   letterSpacing: "-0.03em",
                   lineHeight: 1.2,
                 }}
               >
-                <div className="flex flex-col items-center lg:items-start">
-                  <div className="text-white">ABOUT</div>
-                  <div className="text-flame">AGNEE</div>
-                </div>
-              </div>
+                <span className="text-white">ABOUT </span>
+                <span className="text-flame">AGNEE</span>
+              </h2>
             </motion.div>
 
             <div className="mt-10 space-y-5">
@@ -83,36 +69,6 @@ function AboutSection() {
                 </motion.p>
               ))}
             </div>
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 16,
-              }}
-              animate={
-                inView
-                  ? {
-                      opacity: 1,
-                      y: 0,
-                    }
-                  : {}
-              }
-              transition={{
-                duration: 0.7,
-                delay: 1.0,
-              }}
-              className="mt-10 p-5 rounded-2xl border text-center lg:text-left border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)]"
-            >
-              <div className="flex flex-wrap items-center gap-2 text-sm font-syne font-700">
-                <span className="text-white">Human Intelligence</span>
-                <span className="text-flame-500 text-xl">+</span>
-                <span className="text-white">AI Efficiency</span>
-                <span className="text-flame-500 text-xl">+</span>
-                <span className="text-white">Relentless Execution</span>
-                <span className="text-flame-500 text-xl">=</span>
-                <span className="text-flame font-800">Brands That Win.</span>
-              </div>
-            </motion.div>
 
             {/* Buttons */}
             <motion.div

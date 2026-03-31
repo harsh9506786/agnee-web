@@ -259,7 +259,7 @@ function TestimonialSection() {
                 </div>
 
                 {/* Title */}
-                <div className="text-center font-syne font-600 text-white text-lg sm:text-xl mb-3">
+                <div className="text-center  font-600 text-white text-lg sm:text-xl mb-3">
                   {t.title}
                 </div>
 
@@ -269,7 +269,7 @@ function TestimonialSection() {
                 </div>
 
                 {/* Author */}
-                <div className="mt-6 text-center font-syne font-700 text-white text-sm sm:text-base">
+                <div className="mt-6 text-center font-700 text-white text-sm sm:text-base">
                   {t.author}
                 </div>
                 <div className="text-center text-flame-500 font-inter text-xs sm:text-sm">

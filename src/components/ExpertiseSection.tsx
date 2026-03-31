@@ -186,7 +186,7 @@ function ExpertiseSection() {
                 <div className="mb-5 w-14 h-14 rounded-xl bg-[rgba(255,90,0,0.1)] flex items-center justify-center group-hover:bg-[rgba(255,90,0,0.18)] transition-colors duration-300">
                   <Icon className="w-7 h-7 text-flame-500 group-hover:rotate-[15deg] transition-transform duration-400" />
                 </div>
-                <h3 className="font-syne font-700 text-white text-base mb-2 text-rendering: optimizeLegibility;">
+                <h3 className=" font-700 text-white text-base mb-2 text-rendering: optimizeLegibility;">
                   {card.title}
                 </h3>
                 <p className="text-md text-gray-400 font-inter leading-relaxed">

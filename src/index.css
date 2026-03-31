@@ -7,9 +7,6 @@
 /* ─── GLOBAL RESETS ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-html, body {
-  overflow-x: hidden;
-}
 body {
   background: #0b0b0b;
   color: #ffffff;
@@ -229,26 +226,26 @@ html, body, button, a, * {
 /* 🔥 General Sans */
 @font-face {
   font-family: "GeneralSans";
-  src: url("/fonts/GeneralSans/GeneralSans-Regular.woff2") format("woff2");
+  src: url("src/assets/fonts/DM Serif Display/NightShiftRegular-KV8eZ.otf") format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("/fonts/GeneralSans/GeneralSans-Medium.woff2") format("woff2");
+  src: url("src/assets/fonts/DM Serif Display/NightShiftRegular-KV8eZ.otf") format("woff2");
   font-weight: 500;
 }
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("/fonts/GeneralSans/GeneralSans-Semibold.woff2") format("woff2");
+  src: url("src/assets/fonts/DM Serif Display/NightShiftRegular-KV8eZ.otf") format("woff2");
   font-weight: 600;
 }
 
 @font-face {
   font-family: "GeneralSans";
-  src: url("/fonts/GeneralSans/GeneralSans-Bold.woff2") format("woff2");
+  src: url("src/assets/fonts/DM Serif Display/NightShiftRegular-KV8eZ.otf") format("woff2");
   font-weight: 700;
 }
 

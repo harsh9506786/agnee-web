@@ -114,7 +114,7 @@ function WhyAgnee() {
                   <Icon className="w-5 h-5 text-flame-500" />
                 </div>
                 <div>
-                  <h3 className="font-syne font-700 text-white text-base sm:text-lg mb-2">
+                  <h3 className="font-700 text-white text-base sm:text-lg mb-2">
                     {item.title}
                   </h3>
                   <p className="text-md text-gray-400 font-inter leading-relaxed">
@@ -143,10 +143,10 @@ function WhyAgnee() {
             duration: 0.7,
             delay: 0.7,
           }}
-          className="mt-12 text-center font-syne font-700 text-gray-400"
+          className="mt-12 text-center font-700 text-gray-400"
         >
           We are not just service providers.{" "}
-          <span className="text-flame text-lg">We operate as growth partners.</span>
+          <span className="text-flame text-md">We operate as growth partners.</span>
         </motion.p>
       </div>
     </section>

@@ -215,10 +215,10 @@ function TeamSection() {
                   className="team-avatar w-full h-full rounded-full ring-2 ring-[rgba(255,90,0,0.25)] group-hover:ring-[rgba(255,90,0,0.6)]"
                 />
               </div>
-              <h3 className="font-syne font-700 text-white text-md mb-1">
+              <h3 className="font-700 text-white text-md mb-1">
                 {member.name}
               </h3>
-              <div className="text-sm font-syne font-600 text-flame-500 mb-3">
+              <div className="text-sm  font-600 text-flame-500 mb-3">
                 {member.role}
               </div>
               <p className="text-sm text-gray-400 font-inter leading-relaxed">
