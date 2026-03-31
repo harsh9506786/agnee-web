@@ -386,10 +386,10 @@ function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-start gap-0 pt-16 pb-12 mt-8 lg:pt-24 lg:pb-16 lg:mt-16">
+      <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-0 pt-12 pb-10 mt-6 lg:pt-24 lg:pb-16 lg:mt-16 px-4 sm:px-6">
         <motion.div
           ref={textRef}
-          className="w-full lg:flex-1 flex flex-col items-start mt-10 lg:mt-2"
+          className="w-full lg:flex-1 flex flex-col items-center lg:items-start mt-8 lg:mt-2 text-center lg:text-left"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -422,7 +422,7 @@ function HeroSection() {
           {/* Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full items-center sm:items-start"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full items-center sm:items-start justify-center lg:justify-start"
           >
             <motion.a
               href="tel:9696933327"
@@ -460,7 +460,11 @@ function HeroSection() {
         {/* Right: Three.js canvas */}
         <div
           ref={mountRef}
-          className="flex-shrink-0 relative w-[min(400px,70vw)] h-[min(400px,70vw)] lg:ml-auto lg:translate-x-10"
+          className="flex-shrink-0 relative 
+w-[260px] h-[260px] 
+sm:w-[320px] sm:h-[320px] 
+lg:w-[400px] lg:h-[400px] 
+mx-auto lg:mx-0"
         />
       </div>
     </section>
