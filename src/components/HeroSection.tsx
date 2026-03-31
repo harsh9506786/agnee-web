@@ -318,7 +318,7 @@ function HeroSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="text-center -mb-32"
+        className="text-center -mb-32 px-4 sm:px-8 lg:px-16 xl:px-24"
       >
         <h2
           className="font-syne text-white mb-4 text-center
