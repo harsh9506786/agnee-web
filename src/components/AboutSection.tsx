@@ -77,7 +77,7 @@ function AboutSection() {
                     delay: 0.25 + i * 0.1,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="text-[#777] font-inter leading-relaxed text-base text-center lg:text-left"
+                  className="text-[#777] font-inter leading-relaxed text-base sm:text-lg lg:text-lg xl:text-xl text-center lg:text-left"
                 >
                   {line}
                 </motion.p>
@@ -105,11 +105,11 @@ function AboutSection() {
             >
               <div className="flex flex-wrap items-center gap-2 text-sm font-syne font-700">
                 <span className="text-white">Human Intelligence</span>
-                <span className="text-flame-500 text-lg">+</span>
+                <span className="text-flame-500 text-xl">+</span>
                 <span className="text-white">AI Efficiency</span>
-                <span className="text-flame-500 text-lg">+</span>
+                <span className="text-flame-500 text-xl">+</span>
                 <span className="text-white">Relentless Execution</span>
-                <span className="text-flame-500 text-lg">=</span>
+                <span className="text-flame-500 text-xl">=</span>
                 <span className="text-flame font-800">Brands That Win.</span>
               </div>
             </motion.div>

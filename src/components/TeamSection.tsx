@@ -160,7 +160,7 @@ function TeamSection() {
             The minds <span className="text-white">behind the </span>
             <span className="text-flame-600">magic</span>
           </h2>
-          <p className="text-gray-400 font-inter mt-4 max-w-xl">
+          <p className="text-md sm:text-md lg:text-lg text-gray-400 font-inter mt-4 max-w-xl">
             Behind every successful campaign is a team that understands
             strategy, creativity and execution.
           </p>
@@ -215,13 +215,13 @@ function TeamSection() {
                   className="team-avatar w-full h-full rounded-full ring-2 ring-[rgba(255,90,0,0.25)] group-hover:ring-[rgba(255,90,0,0.6)]"
                 />
               </div>
-              <h3 className="font-syne font-700 text-white text-sm mb-1">
+              <h3 className="font-syne font-700 text-white text-md mb-1">
                 {member.name}
               </h3>
-              <div className="text-xs font-syne font-600 text-flame-500 mb-3">
+              <div className="text-sm font-syne font-600 text-flame-500 mb-3">
                 {member.role}
               </div>
-              <p className="text-xs text-gray-400 font-inter leading-relaxed">
+              <p className="text-sm text-gray-400 font-inter leading-relaxed">
                 {member.desc}
               </p>
             </motion.div>
@@ -243,7 +243,7 @@ function TeamSection() {
             duration: 0.7,
             delay: 0.7,
           }}
-          className="mt-10 text-center text-gray-400 font-inter text-sm"
+          className="mt-10 text-center text-gray-400 font-inter text-md"
         >
           We are strategists, designers, developers and marketers working as one
           integrated growth unit.

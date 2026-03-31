@@ -146,7 +146,7 @@ function SectorExpertise() {
             Industries We <span className="text-flame">Serve</span>
           </h2>
 
-          <p className="text-gray-400 mt-4 max-w-2xl mx-auto lg:mx-0">
+          <p className="text-gray-400 mt-4 max-w-none lg:whitespace-nowrap text-base sm:text-md lg:text-lg xl:text-xl mx-auto lg:mx-0">
             We work across multiple industries with customized strategies.
           </p>
         </motion.div>

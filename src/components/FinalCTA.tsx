@@ -179,7 +179,7 @@ function FinalCTA() {
             <span className="text-flame">Matters</span>
           </h2>
 
-          <p className="text-lg text-gray-400 font-inter max-w-xl mx-auto">
+          <p className="text-md sm:text-lg lg:text-xl text-gray-400 font-inter max-w-xl mx-auto">
             Ready to scale your brand with clarity and structure?
           </p>
 
@@ -218,7 +218,7 @@ function FinalCTA() {
               <a
                 key={text}
                 href={href}
-                className="flex items-center gap-2 text-gray-400 hover:text-flame-500 transition-colors duration-300 font-inter text-sm"
+                className="flex items-center gap-2 text-gray-400 hover:text-flame-500 transition-colors duration-300 font-inter text-md sm:text-lg lg:text-xl"
               >
                 <Icon className="w-3.5 h-3.5" />
                 {text}

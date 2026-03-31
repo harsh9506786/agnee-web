@@ -321,10 +321,12 @@ function HeroSection() {
         className="text-center -mb-32"
       >
         <h2
-          className="font-syne text-white mb-3 text-center
-             text-[2.2rem] sm:text-[2.8rem] lg:text-[3.8rem] font-[800] leading-[1.05]"
+          className="font-syne text-white mb-4 text-center
+  w-full max-w-none
+  text-[3rem] sm:text-[4.2rem] lg:text-[6rem] xl:text-[7rem]
+  font-[800] leading-[0.98]"
           style={{
-            letterSpacing: "-0.03em",
+            letterSpacing: "-0.035em",
           }}
         >
           <span className="text-flame-400">Build</span> Brands that{" "}
@@ -332,16 +334,16 @@ function HeroSection() {
         </h2>
 
         <p
-          className="text-white italic -mt-2 mx-auto px-5 sm:px-0 
-  max-w-[92%] sm:max-w-xl leading-[1.25]"
+          className="text-white mx-auto px-0 
+  w-full max-w-[1400px] 
+  leading-[1.2] text-center"
           style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: "clamp(0.95rem, 2.2vw, 1.6rem)",
+            fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
           }}
         >
-          Where brand design meets AI-powered web
+          Where brand design meets AI-powered
           <br />
-          solutions creating digital experiences that scale.
+          web solutions creating digital experiences that scale.
         </p>
         {/* 🔥 Value Proposition Block */}
         <motion.div
@@ -353,14 +355,26 @@ function HeroSection() {
           }}
           className="mt-6 sm:mt-8 mb-10 sm:mb-0 p-4 sm:p-5 rounded-2xl border border-[rgba(255,90,0,0.14)] bg-[rgba(255,90,0,0.04)] inline-flex mx-auto max-w-[90%] sm:max-w-fit"
         >
-          <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm font-syne font-700 text-center">
+          <div
+            className="flex flex-wrap items-center justify-center gap-2 
+  text-sm sm:text-base lg:text-lg 
+  font-syne font-700 text-center"
+          >
             <span className="text-white">Human Intelligence</span>
-            <span className="text-flame-500 text-lg">+</span>
+
+            <span className="text-flame-500 text-xl">+</span>
+
             <span className="text-white">AI Efficiency</span>
-            <span className="text-flame-500 text-lg">+</span>
+
+            <span className="text-flame-500 text-xl">+</span>
+
             <span className="text-white">Relentless Execution</span>
-            <span className="text-flame-500 text-lg">=</span>
-            <span className="text-flame font-800">Brands That Win.</span>
+
+            <span className="text-flame-500 text-xl">=</span>
+
+            <span className="text-flame font-800 text-base sm:text-lg lg:text-xl">
+              Brands That Win.
+            </span>
           </div>
         </motion.div>
       </motion.div>
@@ -372,38 +386,38 @@ function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-16 pt-16 pb-12 mt-8 lg:pt-24 lg:pb-16 lg:mt-16 text-center lg:text-left">
+      <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-start gap-0 pt-16 pb-12 mt-8 lg:pt-24 lg:pb-16 lg:mt-16">
         <motion.div
           ref={textRef}
-          className="w-full lg:flex-1 lg:max-w-2xl flex flex-col items-center lg:items-start"
+          className="w-full lg:flex-1 flex flex-col items-start mt-10 lg:mt-2"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Paragraph */}
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            className="text-sm sm:text-base lg:text-lg text-gray-400 font-inter leading-relaxed w-full sm:max-w-lg mt-4 sm:mt-5 mb-6 sm:mb-8 text-center lg:text-left"
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="w-full max-w-none mt-4 sm:mt-5 mb-6 sm:mb-8 
+  text-center lg:text-left"
           >
-            We help businesses grow with clarity, strategy and execution. From
-            branding and social media to performance marketing and AI
-            automation, we build systems that create real business growth.
-            <br />
-            <br />
-            <span>
-              Human intelligence combined with AI efficiency and strong
-              execution helps your brand move faster, smarter and stronger in
-              today’s digital world.
-            </span>
-            <br />
-            <br />
-            <span>
-              Book a free consultation and start building a brand that actually
-              grows.
-            </span>
-          </motion.p>
+            {[
+              "We help businesses grow with clarity, strategy and execution. From branding and social media to performance marketing and AI automation, we build systems that create real business growth.",
+
+              "Human intelligence combined with AI efficiency and strong execution helps your brand move faster, smarter and stronger in today’s digital world.",
+
+              "Book a free consultation and start building a brand that actually grows.",
+            ].map((text, i) => (
+              <motion.p
+                key={i}
+                variants={itemVariants}
+                className="text-sm sm:text-base lg:text-lg xl:text-xl 
+      text-gray-400 font-inter leading-relaxed mb-4"
+              >
+                {text}
+              </motion.p>
+            ))}
+          </motion.div>
 
           {/* Buttons */}
           <motion.div
@@ -446,7 +460,7 @@ function HeroSection() {
         {/* Right: Three.js canvas */}
         <div
           ref={mountRef}
-          className="flex-shrink-0 relative w-[min(480px,80vw)] h-[min(480px,80vw)]"
+          className="flex-shrink-0 relative w-[min(400px,70vw)] h-[min(400px,70vw)] lg:ml-auto lg:translate-x-10"
         />
       </div>
     </section>

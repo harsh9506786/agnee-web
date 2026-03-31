@@ -50,12 +50,14 @@ function ClientLogos() {
 
     const itemWidth = item.clientWidth + 24;
 
-    const rawIndex =
-      Math.round(container.scrollLeft / itemWidth) % logos.length;
+    const rawIndex = Math.floor(container.scrollLeft / itemWidth);
 
-    const index = Math.floor(rawIndex / ITEMS_PER_DOT);
+    // 🔥 normalize (important)
+    const normalizedIndex = rawIndex % logos.length;
 
-    setActiveIndex(Math.min(index, DOT_COUNT - 1));
+    const index = Math.floor(normalizedIndex / ITEMS_PER_DOT);
+
+    setActiveIndex(index);
   };
 
   // detect desktop
@@ -80,12 +82,12 @@ function ClientLogos() {
 
     const interval = setInterval(() => {
       if (!isPaused) {
-        container.scrollLeft += 1;
+        container.scrollLeft += 0.7;
 
         updateActiveIndex(); // 🔥 sync dots
 
         if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft = 0;
+          container.scrollLeft -= container.scrollWidth / 2;
         }
       }
     }, 20);

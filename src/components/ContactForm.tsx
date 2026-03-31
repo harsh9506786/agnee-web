@@ -150,7 +150,7 @@ ${form.description || "-"}
           >
             Get In <span className="text-flame">Touch</span>
           </h2>
-          <p className="text-gray-400 font-inter mt-4">
+          <p className="text-md sm:text-md lg:text-lg text-gray-400 font-inter mt-4">
             Tell us about your project and we'll get back to you within 24
             hours.
           </p>
@@ -193,7 +193,7 @@ ${form.description || "-"}
               <h3 className="font-syne font-800 text-white text-2xl">
                 Message Sent!
               </h3>
-              <p className="text-gray-400 font-inter text-sm">
+              <p className="text-gray-400 font-inter text-md sm:text-lg lg:text-xl">
                 Our team will contact you within 24 hours.
               </p>
               <button

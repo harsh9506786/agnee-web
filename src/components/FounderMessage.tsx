@@ -122,7 +122,7 @@ function FounderMessage() {
                   duration: 0.6,
                   delay: 0.5 + i * 0.14,
                 }}
-                className="text-[#777] font-inter leading-relaxed"
+                className="text-[#777] font-inter leading-relaxed text-base sm:text-md lg:text-lg"
               >
                 {p}
               </motion.p>

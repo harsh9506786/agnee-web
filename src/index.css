@@ -7,6 +7,9 @@
 /* ─── GLOBAL RESETS ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+html, body {
+  overflow-x: hidden;
+}
 body {
   background: #0b0b0b;
   color: #ffffff;
@@ -15,7 +18,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-h1, h2, h3, h4, h5, h6 { font-family: 'Syne', sans-serif; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'NightShift', sans-serif;
+}
 /* ─── SELECTION ─────────────────────────────────────────────── */
 ::selection { background: rgba(255, 90, 0, 0.35); color: #fff; }
 /* ─── SCROLLBAR ─────────────────────────────────────────────── */
@@ -271,4 +276,8 @@ html, body, button, a, * {
   font-family: "ClashDisplay";
   src: url("/fonts/ClashDisplay/ClashDisplay-Bold.woff2") format("woff2");
   font-weight: 700;
+}
+@font-face {
+  font-family: 'NightShift';
+  src: url('../assets/fonts/NightShiftRegular-KV8eZ.otf') format('opentype');
 }

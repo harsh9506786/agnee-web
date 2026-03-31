@@ -114,10 +114,10 @@ function WhyAgnee() {
                   <Icon className="w-5 h-5 text-flame-500" />
                 </div>
                 <div>
-                  <h3 className="font-syne font-700 text-white text-sm mb-1.5">
+                  <h3 className="font-syne font-700 text-white text-base sm:text-lg mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-gray-400 font-inter leading-relaxed">
+                  <p className="text-md text-gray-400 font-inter leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -146,11 +146,11 @@ function WhyAgnee() {
           className="mt-12 text-center font-syne font-700 text-gray-400"
         >
           We are not just service providers.{" "}
-          <span className="text-flame">We operate as growth partners.</span>
+          <span className="text-flame text-lg">We operate as growth partners.</span>
         </motion.p>
       </div>
     </section>
   );
 }
 
-export default WhyAgnee
+export default WhyAgnee;

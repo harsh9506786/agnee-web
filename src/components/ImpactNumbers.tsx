@@ -108,14 +108,14 @@ function ImpactNumbers() {
             Unleash Your Brand's <span className="text-flame">Potential</span>
           </h2>
 
-          <p className="text-gray-400 font-inter max-w-xl mx-auto text-sm">
+          <p className="text-gray-400 font-inter max-w-xl mx-auto text-xl">
             Every number represents businesses that trusted us and scaled with
             structured execution.
           </p>
         </motion.div>
 
         {/* Stats */}
-        <div className="flex flex-col items-center gap-10 sm:flex-row sm:flex-wrap sm:justify-center">
+        <div className="flex flex-col items-center gap-20 sm:flex-row sm:flex-wrap sm:justify-center">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
@@ -133,7 +133,7 @@ function ImpactNumbers() {
               <Counter value={s.value} suffix={s.suffix} active={startCount} />
 
               <div className="mt-3">
-                <div className="text-xs font-syne font-700 text-gray-400 uppercase tracking-widest">
+                <div className="text-sm font-syne font-700 text-gray-400 uppercase tracking-widest">
                   {s.label}
                 </div>
 

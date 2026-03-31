@@ -73,7 +73,7 @@ const cards = [
   {
     icon: PrinterIcon,
     title: "Print Design Support",
-    desc: "We provide complete print design solutions for businesses, covering everything required for professional brand communication in the physical world.From everyday marketing materials to large-scale branding assets, we design a wide range of print-ready creatives including brochures, flyers, banners, hoardings, packaging, labels, company profiles, event materials and more.Every design is created with a focus on clarity, consistency and high-quality output, ensuring your brand looks professional across all offline touchpoints.",
+    desc: "We provide complete print design solutions to help businesses communicate their brand effectively in the physical world. From brochures and flyers to banners, packaging, and event materials, we create a wide range of print-ready designs. Each design ensures clarity, consistency, and a professional look across all offline touchpoints.",
   },
 ];
 
@@ -152,7 +152,8 @@ function ExpertiseSection() {
           >
             What We <span className="text-flame">Build</span>
           </h2>
-          <p className="text-gray-400 font-inter mt-4 max-w-xl">
+
+          <p className="text-gray-400 font-inter mt-4 max-w-xl text-base sm:text-md lg:text-lg xl:text-xl">
             We design more than visuals. We build complete digital ecosystems.
           </p>
         </motion.div>
@@ -188,7 +189,7 @@ function ExpertiseSection() {
                 <h3 className="font-syne font-700 text-white text-base mb-2 text-rendering: optimizeLegibility;">
                   {card.title}
                 </h3>
-                <p className="text-xs text-gray-400 font-inter leading-relaxed">
+                <p className="text-md text-gray-400 font-inter leading-relaxed">
                   {card.desc}
                 </p>
               </motion.div>

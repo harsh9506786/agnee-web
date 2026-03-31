@@ -5,6 +5,7 @@ export default {
       fontFamily: {
         syne: ["GeneralSans", "sans-serif"],
         inter: ["ClashDisplay", "sans-serif"],
+        heading: ["NightShift", "sans-serif"],
       },
       colors: {
         flame: {

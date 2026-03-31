@@ -64,6 +64,10 @@ export function App() {
           <HeroSection />
         </section>
         <div className="sep" />
+        <section id="clients">
+          <ClientLogos />
+        </section>
+        <div className="sep" />
         <section id="impact">
           <ImpactNumbers />
         </section>
@@ -91,10 +95,7 @@ export function App() {
         <section id="testimonials">
           <TestimonialSection />
         </section>
-        <div className="sep" />
-        <section id="clients">
-          <ClientLogos />
-        </section>
+
         <div className="sep" />
         <section id="founder">
           <FounderMessage />
