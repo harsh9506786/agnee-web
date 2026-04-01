@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 
 const logos = [
@@ -24,106 +24,151 @@ const logos = [
   "Yumiko",
   "Coffee Spot",
 ];
-function ClientLogos() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const DOT_COUNT = 6;
-  const ITEMS_PER_DOT = Math.ceil(logos.length / DOT_COUNT);
-  // 21 / 6 = ~3.5 → 4
 
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+const DOT_COUNT = 6;
+
+function dotToIndex(dotI: number, visibleCount: number): number {
+  const maxIdx = logos.length - visibleCount;
+  if (dotI === DOT_COUNT - 1) return maxIdx;
+  return Math.round((dotI / (DOT_COUNT - 1)) * maxIdx);
+}
+
+function indexToDot(idx: number, visibleCount: number): number {
+  const maxIdx = logos.length - visibleCount;
+  if (maxIdx <= 0) return 0;
+  return Math.min(Math.round((idx / maxIdx) * (DOT_COUNT - 1)), DOT_COUNT - 1);
+}
+
+function getVisibleCount(width: number): number {
+  if (width < 480) return 2;
+  if (width < 768) return 3;
+  return 4;
+}
+
+function ClientLogos() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(4);
+  const [itemWidth, setItemWidth] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [showHints, setShowHints] = useState(true);
-  const [isUserScrolling, setIsUserScrolling] = useState(false);
 
-  const duplicatedLogos = [...logos, ...logos];
+  const autoTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartXRef = useRef(0);
+  const isPausedRef = useRef(false);
 
-  // 🔥 ACTIVE INDEX
-  const updateActiveIndex = () => {
-    const container = scrollRef.current;
-    if (!container) return;
+  // isPaused ko ref mein bhi sync karo taaki interval mein stale closure na ho
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
 
-    const item = container.firstElementChild;
-    if (!(item instanceof HTMLElement)) return;
-
-    const itemWidth = item.clientWidth + 24;
-
-    const rawIndex = Math.floor(container.scrollLeft / itemWidth);
-
-    // 🔥 normalize (important)
-    const normalizedIndex = rawIndex % logos.length;
-
-    const index = Math.floor(normalizedIndex / ITEMS_PER_DOT);
-
-    setActiveIndex(index);
-  };
-
-  // detect desktop
+  // Desktop detect
   useEffect(() => {
     const check = () => {
-      const isFinePointer = window.matchMedia("(pointer: fine)").matches;
-      const isLargeScreen = window.innerWidth >= 1024;
-      setIsDesktop(isFinePointer && isLargeScreen);
+      setIsDesktop(
+        window.matchMedia("(pointer: fine)").matches &&
+          window.innerWidth >= 768,
+      );
     };
-
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // auto scroll
+  // Measure item width + visible count
+  const measure = useCallback(() => {
+    const track = trackRef.current;
+    const inner = innerRef.current;
+    if (!track || !inner) return;
+    const vc = getVisibleCount(track.offsetWidth);
+    setVisibleCount(vc);
+    const first = inner.firstElementChild as HTMLElement | null;
+    if (first) setItemWidth(first.offsetWidth + 16);
+  }, []);
+
   useEffect(() => {
-    if (!isDesktop) return;
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [measure]);
 
-    const container = scrollRef.current;
-    if (!container) return;
+  // Apply transform
+  useEffect(() => {
+    const inner = innerRef.current;
+    if (!inner || itemWidth === 0) return;
+    inner.style.transition = "transform 0.4s ease";
+    inner.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+  }, [currentIndex, itemWidth]);
 
-    const interval = setInterval(() => {
-      if (!isPaused) {
-        container.scrollLeft += 0.7;
+  const maxIndex = logos.length - visibleCount + 1;
 
-        updateActiveIndex(); // 🔥 sync dots
+  const goTo = useCallback(
+    (idx: number) => {
+      setCurrentIndex(Math.max(0, Math.min(idx, maxIndex)));
+    },
+    [maxIndex],
+  );
 
-        if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft -= container.scrollWidth / 2;
-        }
+  const stepNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  }, [maxIndex]);
+
+  const stepPrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+  }, [maxIndex]);
+
+  // Auto play
+  const startAuto = useCallback(() => {
+    if (autoTimerRef.current) clearInterval(autoTimerRef.current);
+    autoTimerRef.current = setInterval(() => {
+      if (!isPausedRef.current) {
+        setCurrentIndex((prev) => {
+          const max = logos.length - visibleCount;
+          return prev >= max ? 0 : prev + 1;
+        });
       }
-    }, 20);
+    }, 2200);
+  }, [visibleCount]);
 
-    return () => clearInterval(interval);
-  }, [isDesktop]);
+  const resetAuto = useCallback(() => {
+    if (autoTimerRef.current) clearInterval(autoTimerRef.current);
+    setTimeout(startAuto, 800);
+  }, [startAuto]);
 
-  // arrows
-  const scrollLeft = () => {
-    const container = scrollRef.current;
-    if (!container) return;
+  useEffect(() => {
+    startAuto();
+    return () => {
+      if (autoTimerRef.current) clearInterval(autoTimerRef.current);
+    };
+  }, [startAuto]);
 
+  // Touch handlers
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
     setIsPaused(true);
-    container.scrollBy({ left: -400, behavior: "smooth" });
-
-    setTimeout(() => {
-      updateActiveIndex();
-      setIsPaused(false);
-    }, 400);
+    if (autoTimerRef.current) clearInterval(autoTimerRef.current);
   };
 
-  const scrollRight = () => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    setIsPaused(true);
-    container.scrollBy({ left: 400, behavior: "smooth" });
-
-    setTimeout(() => {
-      updateActiveIndex();
-      setIsPaused(false);
-    }, 400);
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStartXRef.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? goTo(currentIndex + 1) : goTo(currentIndex - 1);
+    }
+    setIsPaused(false);
+    resetAuto();
   };
+
+  const activeDot = indexToDot(currentIndex, visibleCount);
 
   return (
-    <section ref={ref} className="relative py-20 bg-dark-800 overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative py-20 bg-dark-800 overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         {/* Heading */}
         <motion.div
@@ -135,98 +180,76 @@ function ClientLogos() {
           <span className="inline-block text-xs font-semibold tracking-[0.25em] mb-6 uppercase px-3 py-1.5 rounded-full text-orange-500 bg-orange-500/10 border border-orange-500/20">
             Our Clients
           </span>
-
           <h2 className="font-changa font-light text-white text-[clamp(2rem,4vw,3.2rem)]">
             Brands That <span className="text-flame">Trust Agnee</span>
           </h2>
         </motion.div>
 
-        {/* Scroll Section */}
-        <div className="relative flex items-center overflow-visible">
-          {/* LEFT */}
+        {/* Carousel */}
+        <div className="relative flex items-center gap-3">
+          {/* Left Arrow - sirf desktop pe */}
           {isDesktop && (
             <button
-              onClick={scrollLeft}
-              className="absolute -left-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
+              onClick={() => {
+                stepPrev();
+                resetAuto();
+              }}
+              className="flex-shrink-0 w-9 h-9 rounded-full bg-dark-700 hover:bg-dark-600 border border-gray-600 text-white flex items-center justify-center transition"
             >
               &#10094;
             </button>
           )}
 
-          {/* SCROLL */}
+          {/* Track */}
           <div
-            ref={scrollRef}
-            onTouchStart={() => setIsUserScrolling(true)}
-            onScroll={() => {
-              const container = scrollRef.current;
-              if (!container) return;
-
-              updateActiveIndex(); // 🔥
-
-              if (isUserScrolling) setShowHints(false);
-
-              if (container.scrollLeft <= 5) {
-                setShowHints(true);
-                setIsUserScrolling(false);
-              }
-            }}
-            className="flex gap-6 overflow-x-auto py-2 scroll-smooth no-scrollbar"
+            ref={trackRef}
+            className="flex-1 overflow-hidden"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
-            {duplicatedLogos.map((logo, i) => (
-              <div
-                key={i}
-                className="flex-shrink-0 px-6 py-4 rounded-xl border border-gray-400 hover:border-orange-400/30 hover:bg-orange-400/5 transition"
-              >
-                <span className="text-white whitespace-nowrap">{logo}</span>
-              </div>
-            ))}
+            <div
+              ref={innerRef}
+              className="flex gap-2.5  pr-4"
+              style={{ willChange: "transform" }}
+            >
+              {logos.map((logo, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 px-5 py-3.5 rounded-xl border border-gray-500 hover:border-orange-400/40 hover:bg-orange-400/5 transition text-white text-sm whitespace-nowrap"
+                >
+                  {logo}
+                </div>
+              ))}
+            </div>
           </div>
 
+          {/* Right Arrow - sirf desktop pe */}
           {isDesktop && (
             <button
-              onClick={scrollRight}
-              className="absolute -right-24 z-20 bg-dark-700 hover:bg-dark-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
+              onClick={() => {
+                stepNext();
+                resetAuto();
+              }}
+              className="flex-shrink-0 w-9 h-9 rounded-full bg-dark-700 hover:bg-dark-600 border border-gray-600 text-white flex items-center justify-center transition"
             >
               &#10095;
             </button>
           )}
         </div>
 
-        {/* DOTS */}
+        {/* Dots */}
         <div className="flex justify-center gap-2 mt-6">
           {Array.from({ length: DOT_COUNT }).map((_, i) => (
             <button
               key={i}
               onClick={() => {
-                const container = scrollRef.current;
-                if (!container) return;
-
-                const item = container.firstElementChild;
-                if (!(item instanceof HTMLElement)) return;
-
-                const itemWidth = item.clientWidth + 24;
-
-                const ITEMS_PER_DOT = Math.ceil(logos.length / DOT_COUNT);
-
-                const targetIndex = i * ITEMS_PER_DOT;
-
-                // last dot → force end
-                const finalIndex =
-                  i === DOT_COUNT - 1
-                    ? logos.length - ITEMS_PER_DOT
-                    : targetIndex;
-
-                container.scrollTo({
-                  left: finalIndex * itemWidth,
-                  behavior: "smooth",
-                });
+                goTo(dotToIndex(i, visibleCount));
+                resetAuto();
               }}
-              className={`transition-all duration-300 rounded-full ${
-                i === activeIndex
-                  ? "w-6 h-2 bg-orange-500"
-                  : "w-2 h-2 bg-gray-500"
+              className={`transition-all duration-300 rounded-full h-2 ${
+                i === activeDot ? "w-6 bg-orange-500" : "w-2 bg-gray-500"
               }`}
             />
           ))}
