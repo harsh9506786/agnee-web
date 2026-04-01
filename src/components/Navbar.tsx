@@ -98,7 +98,7 @@ export function Navbar() {
                     e.preventDefault();
                     go(l.href);
                   }}
-                  className="relative px-3.5 py-2 text-sm font-inter font-medium text-[#888] hover:text-white transition-colors duration-200 group"
+                  className="relative px-3.5 py-2 text-md font-inter font-medium text-[#888] hover:text-white transition-colors duration-200 group"
                 >
                   {l.label}
                   <span className="absolute bottom-1 left-3.5 right-3.5 h-px bg-gradient-to-r from-flame-500 to-flame-700 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />

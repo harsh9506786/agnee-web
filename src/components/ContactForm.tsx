@@ -386,7 +386,7 @@ ${form.description || "-"}
                 </div>
               </div>
               <div>
-                <label className="block text-md font-syne font-700 text-white mb-2 uppercase tracking-widest">
+                <label className="block text-md font-syne font-700 text-gray-400 mb-2 uppercase tracking-widest">
                   Project Description
                 </label>
                 <textarea
