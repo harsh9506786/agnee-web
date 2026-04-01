@@ -2,6 +2,9 @@
 /* Zen Dots */
 @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
 
+
+@import url('https://fonts.googleapis.com/css2?family=Changa+One&display=swap');
+
 /* Bitcount */
 @import url('https://fonts.googleapis.com/css2?family=Bitcount&display=swap');
 
@@ -20,9 +23,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'NightShift', sans-serif;
-}
+
 /* ─── SELECTION ─────────────────────────────────────────────── */
 ::selection { background: rgba(255, 90, 0, 0.35); color: #fff; }
 /* ─── SCROLLBAR ─────────────────────────────────────────────── */

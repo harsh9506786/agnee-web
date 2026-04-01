@@ -321,9 +321,9 @@ function HeroSection() {
         className="text-center -mb-32 px-4 sm:px-8 lg:px-16 xl:px-24"
       >
         <h2
-          className="text-white font-zendots mb-4 text-center w-full max-w-none
+          className="text-white font-changa mb-4 text-center w-full max-w-none
   text-[2.2rem] sm:text-[3.2rem] lg:text-[4.5rem] xl:text-[5.5rem]
-  font-[800] leading-[1.05]"
+  font-light leading-[1.05]"
           style={{
             letterSpacing: "-0.03em",
           }}

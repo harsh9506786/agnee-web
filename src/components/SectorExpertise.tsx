@@ -75,18 +75,17 @@ function SectorExpertise() {
 
   // auto scroll
   useEffect(() => {
-    if (!isDesktop) return;
-
     const container = scrollRef.current;
     if (!container) return;
 
     let frameId: number;
 
-    const scrollSpeed = 0.7;
+    const scrollSpeed = isDesktop ? 0.7 : 0.4;
 
     const animate = () => {
       if (!isHoveredRef.current) {
         container.scrollLeft += scrollSpeed;
+
         if (container.scrollLeft >= container.scrollWidth / 2) {
           container.scrollLeft =
             container.scrollLeft - container.scrollWidth / 2;
@@ -100,7 +99,6 @@ function SectorExpertise() {
 
     return () => cancelAnimationFrame(frameId);
   }, [isDesktop]);
-
   // arrows
   const scrollLeft = () => {
     if (!scrollRef.current) return;
@@ -142,7 +140,7 @@ function SectorExpertise() {
             Our Services
           </span>
 
-          <h2 className="font-zendots font-extrabold text-white mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95]">
+          <h2 className="font-changa text-white mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95]">
             Industries We <span className="text-flame">Serve</span>
           </h2>
 

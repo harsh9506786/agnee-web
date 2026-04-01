@@ -40,9 +40,9 @@ function AboutSection() {
               transition={{ duration: 0.8 }}
             >
               <h2
-                className="font-zendots font-extrabold text-center lg:text-left whitespace-nowrap"
+                className="font-changa text-center lg:text-left whitespace-nowrap"
                 style={{
-                  fontSize: "clamp(2rem, 4.5vw, 3.8rem)",
+                  fontSize: "clamp(2rem, 4.5vw, 4.8rem)",
                   letterSpacing: "-0.02em",
                   lineHeight: 1.1,
                 }}

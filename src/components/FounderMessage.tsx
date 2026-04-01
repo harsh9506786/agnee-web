@@ -86,7 +86,7 @@ function FounderMessage() {
             className="space-y-6 text-center lg:text-left"
           >
             <h2
-              className="font-zendots font-extrabold text-white"
+              className="font-changa text-white"
               style={{
                 fontSize: "clamp(2.5rem, 5vw, 4rem)",
                 letterSpacing: "-0.03em",

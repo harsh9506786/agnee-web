@@ -166,9 +166,9 @@ function FinalCTA() {
           className="space-y-8"
         >
           <h2
-            className="font-zendots font-extrabold text-white text-[clamp(2.2rem,7vw,6.5rem)] sm:text-[clamp(2.6rem,6vw,6.5rem)] leading-[0.95] break-words"
+            className="font-changa text-white text-[clamp(2.2rem,7vw,6.5rem)] sm:text-[clamp(2.6rem,6vw,6.5rem)] leading-[0.95] break-words"
             style={{
-              letterSpacing: "-0.04em",
+              letterSpacing: "-0.03em",
               lineHeight: 0.92,
             }}
           >

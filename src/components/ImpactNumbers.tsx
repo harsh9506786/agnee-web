@@ -99,7 +99,7 @@ function ImpactNumbers() {
           className="text-center mb-16 lg:mb-20"
         >
           <h2
-            className="font-zendots font-extrabold text-white mb-3"
+            className="font-changa font-light text-white mb-3"
             style={{
               fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
               letterSpacing: "-0.03em",

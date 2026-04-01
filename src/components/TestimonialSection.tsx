@@ -204,7 +204,7 @@ function TestimonialSection() {
           </span>
 
           <h2
-            className="font-zendots font-extrabold text-white
+            className="font-changa text-white
     whitespace-normal lg:whitespace-nowrap"
             style={{
               fontSize: "clamp(2rem,5vw,3.8rem)",

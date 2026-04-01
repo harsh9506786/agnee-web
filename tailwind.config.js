@@ -3,8 +3,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        zendots: ["'Zen Dots'", "cursive"],
+        // zendots: ["'zendots'", "cursive"],
         bitcount: ["'Bitcount'", "sans-serif"],
+        changa: ["'Changa One'", "cursive"],
       },
       colors: {
         flame: {

@@ -82,7 +82,7 @@ function WhyAgnee() {
           </span>
 
           <h2
-            className="font-zendots font-extrabold text-white 
+            className="font-changa text-white 
     text-[clamp(1.7rem,5.5vw,3.8rem)] 
     sm:text-[clamp(2rem,5vw,4rem)] 
     leading-[1] break-words px-2 lg:px-0"

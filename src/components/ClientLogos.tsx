@@ -93,7 +93,7 @@ function ClientLogos() {
     }, 20);
 
     return () => clearInterval(interval);
-  }, [isPaused, isDesktop]);
+  }, [isDesktop]);
 
   // arrows
   const scrollLeft = () => {
@@ -136,7 +136,7 @@ function ClientLogos() {
             Our Clients
           </span>
 
-          <h2 className="font-zendots font-extrabold text-white text-[clamp(2rem,4vw,3.2rem)]">
+          <h2 className="font-changa font-light text-white text-[clamp(2rem,4vw,3.2rem)]">
             Brands That <span className="text-flame">Trust Agnee</span>
           </h2>
         </motion.div>
