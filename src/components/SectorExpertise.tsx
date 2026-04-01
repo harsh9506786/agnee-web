@@ -43,6 +43,7 @@ function SectorExpertise() {
   const isDragging = useRef(false);
   const startX = useRef(0);
   const lastX = useRef(0);
+  const velocity = useRef(0);
 
   const pauseTemporarily = () => {
     isHoveredRef.current = true;
@@ -199,14 +200,32 @@ function SectorExpertise() {
                 const x = e.touches[0].clientX;
                 const delta = x - lastX.current;
 
-                // ✅ DIRECT CONTROL (no lag)
+                // movement apply
                 position.current -= delta;
                 targetPosition.current -= delta;
+
+                // velocity track
+                velocity.current = delta;
 
                 lastX.current = x;
               }}
               onTouchEnd={() => {
                 isDragging.current = false;
+
+                let momentum = velocity.current;
+
+                const applyMomentum = () => {
+                  if (Math.abs(momentum) < 0.1) return;
+
+                  momentum *= 0.95; // friction (slow down)
+
+                  position.current -= momentum;
+                  targetPosition.current -= momentum;
+
+                  requestAnimationFrame(applyMomentum);
+                };
+
+                applyMomentum();
 
                 setTimeout(() => {
                   isHoveredRef.current = false;
