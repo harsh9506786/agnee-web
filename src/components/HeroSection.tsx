@@ -333,11 +333,11 @@ function HeroSection() {
         </h2>
 
         <p
-          className="text-white font-inter mx-auto px-0 
-  w-full max-w-[1200px] 
+          className="text-white font-inter mx-auto px-2
+  w-full max-w-[90%] sm:max-w-[1200px]
   leading-[1.3] text-center"
           style={{
-            fontSize: "clamp(1.2rem, 2.5vw, 2.2rem)",
+            fontSize: "clamp(1rem, 2.2vw, 2.2rem)",
           }}
         >
           Where brand design meets AI-powered
