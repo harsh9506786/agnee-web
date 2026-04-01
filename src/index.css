@@ -284,3 +284,10 @@ html, body, button, a, * {
   font-family: 'NightShift';
   src: url('../assets/fonts/NightShiftRegular-KV8eZ.otf') format('opentype');
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
