@@ -49,7 +49,7 @@ function Counter({
 
   return (
     <span
-      className="font-syne font-extrabold transition-all duration-500 flex items-baseline justify-center gap-1"
+      className="font-changa transition-all duration-500 flex items-baseline justify-center gap-1"
       style={{
         fontSize: "clamp(2.2rem, 3.5vw, 3.5rem)",
         lineHeight: 1,
@@ -64,7 +64,7 @@ function Counter({
       </span>
 
       {/* suffix */}
-      <span className="text-flame">{suffix}</span>
+      <span className="text-flame font-changa">{suffix}</span>
     </span>
   );
 }
@@ -133,7 +133,7 @@ function ImpactNumbers() {
               <Counter value={s.value} suffix={s.suffix} active={startCount} />
 
               <div className="mt-3">
-                <div className="text-sm font-700 text-gray-400 uppercase tracking-widest">
+                <div className="text-md font-changa text-gray-400 uppercase tracking-widest">
                   {s.label}
                 </div>
 

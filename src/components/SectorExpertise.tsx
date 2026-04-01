@@ -31,29 +31,43 @@ function SectorExpertise() {
   const loopedIndustries = useMemo(() => [...industries, ...industries], []);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const isHoveredRef = useRef(false);
-  const scrollTimeout = useRef<any>(null);
+
   const DOT_COUNT = 6;
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const animationRef = useRef<number | null>(null);
+  const resumeTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  // 🔥 ACTIVE INDEX CALCULATOR
+  const pauseTemporarily = () => {
+    isHoveredRef.current = true;
+
+    if (resumeTimeout.current) {
+      clearTimeout(resumeTimeout.current);
+    }
+
+    resumeTimeout.current = setTimeout(() => {
+      isHoveredRef.current = false;
+    }, 250);
+  };
+
+  const position = useRef(0);
+  const targetPosition = useRef(0);
+
   const updateActiveIndex = () => {
-    const container = scrollRef.current;
-    if (!container) return;
+    const track = trackRef.current;
+    if (!track) return;
 
-    const item = container.firstElementChild as HTMLElement;
+    const item = track.firstElementChild as HTMLElement;
     if (!item) return;
 
-    const itemWidth = item.clientWidth + 16; // gap-4
+    const itemWidth = item.clientWidth + 16;
 
-    const rawIndex = Math.round(container.scrollLeft / itemWidth);
-
-    // normalize to original list (10 items)
+    const rawIndex = Math.round(position.current / itemWidth);
     const normalizedIndex = rawIndex % industries.length;
 
-    // map to dots (6)
     const itemsPerDot = industries.length / DOT_COUNT;
     const index = Math.floor(normalizedIndex / itemsPerDot);
 
@@ -73,54 +87,55 @@ function SectorExpertise() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // auto scroll
   useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
+    const track = trackRef.current;
+    if (!track) return;
 
-    let frameId: number;
-
-    const scrollSpeed = isDesktop ? 0.7 : 0.4;
+    const speed = isDesktop ? 0.3 : 0.2;
 
     const animate = () => {
       if (!isHoveredRef.current) {
-        container.scrollLeft += scrollSpeed;
-
-        if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft =
-            container.scrollLeft - container.scrollWidth / 2;
-        }
+        targetPosition.current += speed;
       }
 
-      frameId = requestAnimationFrame(animate);
+      const ease = 0.08;
+      position.current += (targetPosition.current - position.current) * ease;
+
+      const halfWidth = track.scrollWidth / 2;
+
+      // ✅ smooth infinite loop
+      if (position.current >= halfWidth) {
+        position.current -= halfWidth;
+        targetPosition.current -= halfWidth;
+      }
+
+      if (position.current < 0) {
+        position.current += halfWidth;
+        targetPosition.current += halfWidth;
+      }
+
+      track.style.transform = `translateX(-${position.current}px)`;
+
+      updateActiveIndex();
+
+      animationRef.current = requestAnimationFrame(animate);
     };
 
     animate();
 
-    return () => cancelAnimationFrame(frameId);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
   }, [isDesktop]);
-  // arrows
-  const scrollLeft = () => {
-    if (!scrollRef.current) return;
-    isHoveredRef.current = true;
-    scrollRef.current.scrollBy({ left: -400, behavior: "smooth" });
 
-    setTimeout(() => {
-      updateActiveIndex();
-      isHoveredRef.current = false;
-    }, 400);
+  const scrollLeft = () => {
+    pauseTemporarily();
+    targetPosition.current -= 300;
   };
 
   const scrollRight = () => {
-    if (!scrollRef.current) return;
-
-    isHoveredRef.current = true;
-    scrollRef.current.scrollBy({ left: 400, behavior: "smooth" });
-
-    setTimeout(() => {
-      updateActiveIndex();
-      isHoveredRef.current = false;
-    }, 400);
+    pauseTemporarily();
+    targetPosition.current += 300;
   };
 
   return (
@@ -160,40 +175,39 @@ function SectorExpertise() {
             </button>
           )}
 
-          {/* SCROLL CONTAINER */}
-          <div
-            ref={scrollRef}
-            onMouseEnter={() => (isHoveredRef.current = true)}
-            onMouseLeave={() => (isHoveredRef.current = false)}
-            style={{ willChange: "scroll-position" }}
-            onScroll={() => {
-              if (scrollTimeout.current) return;
-
-              scrollTimeout.current = setTimeout(() => {
-                updateActiveIndex();
-                scrollTimeout.current = null;
-              }, 100);
-            }}
-            className="flex gap-4 overflow-x-auto px-4 py-2 scroll-smooth no-scrollbar"
-          >
-            {loopedIndustries.map((ind, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: 40 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: Math.min(i * 0.03, 0.3) }}
-                style={{ willChange: "transform, opacity" }}
-                className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5"
-              >
-                <img
-                  src={ind.icon}
-                  alt={ind.name}
-                  className="w-8 h-8 mb-4 object-contain"
-                />
-
-                <div className="text-white font-semibold">{ind.name}</div>
-              </motion.div>
-            ))}
+          {/* VIEWPORT */}
+          <div className="overflow-hidden w-full px-6">
+            {/* TRACK */}
+            <div
+              ref={trackRef}
+              onMouseEnter={() => (isHoveredRef.current = true)}
+              onMouseLeave={() => {
+                isHoveredRef.current = false;
+              }}
+              style={{
+                width: "max-content",
+                willChange: "transform",
+              }}
+              className="flex gap-4 py-2"
+            >
+              {loopedIndustries.map((ind, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: Math.min(i * 0.03, 0.3) }}
+                  style={{ willChange: "transform, opacity" }}
+                  className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5"
+                >
+                  <img
+                    src={ind.icon}
+                    alt={ind.name}
+                    className="w-8 h-8 mb-4 object-contain"
+                  />
+                  <div className="text-white font-semibold">{ind.name}</div>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           {isDesktop && (
@@ -212,10 +226,7 @@ function SectorExpertise() {
             <button
               key={i}
               onClick={() => {
-                const container = scrollRef.current;
-                if (!container) return;
-
-                const item = container.firstElementChild as HTMLElement;
+                const item = trackRef.current?.firstElementChild;
                 if (!item) return;
 
                 const itemWidth = item.clientWidth + 16;
@@ -224,10 +235,9 @@ function SectorExpertise() {
                   (i / DOT_COUNT) * industries.length,
                 );
 
-                container.scrollTo({
-                  left: targetIndex * itemWidth,
-                  behavior: "smooth",
-                });
+                targetPosition.current = targetIndex * itemWidth;
+
+                updateActiveIndex();
               }}
               className={`transition-all duration-300 rounded-full ${
                 i === activeIndex

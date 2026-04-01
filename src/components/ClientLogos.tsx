@@ -31,6 +31,7 @@ function ClientLogos() {
 
   const trackRef = useRef<HTMLDivElement | null>(null);
   const animationRef = useRef<number | null>(null);
+  const resumeTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const position = useRef(0);
   const isDragging = useRef(false);
@@ -42,7 +43,17 @@ function ClientLogos() {
   const duplicatedLogos = [...logos, ...logos];
   const targetPosition = useRef(0);
   const velocity = useRef(0);
+  const pauseTemporarily = () => {
+    setIsPaused(true);
 
+    if (resumeTimeout.current) {
+      clearTimeout(resumeTimeout.current);
+    }
+
+    resumeTimeout.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 300); // adjust delay if needed
+  };
   // ✅ detect desktop
   useEffect(() => {
     const check = () => {
@@ -75,9 +86,16 @@ function ClientLogos() {
         position.current += (targetPosition.current - position.current) * ease;
 
         // infinite loop
-        if (position.current >= track.scrollWidth / 2) {
-          position.current = 0;
-          targetPosition.current = 0;
+        const halfWidth = track.scrollWidth / 2;
+
+        if (position.current >= halfWidth) {
+          position.current -= halfWidth;
+          targetPosition.current -= halfWidth;
+        }
+
+        if (position.current < 0) {
+          position.current += halfWidth;
+          targetPosition.current += halfWidth;
         }
 
         track.style.transform = `translateX(-${position.current}px)`;
@@ -120,12 +138,12 @@ function ClientLogos() {
   };
 
   const scrollLeft = () => {
-    setIsPaused(true);
+    pauseTemporarily();
     targetPosition.current -= 300;
   };
 
   const scrollRight = () => {
-    setIsPaused(true);
+    pauseTemporarily();
     targetPosition.current += 300;
   };
 
