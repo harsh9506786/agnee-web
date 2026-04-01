@@ -94,7 +94,7 @@ function SectorExpertise() {
     const track = trackRef.current;
     if (!track) return;
 
-    const speed = isDesktop ? 0.3 : 0.4;
+    const speed = isDesktop ? 0.3 : 0.3;
 
     const animate = () => {
       if (!isHoveredRef.current) {
@@ -216,7 +216,7 @@ function SectorExpertise() {
                 width: "max-content",
                 willChange: "transform",
               }}
-              className="flex gap-4 py-2 touch-pan-y"
+              className="flex gap-4 py-2 overflow-x-auto scroll-smooth snap-x snap-mandatory touch-pan-x scrollbar-hide"
             >
               {loopedIndustries.map((ind, i) => (
                 <motion.div
@@ -225,7 +225,7 @@ function SectorExpertise() {
                   animate={inView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: Math.min(i * 0.03, 0.3) }}
                   style={{ willChange: "transform, opacity" }}
-                  className="flex-shrink-0 w-[260px] p-6 rounded-2xl bg-dark-700 border border-white/5"
+                  className="flex-shrink-0 w-[260px] snap-start p-6 rounded-2xl bg-dark-700 border border-white/5"
                 >
                   <img
                     src={ind.icon}
