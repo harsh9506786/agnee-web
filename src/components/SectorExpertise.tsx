@@ -40,6 +40,9 @@ function SectorExpertise() {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const animationRef = useRef<number | null>(null);
   const resumeTimeout = useRef<NodeJS.Timeout | null>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const lastX = useRef(0);
 
   const pauseTemporarily = () => {
     isHoveredRef.current = true;
@@ -91,7 +94,7 @@ function SectorExpertise() {
     const track = trackRef.current;
     if (!track) return;
 
-    const speed = isDesktop ? 0.3 : 0.2;
+    const speed = isDesktop ? 0.3 : 0.4;
 
     const animate = () => {
       if (!isHoveredRef.current) {
@@ -177,18 +180,43 @@ function SectorExpertise() {
 
           {/* VIEWPORT */}
           <div className="overflow-hidden w-full px-6">
-            {/* TRACK */}
             <div
               ref={trackRef}
               onMouseEnter={() => (isHoveredRef.current = true)}
               onMouseLeave={() => {
                 isHoveredRef.current = false;
               }}
+              onTouchStart={(e) => {
+                isDragging.current = true;
+                isHoveredRef.current = true;
+
+                startX.current = e.touches[0].clientX;
+                lastX.current = e.touches[0].clientX;
+              }}
+              onTouchMove={(e) => {
+                if (!isDragging.current) return;
+
+                const x = e.touches[0].clientX;
+                const delta = x - lastX.current;
+
+                // ✅ DIRECT CONTROL (no lag)
+                position.current -= delta;
+                targetPosition.current -= delta;
+
+                lastX.current = x;
+              }}
+              onTouchEnd={() => {
+                isDragging.current = false;
+
+                setTimeout(() => {
+                  isHoveredRef.current = false;
+                }, 150);
+              }}
               style={{
                 width: "max-content",
                 willChange: "transform",
               }}
-              className="flex gap-4 py-2"
+              className="flex gap-4 py-2 touch-pan-y"
             >
               {loopedIndustries.map((ind, i) => (
                 <motion.div
