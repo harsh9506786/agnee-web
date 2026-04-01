@@ -321,12 +321,11 @@ function HeroSection() {
         className="text-center -mb-32 px-4 sm:px-8 lg:px-16 xl:px-24"
       >
         <h2
-          className="font-syne text-white mb-4 text-center
-  w-full max-w-none
-  text-[3rem] sm:text-[4.2rem] lg:text-[6rem] xl:text-[7rem]
-  font-[800] leading-[0.98]"
+          className="text-white font-zendots mb-4 text-center w-full max-w-none
+  text-[2.2rem] sm:text-[3.2rem] lg:text-[4.5rem] xl:text-[5.5rem]
+  font-[800] leading-[1.05]"
           style={{
-            letterSpacing: "-0.035em",
+            letterSpacing: "-0.03em",
           }}
         >
           <span className="text-flame-400">Build</span> Brands that{" "}
@@ -335,10 +334,10 @@ function HeroSection() {
 
         <p
           className="text-white font-inter mx-auto px-0 
-  w-full max-w-[1400px] 
-  leading-[1.2] text-center"
+  w-full max-w-[1200px] 
+  leading-[1.3] text-center"
           style={{
-            fontSize: "clamp(1.8rem, 4vw, 3.2rem)",
+            fontSize: "clamp(1.2rem, 2.5vw, 2.2rem)",
           }}
         >
           Where brand design meets AI-powered

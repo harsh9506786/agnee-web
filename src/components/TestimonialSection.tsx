@@ -185,7 +185,6 @@ function TestimonialSection() {
       className="relative py-24 lg:py-36 bg-dark-900 overflow-hidden"
     >
       <div className="max-w-4xl mx-auto px-5 sm:px-8 relative z-10">
-        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -203,12 +202,14 @@ function TestimonialSection() {
           >
             Testimonials
           </span>
+
           <h2
-            className="font-syne font-extrabold text-white"
+            className="font-zendots font-extrabold text-white
+    whitespace-normal lg:whitespace-nowrap"
             style={{
-              fontSize: "clamp(2.5rem,6vw,4.5rem)",
-              letterSpacing: "-0.03em",
-              lineHeight: 0.95,
+              fontSize: "clamp(2rem,5vw,3.8rem)",
+              letterSpacing: "-0.02em",
+              lineHeight: 1,
             }}
           >
             What Our Clients <span className="text-flame">Say</span>

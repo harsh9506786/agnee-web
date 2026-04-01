@@ -142,7 +142,7 @@ function SectorExpertise() {
             Our Services
           </span>
 
-          <h2 className="font-syne font-extrabold text-white mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95]">
+          <h2 className="font-zendots font-extrabold text-white mt-4 text-[clamp(2.5rem,6vw,4.5rem)] leading-[0.95]">
             Industries We <span className="text-flame">Serve</span>
           </h2>
 

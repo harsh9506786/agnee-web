@@ -136,7 +136,7 @@ function ClientLogos() {
             Our Clients
           </span>
 
-          <h2 className="font-syne font-extrabold text-white text-[clamp(2rem,4vw,3.2rem)]">
+          <h2 className="font-zendots font-extrabold text-white text-[clamp(2rem,4vw,3.2rem)]">
             Brands That <span className="text-flame">Trust Agnee</span>
           </h2>
         </motion.div>

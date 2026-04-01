@@ -80,7 +80,13 @@ function WhyAgnee() {
           >
             Our Advantages
           </span>
-          <h2 className="font-syne font-extrabold text-white text-[clamp(2rem,7vw,4.5rem)] sm:text-[clamp(2.3rem,6vw,4.5rem)] leading-[1] break-words px-2 lg:px-0">
+
+          <h2
+            className="font-zendots font-extrabold text-white 
+    text-[clamp(1.7rem,5.5vw,3.8rem)] 
+    sm:text-[clamp(2rem,5vw,4rem)] 
+    leading-[1] break-words px-2 lg:px-0"
+          >
             Why Businesses <span className="text-flame">Work With us</span>
           </h2>
         </motion.div>
@@ -146,7 +152,9 @@ function WhyAgnee() {
           className="mt-12 text-center font-700 text-gray-400"
         >
           We are not just service providers.{" "}
-          <span className="text-flame text-md">We operate as growth partners.</span>
+          <span className="text-flame text-md">
+            We operate as growth partners.
+          </span>
         </motion.p>
       </div>
     </section>

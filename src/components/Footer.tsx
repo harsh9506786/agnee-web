@@ -142,7 +142,7 @@ function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-5">
-            <h4 className="text-md font-syne font-700 text-white uppercase tracking-widest">
+            <h4 className="text-md font-zendots font-700 text-white uppercase tracking-widest">
               Quick Links
             </h4>
             <ul className="space-y-3">
@@ -166,7 +166,7 @@ function Footer() {
 
           {/* Contact */}
           <div className="space-y-5">
-            <h4 className="text-md font-syne font-700 text-white uppercase tracking-widest">
+            <h4 className="text-md font-zendots font-700 text-white uppercase tracking-widest">
               Contact
             </h4>
             <ul className="space-y-3.5">
@@ -214,7 +214,7 @@ function Footer() {
 
           {/* CTA */}
           <div className="space-y-5">
-            <h4 className="text-md font-syne font-700 text-white uppercase tracking-widest">
+            <h4 className="text-md font-zendots font-700 text-white uppercase tracking-widest">
               Ready to Scale?
             </h4>
             <p className="text-md text-gray-400 font-inter leading-relaxed">

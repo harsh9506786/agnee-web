@@ -99,7 +99,7 @@ function ImpactNumbers() {
           className="text-center mb-16 lg:mb-20"
         >
           <h2
-            className="font-syne font-extrabold text-white mb-3"
+            className="font-zendots font-extrabold text-white mb-3"
             style={{
               fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
               letterSpacing: "-0.03em",
@@ -133,7 +133,7 @@ function ImpactNumbers() {
               <Counter value={s.value} suffix={s.suffix} active={startCount} />
 
               <div className="mt-3">
-                <div className="text-sm font-syne font-700 text-gray-400 uppercase tracking-widest">
+                <div className="text-sm font-700 text-gray-400 uppercase tracking-widest">
                   {s.label}
                 </div>
 

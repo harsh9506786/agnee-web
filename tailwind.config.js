@@ -3,8 +3,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        syne: ["GeneralSans", "sans-serif"],
-        inter: ["ClashDisplay", "sans-serif"],
+        zendots: ["'Zen Dots'", "cursive"],
+        bitcount: ["'Bitcount'", "sans-serif"],
       },
       colors: {
         flame: {

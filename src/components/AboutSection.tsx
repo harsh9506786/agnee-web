@@ -40,11 +40,11 @@ function AboutSection() {
               transition={{ duration: 0.8 }}
             >
               <h2
-                className="font-syne font-extrabold text-center lg:text-left"
+                className="font-zendots font-extrabold text-center lg:text-left whitespace-nowrap"
                 style={{
-                 fontSize: "clamp(2.8rem, 6vw, 4.8rem)",
-                  letterSpacing: "-0.03em",
-                  lineHeight: 1.2,
+                  fontSize: "clamp(2rem, 4.5vw, 3.8rem)",
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1.1,
                 }}
               >
                 <span className="text-white">ABOUT </span>

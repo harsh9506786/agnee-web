@@ -150,7 +150,7 @@ function TeamSection() {
             Our Team
           </span>
           <h2
-            className="font-syne font-extrabold text-white"
+            className="font-zendots font-extrabold text-white"
             style={{
               fontSize: "clamp(2.5rem, 6vw, 4.5rem)",
               letterSpacing: "-0.03em",
