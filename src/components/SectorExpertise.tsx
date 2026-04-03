@@ -235,7 +235,7 @@ function SectorExpertise() {
                 width: "max-content",
                 willChange: "transform",
               }}
-              className="flex gap-4 py-2 overflow-x-auto scroll-smooth snap-x snap-mandatory touch-pan-x scrollbar-hide"
+              className="flex gap-4 py-2 overflow-x-hidden scroll-smooth snap-x snap-mandatory touch-pan-x scrollbar-hide"
             >
               {loopedIndustries.map((ind, i) => (
                 <motion.div

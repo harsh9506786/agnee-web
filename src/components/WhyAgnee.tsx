@@ -43,11 +43,25 @@ const items = [
 ];
 
 function WhyAgnee() {
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemAnim = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0 },
+  };
   const ref = useRef(null);
   const inView = useInView(ref, {
     once: true,
     margin: "-80px",
   });
+
   return (
     <section
       ref={ref}
@@ -91,30 +105,24 @@ function WhyAgnee() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {items.map((item, i) => {
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate={inView ? "show" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
+          {items.map((item) => {
             const Icon = item.icon;
             return (
               <motion.div
                 key={item.title}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                }}
-                animate={
-                  inView
-                    ? {
-                        opacity: 1,
-                        y: 0,
-                      }
-                    : {}
-                }
+                variants={itemAnim}
                 transition={{
                   duration: 0.6,
-                  delay: i * 0.09,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="flex gap-5 p-6 rounded-2xl bg-dark-800 border border-[rgba(255,255,255,0.04)] hover:border-[rgba(255,90,0,0.2)] transition-all duration-300 group"
+                style={{ willChange: "transform, opacity" }}
+                className="flex gap-5 p-6 rounded-2xl bg-dark-800 border border-[rgba(255,255,255,0.04)] hover:border-[rgba(255,90,0,0.2)] transition-colors duration-300 group"
               >
                 <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[rgba(255,90,0,0.08)] flex items-center justify-center group-hover:bg-[rgba(255,90,0,0.16)] transition-colors duration-300">
                   <Icon className="w-5 h-5 text-flame-500" />
@@ -130,7 +138,7 @@ function WhyAgnee() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         <motion.p
           initial={{

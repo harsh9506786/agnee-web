@@ -41,7 +41,11 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 30);
+    const fn = () => {
+      const isScrolled = window.scrollY > 30;
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+    };
+
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
@@ -66,9 +70,11 @@ export function Navbar() {
           duration: 0.7,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 $scrolled
-  ? "bg-[rgba(11,11,11,0.85)] backdrop-blur-xl border-b border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
-  : "bg-transparent"`}
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-[rgba(11,11,11,0.85)] backdrop-blur-xl shadow-[0_1px_0_rgba(255,255,255,0.05)]"
+            : "bg-transparent"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-4">
           <div className="flex items-center justify-between h-16 lg:h-20">
