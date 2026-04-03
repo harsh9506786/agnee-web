@@ -39,7 +39,7 @@ function SectorExpertise() {
   const DOT_COUNT = 6;
   const trackRef = useRef<HTMLDivElement | null>(null);
   const animationRef = useRef<number | null>(null);
-  const resumeTimeout = useRef<NodeJS.Timeout | null>(null);
+  const resumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const lastX = useRef(0);
